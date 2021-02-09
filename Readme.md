@@ -1,6 +1,6 @@
-# Bork - (no longer under development)
+# Bork - Skylar MacDonald's Bork Fork
 
-Bork is no longer under active development. If you fork it and your fork gets some steam going, please let me know, I will be happy to point people at your fork.
+I still use [Bork](https://github.com/mattly/bork) in the year 2021, so I forked it to fix it.
 
 [![](https://travis-ci.org/mattly/bork.svg)](https://travis-ci.org/mattly/bork)
 
@@ -323,11 +323,7 @@ There are four functions to help you take further actions on change:
 
 ## Community
 
-Feel free to join us in IRC:
-
-- Hostname: `irc.freenode.org`
-- Channel: `#bork.sh`
-- [Web IRC client in case you don't have a native one](https://kiwiirc.com/client/irc.freenode.net/bork.sh)
+Honestly, I forked this for my own purposes, but if anyone else still uses this I'll turn on Discussions in GitHub.
 
 ## Requirements / Dependencies
 
@@ -335,7 +331,7 @@ Feel free to join us in IRC:
 
 ## Version
 
-0.10.0
+0.11.1
 
 ## License
 
