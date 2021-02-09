@@ -13,14 +13,14 @@ case $action in
   status)
     baking_platform_is "Darwin" || return $STATUS_UNSUPPORTED_PLATFORM
     needs_exec "brew" || return $STATUS_FAILED_PRECONDITION
-    bake brew cask --version > /dev/null
+    bake brew --version > /dev/null
     [ "$?" -gt 0 ] && return $STATUS_FAILED_PRECONDITION
 
-    list=$(bake brew cask list)
+    list=$(bake brew search --casks)
     echo "$list" | grep -E "^$name$" > /dev/null
     [ "$?" -gt 0 ] && return $STATUS_MISSING
 
-    info=$(bake brew cask info $name)
+    info=$(bake brew info --cask $name)
     echo "$info" | grep 'Not installed' > /dev/null
     # TODO replace with perhaps "OUTDATED_CLOBBER" ?
     [ "$?" -eq 0 ] && return $STATUS_OUTDATED
@@ -29,19 +29,19 @@ case $action in
 
   install)
     if [ -n "$appdir"  ]; then
-      bake brew cask install $name --appdir=$appdir
+      bake brew install --cask $name --appdir=$appdir
     else
-      bake brew cask install $name
+      bake brew install --cask $name
     fi
     ;;
 
   upgrade)
     # TODO move rm statement to remove action with clobber
-    bake rm -rf "/opt/homebrew-cask/Caskroom/$name"
+    bake rm -rf "/usr/local/Caskroom/$name"
     if [ -n "$appdir" ]; then
-      bake brew cask install $name --appdir=$appdir --force
+      bake brew install --cask $name --appdir=$appdir --force
     else
-      bake brew cask install $name --force
+      bake brew install --cask $name --force
     fi
     ;;
 
