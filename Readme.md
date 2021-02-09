@@ -2,8 +2,6 @@
 
 I still use [Bork](https://github.com/mattly/bork) in the year 2021, so I forked it to fix it.
 
-[![](https://travis-ci.org/mattly/bork.svg)](https://travis-ci.org/mattly/bork)
-
 Bork puts the 'sh' back into IT. [Bork Bork Bork](https://www.youtube.com/results?search_query=swedish+chef).
 
 ## the Swedish Chef Puppet of Config Management
@@ -19,7 +17,7 @@ platform differences between BSD and GPL versions of unix utilities.
 ## From source
 
 1. Clone this repository:
-  `git clone https://github.com/mattly/bork /usr/local/src/bork`
+  `git clone https://github.com/skylarmacdonald/bork /usr/local/src/bork`
 
 1. Symlink the bork binaries into your `$PATH`:
 ```bash
@@ -43,12 +41,12 @@ bork operation [config-file] [options]
 where "operation" is one of:
 
 - check:      perform 'status' for a single command
-    example:  bork check ok github mattly/dotfiles
+    example:  bork check ok github skylarmacdonald/dotfiles
 - compile:    compile the config file to a self-contained script output to STDOUT
     --conflicts=(y|yes|n|no)  If given, sets an automatic answer for conflict resolution.
     example:  bork compile dotfiles.sh --conflicts=y > install.sh
 - do:         perform 'satisfy' for a single command
-    example:  bork do ok github mattly/dotfiles
+    example:  bork do ok github skylarmacdonald/dotfiles
 - satisfy:    satisfy the config file's conditions if possible
 - status:     determine if the config file's conditions are met
 - types:      list types and their usage information
@@ -70,10 +68,10 @@ your own.
 Here's a basic example:
 
 ```bash
-ok brew                                       # presence and updatedness of Homebrew
-ok brew git                                   # presence and updatedness of Homebrew git package
-ok directory $HOME/code                       # presence of the ~/code directory
-ok github $HOME/code/dotfiles mattly/dotfiles # presence, drift of git repository in ~/code/dotfiles
+ok brew                                                # presence and updatedness of Homebrew
+ok brew git                                            # presence and updatedness of Homebrew git package
+ok directory $HOME/code                                # presence of the ~/code directory
+ok github $HOME/code/dotfiles skylarmacdonald/dotfiles # presence, drift of git repository in ~/code/dotfiles
 cd $HOME
 for file in $HOME/code/dotfiles/configs/.[!.]*
 do                                            # for each file in ~/code/dotfiles/configs,
@@ -182,13 +180,13 @@ The status command will give you output such as:
 ```
 outdated: brew
 ok: brew git
-missing: brew fish
-ok: directory /Users/mattly/code/mattly
-conflict (upgradable): github mattly/dotfiles
+missing: brew zsh
+ok: directory /Users/skylar/code
+conflict (upgradable): github skylarmacdonald/dotfiles
 local git repository has uncommitted changes
-ok: symlink /Users/mattly/.gitignore /Users/mattly/code/mattly/dotfiles/configs/gitignore
-conflict (clobber required): symlink /Users/mattly/.lein /Users/mattly/code/mattly/dotfiles/configs/lein
-not a symlink: /Users/mattly/.lein
+ok: symlink /Users/skylar/.gitignore /Users/skylar/code/dotfiles/configs/gitignore
+conflict (clobber required): symlink /Users/skylar/.lein /Users/skylar/code/dotfiles/configs/lein
+not a symlink: /Users/skylar/.lein
 mismatch (upgradable): defaults com.apple.dock tilesize integer 36
 expected type: integer
 received type: float
@@ -209,7 +207,7 @@ Each item reports its status like so:
   cannot currently satisfy this assertion. In the future, it will be able to,
   but doing so may result in data loss.
 
-### bork check ok github mattly/dotfiles
+### bork check ok github skylarmacdonald/dotfiles
 
 The `check` command will take a single assertion on the command line and perform
 a `status` check as above for it.
@@ -225,7 +223,7 @@ changes. In that case, bork will warn you about the problem and ask if you want
 to proceed. Sometimes conflicts are detected which bork does not know how to
 resolve — it will warn you about the problem so you can fix it yourself.
 
-### bork do ok github mattly/dotfiles
+### bork do ok github skylarmacdonald/dotfiles
 
 The `do` command will take a single assertion on the command line and perform a
 `satisfy` operation on it as above.
