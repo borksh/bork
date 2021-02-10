@@ -2,6 +2,8 @@
 
 I still use [Bork](https://github.com/mattly/bork) in the year 2021, so I forked it to fix it.
 
+![Test](https://github.com/skylarmacdonald/bork/workflows/Test/badge.svg)
+
 Bork puts the 'sh' back into IT. [Bork Bork Bork](https://www.youtube.com/results?search_query=swedish+chef).
 
 ## the Swedish Chef Puppet of Config Management
