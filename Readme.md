@@ -153,6 +153,7 @@ and some basic information about their usage and options.
 ### UNIX utilities
 ```
        iptables: asserts presence of iptables rule
+         shells: asserts presence of a shell in /etc/shells
 ```
 
 ## Runtime Operations
