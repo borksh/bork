@@ -16,7 +16,7 @@ case $action in
     bake brew --version > /dev/null
     [ "$?" -gt 0 ] && return $STATUS_FAILED_PRECONDITION
 
-    list=$(bake brew search --casks)
+    list=$(bake brew list --cask)
     echo "$list" | grep -E "^$name$" > /dev/null
     [ "$?" -gt 0 ] && return $STATUS_MISSING
 
