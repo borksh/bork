@@ -1,5 +1,6 @@
 ---
 layout: default
+title: Assertions
 ---
 
 <h1>Assertions</h1>
@@ -8,7 +9,7 @@ layout: default
 
 <ul>
 	{% for assertion in site.assertions %}
-		<a href="#assertion-{{ assertion.name }}">{{ assertion.name }}</a>
+		<li><a href="#assertion-{{ assertion.name }}">{{ assertion.name }}</a></li>
 	{% endfor %}
 </ul>
 
