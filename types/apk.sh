@@ -14,7 +14,8 @@ case "${action}" in
     needs_exec "apk" || return "${STATUS_FAILED_PRECONDITION}"
 
     bake apk info --installed "${name}" || return "${STATUS_MISSING}"
-    bake apk version | grep -E "^${name}-\d+\.\d+" > /dev/null && return "${STATUS_OUTDATED}"
+    version=$(bake apk version)
+    str_matches "$version" "^${name}-[0-9]+\.[0-9]+" && return "${STATUS_OUTDATED}"
     return "${STATUS_OK}"
     ;;
   install|upgrade)
