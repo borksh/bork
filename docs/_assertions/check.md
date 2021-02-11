@@ -3,13 +3,13 @@ name: check
 ---
 Runs a given command. OK if returns 0, FAILED otherwise.
 
-## Syntax
+### Syntax
 
 ```bash
 check evalstr
 ```
 
-## Example
+### Example
 
 ```bash
 check "[ -d $HOME/.ssh/id_rsa ]"'
