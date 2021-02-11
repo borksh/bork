@@ -1,10 +1,12 @@
 ---
+layout: default
 ---
+
 <h1>Assertions</h1>
 
 <p>Here is an index of Bork assertions and documentation on how to use them. If you are adding an assertion to Bork, please ensure you document it by creating a file in <code>docs/_assertions</code>.</p>
 
 {% for assertion in site.assertions %}
 	<h2>{{ assertion.name }}</h2>
-	{{ content }}
+	{{ assertion.content }}
 {% endfor %}
