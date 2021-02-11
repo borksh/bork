@@ -4,7 +4,7 @@ shift 2
 
 case $action in
     desc)
-        echo "asserts a go pkg is installed in $GOPATH"
+        echo "asserts a go pkg is installed in \$GOPATH"
         echo "> go-get guru"
         ;;
     status)

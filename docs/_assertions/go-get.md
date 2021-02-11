@@ -1,7 +1,7 @@
 ---
 name: go-get
 ---
-asserts a go pkg is installed in
+asserts a go pkg is installed in $GOPATH
 
 
 ### Usage
