@@ -31,8 +31,8 @@ fi
 case $action in
   desc)
     echo "asserts presence and state of a git repository"
-    echo "> git git@github.com:mattly/bork"
-    echo "> git ~/code/bork git@github.com:mattly/bork"
+    echo "> git git@github.com:skylarmacdonald/bork"
+    echo "> git ~/code/bork git@github.com:skylarmacdonald/bork"
     echo "--branch=gh-pages             (specify branch, tag, or ref)"
     ;;
   status)

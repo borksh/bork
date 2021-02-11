@@ -102,12 +102,12 @@ bork operation [config-file] [options]
 where "operation" is one of:
 
 - check:      perform 'status' for a single command
-    example:  bork check ok github mattly/dotfiles
+    example:  bork check ok github skylarmacdonald/dotfiles
 - compile:    compile the config file to a self-contained script output to STDOUT
     --conflicts=(y|yes|n|no)  If given, sets an automatic answer for conflict resolution.
     example:  bork compile dotfiles.sh --conflicts=y > install.sh
 - do:         perform 'satisfy' for a single command
-    example:  bork do ok github mattly/dotfiles
+    example:  bork do ok github skylarmacdonald/dotfiles
 - satisfy:    satisfy the config file's conditions if possible
 - status:     determine if the config file's conditions are met
 - types:      list types and their usage information

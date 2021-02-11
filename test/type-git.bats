@@ -3,7 +3,7 @@
 . test/helpers.sh
 git () { . $BORK_SOURCE_DIR/types/git.sh $*; }
 
-repo="git@github.com:mattly/bork"
+repo="git@github.com:skylarmacdonald/bork"
 dir_exists=1
 dir_listing=$(echo 'foo'; echo 'bar')
 git_status=
@@ -67,35 +67,35 @@ git_status_handler ()   { echo "$git_status"; }
 
 @test "git status: returns CONFLICT_UPGRADE when the local git repository has unstaged changes" {
   git_status=$(echo "## master"; echo " D foo")
-  run git status git@github.com:mattly/bork
+  run git status git@github.com:skylarmacdonald/bork
   [ "$status" -eq $STATUS_CONFLICT_UPGRADE ]
   echo "$output" | grep -E 'uncommitted'
 }
 
 @test "git status: returns CONFLICT_UPGRADE when local git repository has uncommitted staged changes" {
   git_status=$(echo "## master"; echo "D  foo")
-  run git status git@github.com:mattly/bork
+  run git status git@github.com:skylarmacdonald/bork
   [ "$status" -eq $STATUS_CONFLICT_UPGRADE ]
   echo "$output" | grep -E 'uncommitted'
 }
 
 @test "git status: returns OUTDATED when the local git repository is known to be behind" {
   git_status="## master..origin/master [behind 3]"
-  run git status git@github.com:mattly/bork
+  run git status git@github.com:skylarmacdonald/bork
   [ "$status" -eq $STATUS_OUTDATED ]
 }
 
 @test "git status: returns OK when the git repository is up-to-date" {
   git_status="## master"
-  run git status git@github.com:mattly/bork
+  run git status git@github.com:skylarmacdonald/bork
   [ "$status" -eq $STATUS_OK ]
 }
 
 @test "git status: returns OK with directory argument and repo is current" {
-  respond_to "[ ! -d /Users/mattly/code/bork ]" "return 1"
-  respond_to "ls -A /Users/mattly/code/bork" "dir_listing_handler"
+  respond_to "[ ! -d /Users/skylar/code/bork ]" "return 1"
+  respond_to "ls -A /Users/skylar/code/bork" "dir_listing_handler"
   git_status="## master"
-  run git status /Users/mattly/code/bork git@github.com:mattly/bork
+  run git status /Users/skylar/code/bork git@github.com:skylarmacdonald/bork
   [ "$status" -eq $STATUS_OK ]
 }
 
@@ -108,11 +108,11 @@ git_status_handler ()   { echo "$git_status"; }
 }
 
 @test "git install: with target argument, performs clone" {
-  run git install /Users/mattly/code/bork $repo
+  run git install /Users/skylar/code/bork $repo
   [ "$status" -eq 0 ]
   run baked_output
-  [[ "mkdir -p /Users/mattly/code/bork" == ${lines[0]} ]]
-  [[ "git clone -b master $repo /Users/mattly/code/bork" == ${lines[1]} ]]
+  [[ "mkdir -p /Users/skylar/code/bork" == ${lines[0]} ]]
+  [[ "git clone -b master $repo /Users/skylar/code/bork" == ${lines[1]} ]]
 }
 
 @test "git install: uses specified branch" {
