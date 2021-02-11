@@ -12,9 +12,11 @@ ok brew bats
 
 is transformed into one or more of calls to the `brew` assertion:
 
-  types/brew.sh status bats
-  types/brew.sh install bats
-  types/brew.sh upgrade bats
+```
+types/brew.sh status bats
+types/brew.sh install bats
+types/brew.sh upgrade bats
+```
 
 Most of the bork "core" assertions use a case statement to switch on the provided "action".
 
