@@ -72,6 +72,28 @@ case "$operation" in
       fi
     done
     ;;
+  docgen)
+    for type in $BORK_SOURCE_DIR/types/*.sh; do
+      if [ ! -s "$BORK_SOURCE_DIR/docs/_assertions/$(basename $type '.sh').md" ]; then
+        desc=$(. $type desc)
+        i=0
+        summary=
+        usage=
+        while read -r line; do
+          [ "$i" -eq 0 ] && summary=$line || usage=$([ -n "$usage" ] && echo "$usage"; echo "$line")
+          (( i ++ ))
+        done <<< "$desc"
+        echo -e "---\nname: $(basename $type '.sh')\n---\n$summary" > "$BORK_SOURCE_DIR/docs/_assertions/$(basename $type '.sh').md"
+        if [ -n "$usage" ]; then
+          echo -e "\n\n### Usage\n\n\`\`\`bash" >> "$BORK_SOURCE_DIR/docs/_assertions/$(basename $type '.sh').md"
+          while read -r line; do
+            echo -e "$line" >> "$BORK_SOURCE_DIR/docs/_assertions/$(basename $type '.sh').md"
+          done <<< "$usage"
+          echo -e "\`\`\`" >> "$BORK_SOURCE_DIR/docs/_assertions/$(basename $type '.sh').md"
+        fi
+      fi
+    done
+    ;;
   *) cat <<END
 bork usage:
 
@@ -89,6 +111,7 @@ where "operation" is one of:
 - satisfy:    satisfy the config file's conditions if possible
 - status:     determine if the config file's conditions are met
 - types:      list types and their usage information
+- docgen:     generates documentation under docs/_assertions for newly-added types
 END
   exit 1
   ;;
