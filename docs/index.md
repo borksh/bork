@@ -4,6 +4,10 @@ I still use [Bork](https://github.com/mattly/bork) in the year 2021, so I forked
 
 Bork puts the 'sh' back into IT. [Bork Bork Bork](https://www.youtube.com/results?search_query=swedish+chef).
 
+* [Assertions reference](assertions)
+* [Assertion status codes](assertion_status_codes)
+* [How to write an assertion](how_to_write_an_assertion)
+
 ## the Swedish Chef Puppet of Config Management
 
 Bork is a Bash DSL for making declarative assertions about the state of a system.
