@@ -6,7 +6,9 @@ So, you have something you'd like to be able to track with bork's `ok` declarati
 
 Bork assertions are scripts that are called by the runner. Ideally they could be run independently of the runner, provided the bork helpers are loaded via `bork load`, if they even call on the helpers. The runner calls with an `action` and the arguments provided to `ok`. For example, this call to `ok`:
 
-  ok brew bats
+```
+ok brew bats
+```
 
 is transformed into one or more of calls to the `brew` assertion:
 
@@ -20,13 +22,17 @@ The runner decides what calls to perform based on its current operation and the 
 
 ### `desc`
 
-  types/file.sh desc
+```
+types/file.sh desc
+```
 
 Outputs basic usage information. This is included in `bork types`. Only really useful right now for scripts that are in the `types/` directory included with bork.
 
 ### `status`
 
-  types/file.sh status path/to/targetfile path/from/sourcefile
+```
+types/file.sh status path/to/targetfile path/from/sourcefile
+```
 
 When called with `status`, the assertion script should determine if the assertion is met, and return a code to indicate the current status of the assertion. It _may_ echo messages to STDOUT indicating guidance to the user indicating any problems or warnings.
 
@@ -36,7 +42,9 @@ See the [Status codes reference](./assertion_status_codes.markdown) for the comp
 
 ### `install`
 
-  types/file.sh install path/to/targetfile path/from/sourcefile
+```
+types/file.sh install path/to/targetfile path/from/sourcefile
+```
 
 When called with `install`, the assertion script should assume that `status` was called with the same arguments and returned `10`; that is, nothing about the assertion exists on the host system.
 
@@ -46,7 +54,9 @@ The script should output any relevant messages, and return 0 on success.
 
 ### `upgrade`
 
-  types/file.sh upgrade to/targetfile from/sourcefile --permissions=700
+```
+types/file.sh upgrade to/targetfile from/sourcefile --permissions=700
+```
 
 When called with `upgrade`, the assertion script should assume that `status` was called with the same arguments and returned 11, 12, or 20. Enough of the assertion exists that a different, hopefully quicker path can be taken to satisfying the assertion.
 
@@ -56,7 +66,9 @@ The script should output any relevant messages and updates, and return 0 on succ
 
 ### `delete`
 
-  types/file.sh delete to/targetfile from/sourcefile
+```
+types/file.sh delete to/targetfile from/sourcefile
+```
 
 Not implemented in the runner yet. The script should remove the artifacts of the assertion from the system.
 
@@ -66,7 +78,9 @@ The script should output any relevant messages, and return 0 on success.
 
 ### `compile`
 
-  types/file.sh compile to/targetfile from/sourcefile
+```
+types/file.sh compile to/targetfile from/sourcefile
+```
 
 Echo any relevant information about the current system for the given arguments that will be copied to the compiled script. The compiled script itself will be included by the compiler, as will the assertion that is calling 'compile' to begin with.
 
