@@ -2,7 +2,7 @@
 
 . test/helpers.sh
 
-apk() { . $BORK_SOURCE_DIR/types/apk.sh "$@"; }
+apk() { . $BORK_SOURCE_DIR/types/apk.sh $*; }
 
 @test "apk status returns FAILED_PRECONDITION when apk is missing" {
   respond_to 'which apk' 'return 1'
