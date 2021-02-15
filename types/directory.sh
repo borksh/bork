@@ -7,6 +7,12 @@ shift 2
 owner=$(arguments get owner $*)
 group=$(arguments get group $*)
 mode=$(arguments get mode $*)
+_bake () {
+  if [ -n "$owner" ]; then
+    bake sudo $*
+  else bake $*
+  fi
+}
 
 case "$action" in
   desc)
@@ -28,7 +34,7 @@ case "$action" in
 
     mismatch=false
     if [[ -n ${owner} || -n ${group} || -n ${mode} ]]; then
-      readarray -t dir_stat < <(bake stat --printf '%U\\n%G\\n%a' "${dir}")
+      dir_stat=($(bake $(permission_cmd_dir $platform) "${dir}"))
 
       if [[ -n ${owner} && ${dir_stat[0]} != ${owner} ]]; then
         printf '%s owner: %s\n' \
