@@ -7,12 +7,6 @@ shift 2
 owner=$(arguments get owner $*)
 group=$(arguments get group $*)
 mode=$(arguments get mode $*)
-_bake () {
-  if [ -n "$owner" ]; then
-    bake sudo $*
-  else bake $*
-  fi
-}
 
 case "$action" in
   desc)
