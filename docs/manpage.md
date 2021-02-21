@@ -4,7 +4,7 @@ bork(1) -- The Bash-Operated Reconciling Kludge
 ## SYNOPSIS
 
 `bork`  
-`bork` <operation> [<config-file>] [<options>]
+`bork` *`operation`* [*`config-file`*] [*`options`*]
 
 ## DESCRIPTION
 
@@ -51,7 +51,7 @@ where needed.
 - `check`: Performs a status report on a single assertion.  
 - `do`: Performs a satisfy operation on a single assertion.  
 
-### `status` <config-file>
+### `status` *`config-file`*
 
 The `status` command will confirm that assertions are met or not, and output
 their status. It will not take any action to satisfy those assertions. There are
@@ -95,12 +95,12 @@ Each item reports its status like so:
   cannot currently satisfy this assertion. In the future, it will be able to,
   but doing so may result in data loss.
 
-### `check` <assertion>
+### `check` *`assertion`*
 
 The `check` command will take a single assertion on the command line and perform
 a `status` check as above for it.
 
-### `satisfy` <config-file>
+### `satisfy` *`config-file`*
 
 The `satisfy` command is where the real magic happens. For every assertion in
 the config file, bork will check its status as described in the `status` command
@@ -111,12 +111,12 @@ changes. In that case, bork will warn you about the problem and ask if you want
 to proceed. Sometimes conflicts are detected which bork does not know how to
 resolve — it will warn you about the problem so you can fix it yourself.
 
-### `do` <assertion>
+### `do` *`assertion`*
 
 The `do` command will take a single assertion on the command line and perform a
 `satisfy` operation on it as above.
 
-### `compile` <config-file>
+### `compile` *`config-file`*
 
 The `compile` command will output to STDOUT a standalone shell script that does
 not require Bork to run. You may pass this around as with any file via curl or
@@ -180,7 +180,7 @@ There are four functions to help you take further actions on change:
 
 ## SEE ALSO
 
-Bork documentation: <https://skylarmacdonald.github.io/bork>
+Bork documentation: https://skylarmacdonald.github.io/bork
 
 ## AUTHORS
 
@@ -188,12 +188,12 @@ Bork's lead maintainer is Skylar MacDonald. It was created and previously
 maintained by Matthew Lyon.
 
 A full list of contributors is available on GitHub:  
-<https://github.com/skylarmacdonald/bork/graphs/contributors>
+https://github.com/skylarmacdonald/bork/graphs/contributors
 
 ## BUGS
 
 See our issues on GitHub:  
-<https://github.com/skylarmacdonald/bork/issues>
+https://github.com/skylarmacdonald/bork/issues
 
 [SYNOPSIS]: #SYNOPSIS "SYNOPSIS"
 [DESCRIPTION]: #DESCRIPTION "DESCRIPTION"
