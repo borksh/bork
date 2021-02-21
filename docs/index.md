@@ -54,6 +54,8 @@ where "operation" is one of:
 - satisfy:    satisfy the config file's conditions if possible
 - status:     determine if the config file's conditions are met
 - types:      list types and their usage information
+- docgen:     generates documentation under docs/_assertions for newly-added types
+- version:    get the currently installed version of bork
 ```
 
 Let's explore these in more depth:
