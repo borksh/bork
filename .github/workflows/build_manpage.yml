@@ -9,7 +9,7 @@ on:
       - main
 
 jobs:
-  update-manpage:
+  build-manpage:
     runs-on: ubuntu-latest
     if: github.repository == 'skylarmacdonald/bork'
     steps:
