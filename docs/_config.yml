@@ -1,3 +1,4 @@
 theme: jekyll-theme-midnight
 collections:
   - assertions
+exclude: [bork.1, bork.1.ronn]
