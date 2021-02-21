@@ -2,6 +2,7 @@
 
 I still use [Bork](https://github.com/mattly/bork) in the year 2021, so I forked it to fix it.
 
+![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/skylarmacdonald/bork)
 ![Test](https://github.com/skylarmacdonald/bork/workflows/Test/badge.svg)
 
 Bork puts the 'sh' back into IT. [Bork Bork Bork](https://www.youtube.com/results?search_query=swedish+chef).
@@ -27,6 +28,8 @@ platform differences between BSD and GPL versions of unix utilities.
 ```
 
 ## via Homebrew (Mac OS X)
+
+![homebrew](https://img.shields.io/homebrew/v/bork)
 
 1. Install via Homebrew:
   `brew install bork`
