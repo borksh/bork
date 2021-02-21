@@ -15,7 +15,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Install ronn
-      run: gem install ronn
+      run: sudo gem install ronn
     - name: Generate man page
       run: |
         ronn -r --manual=bork --organization="Skylar MacDonald" docs/bork.1.ronn
