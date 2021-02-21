@@ -245,7 +245,7 @@ included in the output, and any type that needs to include resources to do what
 it does, such as the `file` type, will include their resources in the script as
 base64 encoded data.
 
-### Custom Types
+## Custom Types
 
 Writing new types is pretty straightforward, and there is a guide to writing
 them in the `docs/` directory. If you wish to use a type that is not in bork's
@@ -257,7 +257,7 @@ register etc/pgdb.sh
 ok pgdb my_app_db
 ```
 
-### Composing Config Files
+## Composing Config Files
 
 You may compose config files into greater operations with the `include`
 directive with a path to a script relative to the current script's directory.
@@ -275,7 +275,7 @@ include project-two.sh
 # these will be read from the etc/ directory
 ```
 
-### Taking Further Action on Changes
+## Taking Further Action on Changes
 
 Bork doesn't have callbacks per-se, but after each assertion there are a handful
 of functions you can call to take further action:
