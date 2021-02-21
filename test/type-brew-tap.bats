@@ -62,7 +62,7 @@ setup () {
     [ "$output" = "brew tap-pin homebrew/science" ]
 }
 
-@test "brew-tap upgrade without pin remvoes pin" {
+@test "brew-tap upgrade without pin removes pin" {
     run brew-tap upgrade homebrew/science
     [ "$status" -eq 0 ]
     run baked_output
