@@ -18,11 +18,13 @@ jobs:
       run: sudo gem install ronn
     - name: Generate man page
       run: |
-        ronn -r --manual=bork --organization="Skylar MacDonald" docs/bork.1.ronn
+        ronn --pipe -r --manual=bork --organization="Skylar MacDonald" docs/manpage.md > docs/bork.1
         sed -i 's/<code>/\\fB/g' docs/bork.1
         sed -i 's/<var>/\\fI/g' docs/bork.1
         sed -Ei 's/<\/(code|var)>/\\fR/g' docs/bork.1
     - name: Upload compiled man page
       uses: actions/upload-artifact@v2
       with:
+        name: manpage
         path: docs/bork.1
+        if-no-files-found: error
