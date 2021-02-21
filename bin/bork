@@ -87,6 +87,9 @@ case "$operation" in
       fi
     done
     ;;
+  --version)
+    echo "bork 0.12.0"
+    ;;
   *) cat <<END
 bork usage:
 
