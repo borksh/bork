@@ -14,7 +14,7 @@ case $action in
     ;;
 
     install|upgrade)
-        bake echo "$shell" | sudo tee -a /etc/shells
+        bake echo "$shell" | bake sudo tee -a /etc/shells
     ;;
 
     *) return 1 ;;
