@@ -1,4 +1,9 @@
-# Bork [![](https://travis-ci.org/mattly/bork.svg)](https://travis-ci.org/mattly/bork)
+# Bork - Skylar MacDonald's Bork Fork
+
+I still use [Bork](https://github.com/mattly/bork) in the year 2021, so I forked it to fix it.
+
+![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/skylarmacdonald/bork)
+![Test](https://github.com/skylarmacdonald/bork/workflows/Test/badge.svg)
 
 Bork puts the 'sh' back into IT. [Bork Bork Bork](https://www.youtube.com/results?search_query=swedish+chef).
 
@@ -15,7 +20,7 @@ platform differences between BSD and GPL versions of unix utilities.
 ## From source
 
 1. Clone this repository:
-  `git clone https://github.com/mattly/bork /usr/local/src/bork`
+  `git clone https://github.com/skylarmacdonald/bork /usr/local/src/bork`
 
 1. Symlink the bork binaries into your `$PATH`:
 ```bash
@@ -23,6 +28,8 @@ platform differences between BSD and GPL versions of unix utilities.
 ```
 
 ## via Homebrew (Mac OS X)
+
+![homebrew](https://img.shields.io/homebrew/v/bork)
 
 1. Install via Homebrew:
   `brew install bork`
@@ -39,15 +46,17 @@ bork operation [config-file] [options]
 where "operation" is one of:
 
 - check:      perform 'status' for a single command
-    example:  bork check ok github mattly/dotfiles
+    example:  bork check ok github skylarmacdonald/dotfiles
 - compile:    compile the config file to a self-contained script output to STDOUT
     --conflicts=(y|yes|n|no)  If given, sets an automatic answer for conflict resolution.
     example:  bork compile dotfiles.sh --conflicts=y > install.sh
 - do:         perform 'satisfy' for a single command
-    example:  bork do ok github mattly/dotfiles
+    example:  bork do ok github skylarmacdonald/dotfiles
 - satisfy:    satisfy the config file's conditions if possible
 - status:     determine if the config file's conditions are met
 - types:      list types and their usage information
+- docgen:     generates documentation under docs/_assertions for newly-added types
+- version:    get the currently installed version of bork
 ```
 
 Let's explore these in more depth:
@@ -66,14 +75,14 @@ your own.
 Here's a basic example:
 
 ```bash
-ok brew                                       # presence and updatedness of Homebrew
-ok brew git                                   # presence and updatedness of Homebrew git package
-ok directory $HOME/code                       # presence of the ~/code directory
-ok github $HOME/code/dotfiles mattly/dotfiles # presence, drift of git repository in ~/code/dotfiles
+ok brew                                                # presence and updatedness of Homebrew
+ok brew git                                            # presence and updatedness of Homebrew git package
+ok directory $HOME/code                                # presence of the ~/code directory
+ok github $HOME/code/dotfiles skylarmacdonald/dotfiles # presence, drift of git repository in ~/code/dotfiles
 cd $HOME
-for file in $HOME/code/dotfiles/configs/*
+for file in $HOME/code/dotfiles/configs/.[!.]*
 do                                            # for each file in ~/code/dotfiles/configs,
-  ok symlink ".$(basename $file)" $file       # presense of a symlink to file in ~ with a leading dot
+  ok symlink "$(basename $file)" $file       # presense of a symlink to file in ~ with a leading dot
 done
 ```
 
@@ -91,6 +100,10 @@ around via curl, scp or the like and run on completely new systems.
 
 You can run `bork types` from the command line to get a list of the assertion types
 and some basic information about their usage and options.
+
+If adding features to Bork core, you can also use the command `bork docgen` to
+generate GitHub Pages-compatible Markdown files based on how a type responds to the
+`desc` action.
 
 ### Generic assertions
 ```
@@ -116,6 +129,7 @@ and some basic information about their usage and options.
             gem: asserts the presence of a gem in the environment's ruby
             npm: asserts the presence of a nodejs module in npm's global installation
             pip: asserts presence of packages installed via pip
+           pip3: asserts presence of packages installed via pip3
           pipsi: asserts presence of pipsi or packages installed via pipsi
             apm: asserts the presence of an atom package
          go-get: asserts the presence of a go package
@@ -123,8 +137,8 @@ and some basic information about their usage and options.
 
 ### Mac OS X specific
 ```
-       brew-tap: asserts a Homebrew formula repository has been tapped
            brew: asserts presence of packages installed via Homebrew on Mac OS X
+       brew-tap: asserts a Homebrew formula repository has been tapped; does NOT assert updatedness of a tap's formula. Use `ok brew` for that.
            cask: asserts presence of apps installed via caskroom.io on Mac OS X
        defaults: asserts settings for OS X's 'defaults' system
             mas: asserts a Mac app is installed and up-to-date from the App Store
@@ -135,6 +149,7 @@ and some basic information about their usage and options.
 ### Linux specific:
 ```
             apt: asserts packages installed via apt-get on Debian or Ubuntu Linux
+            apk: asserts packages installed via apk (Alpine Linux)
             yum: asserts packages installed via yum on CentOS or RedHat Linux
          zypper: asserts packages installed via zypper (SUSE)
 ```
@@ -148,6 +163,7 @@ and some basic information about their usage and options.
 ### UNIX utilities
 ```
        iptables: asserts presence of iptables rule
+         shells: asserts presence of a shell in /etc/shells
 ```
 
 ## Runtime Operations
@@ -178,13 +194,13 @@ The status command will give you output such as:
 ```
 outdated: brew
 ok: brew git
-missing: brew fish
-ok: directory /Users/mattly/code/mattly
-conflict (upgradable): github mattly/dotfiles
+missing: brew zsh
+ok: directory /Users/skylar/code
+conflict (upgradable): github skylarmacdonald/dotfiles
 local git repository has uncommitted changes
-ok: symlink /Users/mattly/.gitignore /Users/mattly/code/mattly/dotfiles/configs/gitignore
-conflict (clobber required): symlink /Users/mattly/.lein /Users/mattly/code/mattly/dotfiles/configs/lein
-not a symlink: /Users/mattly/.lein
+ok: symlink /Users/skylar/.gitignore /Users/skylar/code/dotfiles/configs/gitignore
+conflict (clobber required): symlink /Users/skylar/.lein /Users/skylar/code/dotfiles/configs/lein
+not a symlink: /Users/skylar/.lein
 mismatch (upgradable): defaults com.apple.dock tilesize integer 36
 expected type: integer
 received type: float
@@ -205,7 +221,7 @@ Each item reports its status like so:
   cannot currently satisfy this assertion. In the future, it will be able to,
   but doing so may result in data loss.
 
-### bork check ok github mattly/dotfiles
+### bork check ok github skylarmacdonald/dotfiles
 
 The `check` command will take a single assertion on the command line and perform
 a `status` check as above for it.
@@ -221,7 +237,7 @@ changes. In that case, bork will warn you about the problem and ask if you want
 to proceed. Sometimes conflicts are detected which bork does not know how to
 resolve — it will warn you about the problem so you can fix it yourself.
 
-### bork do ok github mattly/dotfiles
+### bork do ok github skylarmacdonald/dotfiles
 
 The `do` command will take a single assertion on the command line and perform a
 `satisfy` operation on it as above.
@@ -247,7 +263,7 @@ register etc/pgdb.sh
 ok pgdb my_app_db
 ```
 
-### Composing Config Files
+## Composing Config Files
 
 You may compose config files into greater operations with the `include`
 directive with a path to a script relative to the current script's directory.
@@ -265,7 +281,7 @@ include project-two.sh
 # these will be read from the etc/ directory
 ```
 
-### Taking Further Action on Changes
+## Taking Further Action on Changes
 
 Bork doesn't have callbacks per-se, but after each assertion there are a handful
 of functions you can call to take further action:
@@ -275,7 +291,7 @@ ok brew fish
 if did_install; then
   sudo echo "/usr/local/bin/fish" >> /etc/shells
   chsh -s /usr/local/bin/fish
-end
+fi
 ```
 There are four functions to help you take further actions on change:
 
@@ -319,11 +335,7 @@ There are four functions to help you take further actions on change:
 
 ## Community
 
-Feel free to join us in IRC:
-
-- Hostname: `irc.freenode.org`
-- Channel: `#bork.sh`
-- [Web IRC client in case you don't have a native one](https://kiwiirc.com/client/irc.freenode.net/bork.sh)
+Honestly, I forked this for my own purposes, but if anyone else still uses this I'll turn on Discussions in GitHub.
 
 ## Requirements / Dependencies
 
@@ -331,7 +343,7 @@ Feel free to join us in IRC:
 
 ## Version
 
-0.10.0
+0.12.0
 
 ## License
 

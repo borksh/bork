@@ -4,7 +4,7 @@
 directory () { . $BORK_SOURCE_DIR/types/directory.sh $*; }
 
 setup() {
-  respond_to "stat --printf %U\\\n%G\\\n%a foo" "printf '%s\n%s\n%s' user users 755"
+  respond_to "$(permission_cmd_dir $platform) foo" "printf '%s\n%s\n%s' user users 755"
 }
 
 @test "directory: status returns MISMATCH_UPGRADE when target directory has incorrect owner" {
@@ -35,24 +35,25 @@ setup() {
 
 @test "directory: install sets owner for directory" {
   run directory install foo --owner=bork
-  (( status == 0 ))
+  echo "$status"
+  (( status == STATUS_OK ))
   run baked_output
-  [[ ${lines[-1]} =~ ^sudo\ install ]]
-  [[ ${lines[-1]} =~ '-o bork' ]]
+  [[ ${lines[${#lines[@]}-1]} =~ ^sudo\ install ]]
+  [[ ${lines[${#lines[@]}-1]} =~ '-o bork' ]]
 }
 
 @test "directory: install sets group for directory" {
   run directory install foo --group=bork
-  (( status == 0 ))
+  (( status == STATUS_OK ))
   run baked_output
-  [[ ${lines[-1]} =~ ^sudo\ install ]]
-  [[ ${lines[-1]} =~ '-g bork' ]]
+  [[ ${lines[${#lines[@]}-1]} =~ ^sudo\ install ]]
+  [[ ${lines[${#lines[@]}-1]} =~ '-g bork' ]]
 }
 
 @test "directory: install sets mode for directory" {
   run directory install foo --mode=700
-  (( status == 0 ))
+  (( status == STATUS_OK ))
   run baked_output
-  [[ ${lines[-1]} =~ ^install ]]
-  [[ ${lines[-1]} =~ '-m 700' ]]
+  [[ ${lines[${#lines[@]}-1]} =~ ^install ]]
+  [[ ${lines[${#lines[@]}-1]} =~ '-m 700' ]]
 }

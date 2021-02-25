@@ -173,10 +173,10 @@ setup() {
 @test "pipsi status global runs 'list' with appropriate options" {
   run pipsi status something --global
   run baked_output
-  [[ ${lines[-1]} =~ ^pipsi ]]
-  [[ ${lines[-1]} =~ --bin-dir=${pipsi_global_bin_dir} ]]
-  [[ ${lines[-1]} =~ --home=${pipsi_global_home} ]]
-  [[ ${lines[-1]} =~ list ]]
+  [[ ${lines[${#lines[@]}-1]} =~ ^pipsi ]]
+  [[ ${lines[${#lines[@]}-1]} =~ --bin-dir=${pipsi_global_bin_dir} ]]
+  [[ ${lines[${#lines[@]}-1]} =~ --home=${pipsi_global_home} ]]
+  [[ ${lines[${#lines[@]}-1]} =~ list ]]
 }
 
 @test "pipsi install runs 'install pkg'" {
@@ -196,10 +196,10 @@ setup() {
   run pipsi install missing_package_is_missing --global
   (( status == 0 ))
   run baked_output
-  [[ ${lines[-2]} =~ ^\ *pipsi ]]
-  [[ ${lines[-2]} =~ --bin-dir=${pipsi_global_bin_dir} ]]
-  [[ ${lines[-2]} =~ --home=${pipsi_global_home} ]]
-  [[ ${lines[-2]} =~ install\ missing_package_is_missing ]]
+  [[ ${lines[${#lines[@]}-2]} =~ ^\ *pipsi ]]
+  [[ ${lines[${#lines[@]}-2]} =~ --bin-dir=${pipsi_global_bin_dir} ]]
+  [[ ${lines[${#lines[@]}-2]} =~ --home=${pipsi_global_home} ]]
+  [[ ${lines[${#lines[@]}-2]} =~ install\ missing_package_is_missing ]]
 }
 
 @test "pipsi install global uses sudo if necessary to write to target dirs" {
@@ -209,7 +209,7 @@ setup() {
   run pipsi install missing_package_is_missing --global
   (( status == 0 ))
   run baked_output
-  [[ ${lines[-2]} =~ ^sudo\ pipsi ]]
+  [[ ${lines[${#lines[@]}-2]} =~ ^sudo\ pipsi ]]
 }
 
 @test "pipsi upgrade runs 'upgrade pkg'" {
@@ -223,10 +223,10 @@ setup() {
   run pipsi upgrade outdated_package --global
   (( status == 0 ))
   run baked_output
-  [[ ${lines[-1]} =~ ^\ *pipsi ]]
-  [[ ${lines[-1]} =~ --bin-dir=${pipsi_global_bin_dir} ]]
-  [[ ${lines[-1]} =~ --home=${pipsi_global_home} ]]
-  [[ ${lines[-1]} =~ upgrade\ outdated_package ]]
+  [[ ${lines[${#lines[@]}-1]} =~ ^\ *pipsi ]]
+  [[ ${lines[${#lines[@]}-1]} =~ --bin-dir=${pipsi_global_bin_dir} ]]
+  [[ ${lines[${#lines[@]}-1]} =~ --home=${pipsi_global_home} ]]
+  [[ ${lines[${#lines[@]}-1]} =~ upgrade\ outdated_package ]]
 }
 
 @test "pipsi upgrade global uses sudo if necessary to write to target dirs" {
@@ -236,7 +236,7 @@ setup() {
   run pipsi upgrade outdated_package --global
   (( status == 0 ))
   run baked_output
-  [[ ${lines[-1]} =~ ^sudo\ pipsi ]]
+  [[ ${lines[${#lines[@]}-1]} =~ ^sudo\ pipsi ]]
 }
 
 @test "pipsi delete runs 'uninstall pkg'" {
@@ -250,8 +250,8 @@ setup() {
   run pipsi delete current_package --global
   (( status == 0 ))
   run baked_output
-  [[ ${lines[-1]} =~ ^\ *pipsi ]]
-  [[ ${lines[-1]} =~ --bin-dir=${pipsi_global_bin_dir} ]]
-  [[ ${lines[-1]} =~ --home=${pipsi_global_home} ]]
-  [[ ${lines[-1]} =~ uninstall\ current_package ]]
+  [[ ${lines[${#lines[@]}-1]} =~ ^\ *pipsi ]]
+  [[ ${lines[${#lines[@]}-1]} =~ --bin-dir=${pipsi_global_bin_dir} ]]
+  [[ ${lines[${#lines[@]}-1]} =~ --home=${pipsi_global_home} ]]
+  [[ ${lines[${#lines[@]}-1]} =~ uninstall\ current_package ]]
 }

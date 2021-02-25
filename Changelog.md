@@ -1,6 +1,33 @@
 # Change Log
 All notable changes to this project will be documented in this file, from 2016-03-24 going forward. This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.12.0] - 2021-02-20
+
+Hello! I've forked bork in 2021 to fix some bugs and carry on the project. I'm indebted to [@mattly][] for his work on it up to this point.
+
+### Fixed
+- the `cask` type will now work with updated versions of Homebrew, where `brew cask install` has been replaced with `brew install --cask`.
+- all tests should now pass on BSD and GPL environments (tested on macOS and Ubuntu, please raise an issue if you run into failures on other platforms).
+- CI changed to GitHub Actions and running in a matrix on both macOS and Ubuntu runners.
+
+### Added
+- new `pip3` type for Python 3.x
+- new `shells` type for registering a shell in `/etc/shells`
+- `apk` type support has now been merged and the tests fixed. Thanks [@mattly][] & [@jitakirin][] for your work in 2018!
+- there is now Markdown documentation in `docs/`, which is also the source of the [GitHub Pages site](https://skylarmacdonald.github.io/bork).
+
+## [0.11.1] - 2018-01-28
+
+### Deprecated
+- The `--size` option in the `download` type is going away. It will be replaced with some sort of hash checking option.
+
+### Fixed
+- the `ok` statement now single-quotes arguments to the type handler. This is the first step in a more consistent and correct behavior for quoting things in Bork. [@martinwalsh]
+- The github type once again works correctly in compiled scripts. [@mattly][]
+- There is no longer a `bin/bork_compile` script for someone to try to run when they shouldn't. [@mattly][]
+- Homebrew doesn't treat tap names as case-sensitive, and now neither does bork. [@mattly][]
+- Clarified some documentation around the update behavior for the brew-tap type [@mattly][]
+
 ## [0.11.0] - 2018-01-27
 
 Hey folks, sorry it's been a while! I started a new job not long after 0.10.0 was relased and then had my first child not long after that. I'm finally feeling a bit like I have some spare time. -- [@mattly][]
@@ -83,6 +110,7 @@ Initial tagged release, prompted by getting bork into homebrew. Conversely, abou
 [@frdmn]: https://github.com/frdmn
 [@indigo423]: https://github.com/indigo423
 [@jitakirin]: https://github.com/jitakirin
+[@martinwalsh]: https://github.com/martinwalsh
 [@mattly]: https://github.com/mattly
 [@ngkz]: https://github.com/ngkz
 [@rgieseke]: https://github.com/rgieseke

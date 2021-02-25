@@ -55,22 +55,40 @@ case "$operation" in
     operation=satisfy
     $fn $* ;;
   types)
+    typearg=$1
+    shift
+    if [ -z $typearg ]; then
+      for type in $BORK_SOURCE_DIR/types/*.sh; do
+        type_help $type
+      done
+    else
+      type_help "$BORK_SOURCE_DIR/types/$typearg.sh"
+    fi
+    ;;
+  docgen)
     for type in $BORK_SOURCE_DIR/types/*.sh; do
-      desc=$(. $type desc)
-      i=0
-      summary=
-      usage=
-      while read -r line; do
-        [ "$i" -eq 0 ] && summary=$line || usage=$([ -n "$usage" ] && echo "$usage"; echo "$line")
-        (( i ++ ))
-      done <<< "$desc"
-      echo "$(printf '%15s' $(basename $type '.sh')): $summary"
-      if [ -n "$usage" ]; then
+      if [ ! -s "$BORK_SOURCE_DIR/docs/_assertions/$(basename $type '.sh').md" ]; then
+        desc=$(. $type desc)
+        i=0
+        summary=
+        usage=
         while read -r line; do
-          echo "                 $line"
-        done <<< "$usage"
+          [ "$i" -eq 0 ] && summary=$line || usage=$([ -n "$usage" ] && echo "$usage"; echo "$line")
+          (( i ++ ))
+        done <<< "$desc"
+        echo -e "---\nname: $(basename $type '.sh')\n---\n$summary" > "$BORK_SOURCE_DIR/docs/_assertions/$(basename $type '.sh').md"
+        if [ -n "$usage" ]; then
+          echo -e "\n\n### Usage\n\n\`\`\`bash" >> "$BORK_SOURCE_DIR/docs/_assertions/$(basename $type '.sh').md"
+          while read -r line; do
+            echo -e "$line" >> "$BORK_SOURCE_DIR/docs/_assertions/$(basename $type '.sh').md"
+          done <<< "$usage"
+          echo -e "\`\`\`" >> "$BORK_SOURCE_DIR/docs/_assertions/$(basename $type '.sh').md"
+        fi
       fi
     done
+    ;;
+  version | --version)
+    echo "bork 0.12.0"
     ;;
   *) cat <<END
 bork usage:
@@ -80,15 +98,17 @@ bork operation [config-file] [options]
 where "operation" is one of:
 
 - check:      perform 'status' for a single command
-    example:  bork check ok github mattly/dotfiles
+    example:  bork check ok github skylarmacdonald/dotfiles
 - compile:    compile the config file to a self-contained script output to STDOUT
     --conflicts=(y|yes|n|no)  If given, sets an automatic answer for conflict resolution.
     example:  bork compile dotfiles.sh --conflicts=y > install.sh
 - do:         perform 'satisfy' for a single command
-    example:  bork do ok github mattly/dotfiles
+    example:  bork do ok github skylarmacdonald/dotfiles
 - satisfy:    satisfy the config file's conditions if possible
 - status:     determine if the config file's conditions are met
 - types:      list types and their usage information
+- docgen:     generates documentation under docs/_assertions for newly-added types
+- version:    get the currently installed version of bork
 END
   exit 1
   ;;

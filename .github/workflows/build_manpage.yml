@@ -1,0 +1,30 @@
+name: Build manpage
+
+on:
+  push:
+    paths:
+      - .github/workflows/build_manpage.yml
+      - docs/bork.1.ronn
+    branches:
+      - main
+
+jobs:
+  build-manpage:
+    runs-on: ubuntu-latest
+    if: github.repository == 'skylarmacdonald/bork'
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install ronn
+      run: sudo gem install ronn
+    - name: Generate man page
+      run: |
+        ronn --pipe -r --manual=bork --organization="Skylar MacDonald" docs/manpage.md > docs/bork.1
+        sed -i 's/<em><code>/\\fI/g' docs/bork.1
+        sed -i 's/<code>/\\fB/g' docs/bork.1
+        sed -Ei 's/<\/code(><\/em)?>/\\fR/g' docs/bork.1
+    - name: Upload compiled man page
+      uses: actions/upload-artifact@v2
+      with:
+        name: manpage
+        path: docs/bork.1
+        if-no-files-found: error

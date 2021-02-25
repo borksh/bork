@@ -1,7 +1,12 @@
-iterm2: 2.1.4
-iTerm2
+iterm2: 3.4.3 (auto_updates)
 https://www.iterm2.com/
 Not installed
-https://github.com/caskroom/homebrew-cask/blob/master/Casks/iterm2.rb
-==> Contents
-  iTerm.app (app)
+From: https://github.com/Homebrew/homebrew-cask/blob/HEAD/Casks/iterm2.rb
+==> Name
+iTerm2
+==> Description
+Terminal emulator as alternative to Apple's Terminal app
+==> Artifacts
+iTerm.app (App)
+==> Analytics
+install: 20,066 (30 days), 62,855 (90 days), 233,481 (365 days)

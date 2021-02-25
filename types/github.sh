@@ -2,7 +2,7 @@
 
 if [ -z "$git_call" ]; then
   git_call=". $BORK_SOURCE_DIR/types/git.sh"
-  is_compiled && git_call="git"
+  is_compiled && git_call="type_git"
 fi
 
 action=$1
@@ -13,8 +13,8 @@ case $action in
   desc)
     echo "front-end for git type, uses github urls"
     echo "passes arguments to git type"
-    echo "> ok github mattly/bork"
-    echo "> ok github ~/code/bork mattly/bork"
+    echo "> ok github skylarmacdonald/bork"
+    echo "> ok github ~/code/bork skylarmacdonald/bork"
     echo "--ssh                    (clones via ssh instead of https)"
     ;;
 
