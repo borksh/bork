@@ -1,4 +1,4 @@
 theme: jekyll-theme-midnight
 collections:
-  - assertions
+  - types
 exclude: [bork.1]

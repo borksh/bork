@@ -1,0 +1,19 @@
+---
+layout: default
+title: Assertion types
+---
+
+<h1>Assertion types</h1>
+
+<p>Here is an index of Bork assertion types and documentation on how to use them. If you are adding a type to Bork, please ensure you document it by creating a file in <code>docs/_types</code>.</p>
+
+<ul>
+	{% for type in site.types %}
+		<li><a href="#type-{{ type.name }}">{{ type.name }}</a></li>
+	{% endfor %}
+</ul>
+
+{% for type in site.types %}
+	<h2 id="type-{{ type.name }}">{{ type.name }}</h2>
+	{{ type.content }}
+{% endfor %}
