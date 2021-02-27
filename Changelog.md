@@ -1,6 +1,20 @@
 # Change Log
 All notable changes to this project will be documented in this file, from 2016-03-24 going forward. This project adheres to [Semantic Versioning](http://semver.org/).
 
+## Next release
+
+Changes here will be in the next release. You can use them now by checking out the HEAD of the `main` branch, or specifying the `--HEAD` option with `brew install bork`.
+
+### Fixed
+- Homebrew is now installed with a shell script instead of the Ruby installer. (#7)
+- the `mas` type will now check that the user is signed into the App Store before continuing.
+
+### Added
+- Bork now has a man page in `docs/`. This will be installed by the next version of the Homebrew formula, but can be installed manually as well by linking or copying into `/usr/share/man/man1` (or wherever you keep your man pages).
+- `bork types` now supports a single type as an argument to get documentation for that specific type only.
+- `bork inspect` will generate a Bork-compatible config file based on the current status of the system. This is currently available on a per-type basis only, and will only be implemented for some types. (#14)
+- Bork will now report its version by running `bork --version` (or `bork version`).
+
 ## [0.12.0] - 2021-02-20
 
 Hello! I've forked bork in 2021 to fix some bugs and carry on the project. I'm indebted to [@mattly][] for his work on it up to this point.
