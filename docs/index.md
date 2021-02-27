@@ -56,7 +56,7 @@ where "operation" is one of:
 - status:     determine if the config file's conditions are met
 - inspect:    output a Bork config file based on a type's current configuration
 - types:      list types and their usage information
-- docgen:     generates documentation under docs/_assertions for newly-added types
+- docgen:     generates documentation under docs/_types for newly-added types
 - version:    get the currently installed version of bork
 ```
 
