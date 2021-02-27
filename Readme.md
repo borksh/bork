@@ -177,6 +177,8 @@ Per the usage guide, bork has a few main modes of operation:
 - `compile`: Compiles a config file to a standalone script.
 - `check`: Performs a status report on a single assertion.
 - `do`: Performs a satisfy operation on a single assertion.
+- `inspect`: Output a Bork-compatible config file based on the current state of
+the system.
 
 ### bork status myconfig.sh
 

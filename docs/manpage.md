@@ -50,6 +50,8 @@ where needed.
 - `compile`: Compiles a config file to a standalone script.  
 - `check`: Performs a status report on a single assertion.  
 - `do`: Performs a satisfy operation on a single assertion.  
+- `inspect`: Output a Bork-compatible config file based on the current state of
+the system.
 
 ### `status` *`config-file`*
 
