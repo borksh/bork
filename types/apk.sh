@@ -8,7 +8,7 @@ case "${action}" in
   desc)
     printf '%s\n' \
       'asserts presence of packages installed via apk (Alpine Package Manager)' \
-      '* apk packge-name    (install/upgrade given package)'
+      '* apk package-name    (install/upgrade given package)'
     ;;
   status)
     needs_exec "apk" || return "${STATUS_FAILED_PRECONDITION}"

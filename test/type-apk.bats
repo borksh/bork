@@ -18,7 +18,7 @@ apk() { . $BORK_SOURCE_DIR/types/apk.sh "$@"; }
   (( status == STATUS_MISSING ))
 }
 
-@test "apk status returns OK when packge is installed and current" {
+@test "apk status returns OK when package is installed and current" {
   respond_to 'apk info --installed current_package' \
     'echo current_package'
 

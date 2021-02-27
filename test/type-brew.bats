@@ -31,7 +31,7 @@ setup () {
   [ "$status" -eq $STATUS_OUTDATED ]
 }
 
-@test "brew status reports a packge is current" {
+@test "brew status reports a package is current" {
   run brew status current_package
   [ "$status" -eq $STATUS_OK ]
   [ "${#lines[*]}" -eq 0 ]

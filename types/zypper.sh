@@ -8,7 +8,7 @@ case "${action}" in
   desc)
     printf '%s\n' \
       'asserts presence of packages installed via zypper (SUSE)' \
-      '* zypper packge-name    (install/upgrade given package)'
+      '* zypper package-name    (install/upgrade given package)'
     ;;
   status)
     needs_exec "rpm" || return "${STATUS_FAILED_PRECONDITION}"

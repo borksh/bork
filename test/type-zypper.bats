@@ -24,7 +24,7 @@ zypper() { . $BORK_SOURCE_DIR/types/zypper.sh "$@"; }
   (( status == STATUS_MISSING ))
 }
 
-@test "zypper status returns OK when packge is installed and current" {
+@test "zypper status returns OK when package is installed and current" {
   respond_to 'rpm -q current_package' 'echo current_package-1.1.0-1.0.noarch'
 
   run zypper status current_package

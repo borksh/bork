@@ -8,6 +8,6 @@ asserts presence of packages installed via pipsi
 
 ```bash
 * pipsi                (install/upgrade pipsi itself)
-* pipsi packge-name    (works on given package from pypi)
+* pipsi package-name   (works on given package from pypi)
 --global               (work on global packages instead of per-user)
 ```

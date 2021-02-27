@@ -57,7 +57,7 @@ case "${action}" in
     printf '%s\n' \
       'asserts presence of packages installed via pipsi' \
       '* pipsi                (install/upgrade pipsi itself)' \
-      '* pipsi packge-name    (works on given package from pypi)' \
+      '* pipsi package-name   (works on given package from pypi)' \
       '--global               (work on global packages instead of per-user)'
     ;;
   status)
@@ -71,7 +71,7 @@ case "${action}" in
         return "${status}"
       }
       # pipsi is available, fall back to common check for up-to-date
-    else  # operate on provided packge
+    else  # operate on provided package
       bake which pipsi || return "${STATUS_FAILED_PRECONDITION}"
 
       # check output of `pipsi list` to see if package is installed
@@ -79,7 +79,7 @@ case "${action}" in
         || return "${STATUS_MISSING}"
     fi
 
-    # pipsi doesn't provide a way to check if packge is up-to-date,
+    # pipsi doesn't provide a way to check if package is up-to-date,
     # so for now have to use `pip` directly
     ! bake "${pip}" list --outdated --format=legacy | egrep "^${name} " \
       || return "${STATUS_OUTDATED}"
@@ -96,7 +96,7 @@ case "${action}" in
         \| "${su}" python3 - "${pipsi_opts[@]}" \
         --ignore-existing \
         --src 'git+https://github.com/mitsuhiko/pipsi.git#egg=pipsi'
-    else  # operate on provided packge
+    else  # operate on provided package
       bake "${su}" pipsi "${pipsi_opts[@]}" install "${name}"
     fi
     bake "${pip}" install --upgrade pip setuptools

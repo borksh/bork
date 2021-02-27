@@ -154,7 +154,7 @@ setup() {
   (( status == STATUS_MISSING ))
 }
 
-@test "pipsi status returns OK when packge is installed and current" {
+@test "pipsi status returns OK when package is installed and current" {
   run pipsi status current_package
   (( status == STATUS_OK ))
 }
