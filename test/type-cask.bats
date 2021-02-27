@@ -57,3 +57,14 @@ setup () {
   [ "${lines[0]}" = "rm -rf /usr/local/Caskroom/installed_package" ]
   [ "${lines[1]}" = "brew install --cask installed_package --force" ]
 }
+
+@test "cask inspect: returns FAILED_PRECONDITION without brew exec" {
+    respond_to "which brew" "return 1"
+    run cask inspect
+    [ "$status" -eq $STATUS_FAILED_PRECONDITION ]
+}
+
+@test "cask inspect: returns OK if preconditions met" {
+    run cask inspect
+    [ "$status" -eq $STATUS_OK ]
+}

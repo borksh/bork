@@ -50,3 +50,14 @@ setup () {
     run baked_output
     [ "$output" = 'mas upgrade' ]
 }
+
+@test "mas inspect: returns FAILED_PRECONDITION without mas exec" {
+    respond_to "which mas" "return 1"
+    run mas inspect
+    [ "$status" -eq $STATUS_FAILED_PRECONDITION ]
+}
+
+@test "mas inspect: returns OK if preconditions met" {
+    run mas inspect
+    [ "$status" -eq $STATUS_OK ]
+}

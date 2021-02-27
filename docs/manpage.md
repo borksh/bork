@@ -125,6 +125,15 @@ included in the output, and any type that needs to include resources to do what
 it does, such as the `file` type, will include their resources in the script as
 base64 encoded data.
 
+### `inspect` *`type`*
+
+The `inspect` command will ask a type for a current inventory of how a system is
+configured, and output to STDOUT a Bork-compatible config file to configure the
+same state. For example, when used with the `brew` type, this will list all
+formulae installed with Homebrew and output a config file to check for those
+same formulae. **Not all types will work with this command.** Bork will exit
+with code 1 if a type has not implemented `inspect`.
+
 ## CUSTOM TYPES
 
 Writing new types is pretty straightforward, and there is a guide to writing

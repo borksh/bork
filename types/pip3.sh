@@ -21,5 +21,12 @@ case $action in
   install)
     bake pip3 install "$name"
     ;;
+  inspect)
+    needs_exec "pip3" || return $STATUS_FAILED_PRECONDITION
+    installed=$(bake pip3 list --format freeze --not-required)
+    while IFS= read -r pkg; do
+        echo "ok pip3 $pkg" | sed -E 's/==[0-9\.]+$//g'
+    done <<< "$installed"
+    ;;
 esac
 

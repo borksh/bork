@@ -29,3 +29,14 @@ setup () {
   run baked_output
   [ "${lines[0]}" = "pip3 install foo" ]
 }
+
+@test "pip3 inspect: returns FAILED_PRECONDITION without pip3 exec" {
+    respond_to "which pip3" "return 1"
+    run pip3 inspect
+    [ "$status" -eq $STATUS_FAILED_PRECONDITION ]
+}
+
+@test "pip3 inspect: returns OK if preconditions met" {
+    run pip3 inspect
+    [ "$status" -eq $STATUS_OK ]
+}

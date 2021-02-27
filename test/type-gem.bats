@@ -29,3 +29,14 @@ setup () {
   run baked_output
   [ "${lines[0]}" = "sudo gem install foo" ]
 }
+
+@test "gem inspect: returns FAILED_PRECONDITION without gem exec" {
+    respond_to "which gem" "return 1"
+    run gem inspect
+    [ "$status" -eq $STATUS_FAILED_PRECONDITION ]
+}
+
+@test "gem inspect: returns OK if preconditions met" {
+    run gem inspect
+    [ "$status" -eq $STATUS_OK ]
+}

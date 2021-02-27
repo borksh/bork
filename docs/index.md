@@ -54,6 +54,7 @@ where "operation" is one of:
     example:  bork do ok github skylarmacdonald/dotfiles
 - satisfy:    satisfy the config file's conditions if possible
 - status:     determine if the config file's conditions are met
+- inspect:    output a Bork config file based on a type's current configuration
 - types:      list types and their usage information
 - docgen:     generates documentation under docs/_assertions for newly-added types
 - version:    get the currently installed version of bork
@@ -245,6 +246,15 @@ scp or whatever you like and run it. Any sub-configs via `include` will be
 included in the output, and any type that needs to include resources to do what
 it does, such as the `file` type, will include their resources in the script as
 base64 encoded data.
+
+### bork inspect brew
+
+The `inspect` command will ask a type for a current inventory of how a system is
+configured, and output to STDOUT a Bork-compatible config file to configure the
+same state. For example, when used with the `brew` type, this will list all
+formulae installed with Homebrew and output a config file to check for those
+same formulae. **Not all types will work with this command.** Bork will exit
+with code 1 if a type has not implemented `inspect`.
 
 ## Custom Types
 

@@ -1,5 +1,6 @@
 ---
 name: brew
+inspects: true
 ---
 asserts presence of packages installed via homebrew on mac os x
 

@@ -90,6 +90,20 @@ case "$operation" in
   version | --version)
     echo "bork 0.12.0"
     ;;
+  inspect)
+    typearg=$1
+    if [ -z $typearg ]; then
+      echo "missing a type to inspect"
+    else
+      typefile="$BORK_SOURCE_DIR/types/$typearg.sh"
+      if [ -s $typefile ]; then
+        . $typefile inspect
+      else
+        echo "undefined type: $typearg"
+        exit 1
+      fi  
+    fi
+    ;;
   *) cat <<END
 bork usage:
 
@@ -106,6 +120,7 @@ where "operation" is one of:
     example:  bork do ok github skylarmacdonald/dotfiles
 - satisfy:    satisfy the config file's conditions if possible
 - status:     determine if the config file's conditions are met
+- inspect:    output a Bork config file based on a type's current configuration
 - types:      list types and their usage information
 - docgen:     generates documentation under docs/_assertions for newly-added types
 - version:    get the currently installed version of bork

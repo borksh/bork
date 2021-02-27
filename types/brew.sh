@@ -26,6 +26,15 @@ if [ -z "$name" ]; then
       bake '/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"'
       ;;
 
+    inspect)
+      baking_platform_is "Darwin" || return $STATUS_UNSUPPORTED_PLATFORM
+      needs_exec "brew" || return $STATUS_FAILED_PRECONDITION
+      installed=$(bake brew list --formula)
+      while IFS= read -r formula; do
+          echo "ok brew $formula"
+      done <<< "$installed"
+      ;;
+
     *) return 1 ;;
   esac
 

@@ -45,5 +45,14 @@ case $action in
     fi
     ;;
 
+  inspect)
+    baking_platform_is "Darwin" || return $STATUS_UNSUPPORTED_PLATFORM
+    needs_exec "brew" || return $STATUS_FAILED_PRECONDITION
+    installed=$(bake brew list --cask)
+    while IFS= read -r cask; do
+        echo "ok cask $cask"
+    done <<< "$installed"
+    ;;
+
   *) return 1 ;;
 esac

@@ -28,5 +28,15 @@ case $action in
 
     upgrade) bake mas upgrade ;;
 
+    inspect)
+        baking_platform_is "Darwin" || return $STATUS_UNSUPPORTED_PLATFORM
+        needs_exec "mas" || return $STATUS_FAILED_PRECONDITION
+        installed=$(bake mas list)
+        while IFS= read -r app; do
+            echo "ok mas $app" | sed -E 's/ \([0-9\.]+\)$//g'
+        done <<< "$installed"
+
+        ;;
+
     *) return 1 ;;
 esac

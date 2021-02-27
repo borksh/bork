@@ -23,4 +23,11 @@ case $action in
   install)
     bake sudo gem install "$gemname"
     ;;
+  inspect)
+    needs_exec "gem" || return $STATUS_FAILED_PRECONDITION
+    installed=$(bake gem list --no-versions -q)
+    while IFS= read -r gem; do
+        echo "ok gem $gem"
+    done <<< "$installed"
+    ;;
 esac

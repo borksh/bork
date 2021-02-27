@@ -117,6 +117,9 @@ The \fBdo\fR command will take a single assertion on the command line and perfor
 .SS "\fBcompile\fR \fIconfig\-file\fR"
 The \fBcompile\fR command will output to STDOUT a standalone shell script that does not require Bork to run\. You may pass this around as with any file via curl or scp or whatever you like and run it\. Any sub\-configs via \fBinclude\fR will be included in the output, and any type that needs to include resources to do what it does, such as the \fBfile\fR type, will include their resources in the script as base64 encoded data\.
 .
+.SS "\fBinspect\fR \fItype\fR"
+The \fBinspect\fR command will ask a type for a current inventory of how a system is configured, and output to STDOUT a Bork\-compatible config file to configure the same state\. For example, when used with the \fBbrew\fR type, this will list all formulae installed with Homebrew and output a config file to check for those same formulae\. \fBNot all types will work with this command\.\fR Bork will exit with code 1 if a type has not implemented \fBinspect\fR\.
+.
 .SH "CUSTOM TYPES"
 Writing new types is pretty straightforward, and there is a guide to writing them in the \fBdocs/\fR directory\. If you wish to use a type that is not in bork\'s \fBtypes\fR directory, you can let bork know about it with the \fBregister\fR declaration:
 .

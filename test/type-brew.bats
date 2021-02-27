@@ -51,3 +51,14 @@ setup () {
   [ "$output" = 'brew upgrade --formula outdated_package' ]
 }
 
+@test "brew inspect: returns FAILED_PRECONDITION without brew exec" {
+    respond_to "which brew" "return 1"
+    run brew inspect
+    [ "$status" -eq $STATUS_FAILED_PRECONDITION ]
+}
+
+@test "brew inspect: returns OK if preconditions met" {
+    run brew inspect
+    [ "$status" -eq $STATUS_OK ]
+}
+
