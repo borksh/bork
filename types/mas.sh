@@ -15,6 +15,8 @@ case $action in
     status)
         baking_platform_is "Darwin" || return $STATUS_UNSUPPORTED_PLATFORM
         needs_exec "mas" || return $STATUS_FAILED_PRECONDITION
+        bake mas account
+        [ "$?" -gt 0 ] && return $STATUS_FAILED_PRECONDITION
         bake mas list | grep -E "^$appid" > /dev/null
         [ "$?" -gt 0 ] && return $STATUS_MISSING
         bake mas outdated | grep -E "^$appid" > /dev/null

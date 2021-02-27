@@ -5,12 +5,19 @@ mas () { . $BORK_SOURCE_DIR/types/mas.sh $*; }
 
 setup () {
     respond_to "uname -s" "echo Darwin"
+    respond_to "mas account" "echo 'user@example.com'"
     respond_to "mas list" "cat $fixtures/mas-list.txt"
     respond_to "mas outdated" "cat $fixtures/mas-outdated.txt"
 }
 
 @test "mas status: returns FAILED_PRECONDITION without mas exec" {
     respond_to "which mas" "return 1"
+    run mas status 497799835 Xcode
+    [ "$status" -eq $STATUS_FAILED_PRECONDITION ]
+}
+
+@test "mas status: returns FAILED_PRECONDITION when logged out" {
+    respond_to "mas account" "return 1"
     run mas status 497799835 Xcode
     [ "$status" -eq $STATUS_FAILED_PRECONDITION ]
 }
