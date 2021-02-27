@@ -7,6 +7,7 @@ Bork puts the 'sh' back into IT. [Bork Bork Bork](https://www.youtube.com/result
 * [Assertions reference](assertions)
 * [Assertion status codes](assertion_status_codes)
 * [How to write an assertion type](how_to_write_an_assertion_type)
+* [Packages](packages)
 
 ## the Swedish Chef Puppet of Config Management
 
