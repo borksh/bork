@@ -36,21 +36,21 @@ else
       baking_platform_is "Darwin" || return $STATUS_UNSUPPORTED_PLATFORM
       needs_exec "brew" || return $STATUS_FAILED_PRECONDITION
 
-      bake brew list | grep -E "^$name$" > /dev/null
+      bake brew list --formula | grep -E "^$name$" > /dev/null
       [ "$?" -gt 0 ] && return $STATUS_MISSING
-      bake brew outdated | awk '{print $1}' | grep -E "^$name$" > /dev/null
+      bake brew outdated --formula | awk '{print $1}' | grep -E "^$name$" > /dev/null
       [ "$?" -eq 0 ] && return $STATUS_OUTDATED
       return 0 ;;
 
     install)
       if [ -z "$from" ]; then
-        HOMEBREW_NO_AUTO_UPDATE=true bake brew install $name
+        HOMEBREW_NO_AUTO_UPDATE=true bake brew install --formula $name
       else
-        HOMEBREW_NO_AUTO_UPDATE=true bake brew install $from/$name
+        HOMEBREW_NO_AUTO_UPDATE=true bake brew install --formula $from/$name
       fi
       ;;
 
-    upgrade) HOMEBREW_NO_AUTO_UPDATE=true bake brew upgrade $name ;;
+    upgrade) HOMEBREW_NO_AUTO_UPDATE=true bake brew upgrade --formula $name ;;
 
     *) return 1 ;;
   esac

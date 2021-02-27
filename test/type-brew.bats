@@ -5,8 +5,8 @@ brew () { . $BORK_SOURCE_DIR/types/brew.sh $*; }
 
 setup () {
   respond_to "uname -s" "echo Darwin"
-  respond_to "brew list" "cat $fixtures/brew-list.txt"
-  respond_to "brew outdated" "cat $fixtures/brew-outdated.txt"
+  respond_to "brew list --formula" "cat $fixtures/brew-list.txt"
+  respond_to "brew outdated --formula" "cat $fixtures/brew-outdated.txt"
 }
 
 @test "brew status reports unsupported platform" {
@@ -41,13 +41,13 @@ setup () {
   run brew install missing_package_is_missing
   [ "$status" -eq 0 ]
   run baked_output
-  [ "$output" = 'brew install missing_package_is_missing' ]
+  [ "$output" = 'brew install --formula missing_package_is_missing' ]
 }
 
 @test "brew upgrade runs 'upgrade'" {
   run brew upgrade outdated_package
   [ "$status" -eq 0 ]
   run baked_output
-  [ "$output" = 'brew upgrade outdated_package' ]
+  [ "$output" = 'brew upgrade --formula outdated_package' ]
 }
 
