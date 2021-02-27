@@ -4,7 +4,7 @@ on:
   push:
     paths:
       - .github/workflows/build_manpage.yml
-      - docs/bork.1.ronn
+      - docs/manpage.md
     branches:
       - main
 
