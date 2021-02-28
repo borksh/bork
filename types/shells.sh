@@ -17,5 +17,12 @@ case $action in
         bake echo "$shell" | bake sudo tee -a /etc/shells
     ;;
 
+    inspect)
+        installed=$(bake grep "^/" /etc/shells)
+        while IFS= read -r shell; do
+            echo "ok shells $shell"
+        done <<< "$installed"
+    ;;
+
     *) return 1 ;;
 esac

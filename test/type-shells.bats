@@ -26,3 +26,8 @@ setup () {
   [ "${lines[0]}" = 'echo /bin/fish' ]
   [ "${lines[1]}" = 'sudo tee -a /etc/shells' ]
 }
+
+@test "shells inspect: returns OK" {
+    run shells inspect
+    [ "$status" -eq $STATUS_OK ]
+}
