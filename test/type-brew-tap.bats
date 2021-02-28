@@ -68,3 +68,14 @@ setup () {
     run baked_output
     [ "$output" = "brew tap-unpin homebrew/science" ]
 }
+
+@test "brew-tap inspect: returns FAILED_PRECONDITION without brew exec" {
+    respond_to "which brew" "return 1"
+    run brew-tap inspect
+    [ "$status" -eq $STATUS_FAILED_PRECONDITION ]
+}
+
+@test "brew-tap inspect: returns OK if preconditions met" {
+    run brew-tap inspect
+    [ "$status" -eq $STATUS_OK ]
+}

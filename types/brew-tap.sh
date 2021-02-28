@@ -42,5 +42,16 @@ case $action in
         fi
         ;;
 
+    inspect)
+        # TODO: make this check if the tap comes from anywhere except GitHub
+        # and also check for pinning
+        baking_platform_is "Darwin" || return $STATUS_UNSUPPORTED_PLATFORM
+        needs_exec "brew" || return $STATUS_FAILED_PRECONDITION
+        installed=$(bake brew tap)
+        while IFS= read -r tap; do
+            echo "ok brew-tap $tap"
+        done <<< "$installed"
+        ;;
+
     *) return 1 ;;
 esac
