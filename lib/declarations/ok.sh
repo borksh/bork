@@ -17,7 +17,12 @@ _checking () {
 }
 _checked () {
   report="$*"
-  (( pad=$_checked_len - ${#report} ))
+
+  # We need to clear the current line with spaces so find out how wide the
+  # report is, and pad with the difference between that and the equivalent
+  # "checking" line.
+  # add in 10 extra chars of padding, to account for potential color codes
+  (( pad=$_checked_len - ${#report} + 10 ))
   i=1
   while [ "$i" -le $pad ]; do
     report+=" "
