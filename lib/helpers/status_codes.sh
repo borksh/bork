@@ -15,9 +15,16 @@ STATUS_FAILED_PRECONDITION=33
 STATUS_UNSUPPORTED_PLATFORM=34
 
 if [ ! -z "$BORK_COLOR" ]; then
+    # Green = everything's good
     GREEN="\e[92m"
+
+    # Red = something is wrong, and not simple to fix
     RED="\e[91m"
+
+    # Yellow = outdated/missing, and bork can fix it
     YELLOW="\e[93m"
+
+    # then set back to normal
     RESET="\e[39m"
 fi
 
@@ -25,7 +32,7 @@ _status_for () {
   case "$1" in
     $STATUS_OK)                           echo -e "${GREEN}ok${RESET}" ;;
     $STATUS_FAILED)                       echo -e "${RED}failed${RESET}" ;;
-    $STATUS_MISSING)                      echo -e "${RED}missing${RESET}" ;;
+    $STATUS_MISSING)                      echo -e "${YELLOW}missing${RESET}" ;;
     $STATUS_OUTDATED)                     echo -e "${YELLOW}outdated${RESET}" ;;
     $STATUS_PARTIAL)                      echo -e "${YELLOW}partial${RESET}" ;;
     $STATUS_MISMATCH_UPGRADE)             echo -e "${YELLOW}mismatch (upgradable)${RESET}" ;;
