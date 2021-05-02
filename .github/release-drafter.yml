@@ -4,7 +4,7 @@ categories:
   - title: Fixed
     label: bug
   - title: Added
-    label: feature
+    label: enhancement
 tag-template: - $TITLE @$AUTHOR (#$NUMBER)
 template: |
   $CHANGES
