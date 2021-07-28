@@ -12,7 +12,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Install bats
-      run: brew install bats-core # should work on GitHub Ubuntu runners
+      run: brew install --force bats-core # should work on GitHub Ubuntu runners
     - name: Check bash version
       run: bash --version
       shell: bash
