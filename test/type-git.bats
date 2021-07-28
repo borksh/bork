@@ -85,6 +85,13 @@ git_status_handler ()   { echo "$git_status"; }
   [ "$status" -eq $STATUS_OUTDATED ]
 }
 
+@test "git status: returns CONFLICT_HALT when local git repository has untracked files" {
+  git_status=$(echo "## master"; echo "?? foo/bin/")
+  run git status git@github.com:skylarmacdonald/bork --untracked-files=normal
+  [ "$status" -eq $STATUS_CONFLICT_HALT ]
+  echo "$output" | grep -E 'untracked'
+}
+
 @test "git status: returns OK when the git repository is up-to-date" {
   git_status="## master"
   run git status git@github.com:skylarmacdonald/bork
