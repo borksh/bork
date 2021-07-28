@@ -10,7 +10,8 @@ git_status=
 setup () {
   respond_to "[ ! -d bork ]"           "dir_exists_handler"
   respond_to "ls -A bork"              "dir_listing_handler"
-  respond_to "git status -uno -b --porcelain" "git_status_handler"
+  respond_to "git status --untracked-files=no -b --porcelain" "git_status_handler"
+  respond_to "git status --untracked-files=normal -b --porcelain" "git_status_handler"
 }
 dir_exists_handler ()   { [ "$dir_exists" -eq 0 ]; }
 dir_listing_handler ()  { echo "$dir_listing"; }
