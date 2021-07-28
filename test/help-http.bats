@@ -5,10 +5,19 @@
 @test "http_head_cmd: with curl performs a head request" {
     respond_to "which curl" "echo /usr/bin/curl"
     url="https://foo.com"
-    respond_to "curl -sI \"https://foo.com\"" "cat $fixtures/http-head-curl.txt"
+    respond_to "curl -sIL \"https://foo.com\"" "cat $fixtures/http-head-curl.txt"
     run http_head_cmd "$url"
     [ "$status" -eq 0 ]
-    [[ 'curl -sI "https://foo.com"' == $output ]]
+    [[ 'curl -sIL "https://foo.com"' == $output ]]
+}
+
+@test "http_head_cmd: with curl follows redirects" {
+    respond_to "which curl" "echo /usr/bin/curl"
+    url="https://bar.com"
+    respond_to "curl -sIL \"https://bar.com\"" "cat $fixtures/http-head-curl-redir.txt"
+    run http_head_cmd "$url"
+    [ "$status" -eq 0 ]
+    [[ 'curl -sIL "https://bar.com"' == $output ]]
 }
 
 @test "http_header: extracting a header value" {
@@ -22,5 +31,5 @@
     target="/boo/baz"
     run http_get_cmd "$url" "$target"
     [ "$status" -eq 0 ]
-    [[ "curl -so \"$target\" \"$url\" &> /dev/null" == $output ]]
+    [[ "curl -soL \"$target\" \"$url\" &> /dev/null" == $output ]]
 }
