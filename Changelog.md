@@ -14,6 +14,7 @@ Changes here will be in the next release. You can use them now by checking out t
 - `bork types` now supports a single type as an argument to get documentation for that specific type only.
 - `bork inspect` will generate a Bork-compatible config file based on the current status of the system. This is currently available on a per-type basis only, and will only be implemented for some types. (#14)
 - Bork will now report its version by running `bork --version` (or `bork version`).
+- The `git` type can now show untracked files, using the `--untracked-files` option. It responds to the same values as the `--untracked-files` option on git: `no` (default, ignore them), `normal` or `all`.
 
 ## [0.12.0] - 2021-02-20
 

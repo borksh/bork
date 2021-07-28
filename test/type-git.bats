@@ -10,7 +10,8 @@ git_status=
 setup () {
   respond_to "[ ! -d bork ]"           "dir_exists_handler"
   respond_to "ls -A bork"              "dir_listing_handler"
-  respond_to "git status -uno -b --porcelain" "git_status_handler"
+  respond_to "git status --untracked-files=no -b --porcelain" "git_status_handler"
+  respond_to "git status --untracked-files=normal -b --porcelain" "git_status_handler"
 }
 dir_exists_handler ()   { [ "$dir_exists" -eq 0 ]; }
 dir_listing_handler ()  { echo "$dir_listing"; }
@@ -83,6 +84,13 @@ git_status_handler ()   { echo "$git_status"; }
   git_status="## master..origin/master [behind 3]"
   run git status git@github.com:skylarmacdonald/bork
   [ "$status" -eq $STATUS_OUTDATED ]
+}
+
+@test "git status: returns CONFLICT_HALT when local git repository has untracked files" {
+  git_status=$(echo "## master"; echo "?? foo/bin/")
+  run git status git@github.com:skylarmacdonald/bork --untracked-files=normal
+  [ "$status" -eq $STATUS_CONFLICT_HALT ]
+  echo "$output" | grep -E 'untracked'
 }
 
 @test "git status: returns OK when the git repository is up-to-date" {
