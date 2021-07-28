@@ -28,12 +28,19 @@ else
   git_branch="master"
 fi
 
+# Should we consider untracked files?
+untracked=$(arguments get untracked-files $*)
+if [[ -z $untracked ]]; then
+  untracked="no"
+fi
+
 case $action in
   desc)
     echo "asserts presence and state of a git repository"
     echo "> git git@github.com:skylarmacdonald/bork"
     echo "> git ~/code/bork git@github.com:skylarmacdonald/bork"
     echo "--branch=gh-pages             (specify branch, tag, or ref)"
+    echo "--untracked-files=normal      (specify what to do with untracked files. default is to ignore)"
     ;;
   status)
     needs_exec "git" || return $STATUS_FAILED_PRECONDITION
@@ -62,7 +69,7 @@ case $action in
       return $STATUS_CONFLICT_CLOBBER
     fi
 
-    git_stat=$(bake git status -uno -b --porcelain)
+    git_stat=$(bake git status --untracked-files=$untracked -b --porcelain)
     git_first_line=$(echo "$git_stat" | head -n 1)
 
     git_divergence=$(str_get_field "$git_first_line" 3)
@@ -85,6 +92,12 @@ case $action in
 
     # If it's known to be behind, outdated
     if str_matches "$git_divergence" 'behind'; then return $STATUS_OUTDATED; fi
+
+    # are there untracked files?
+    if str_matches "$git_stat" "^\?\?"; then
+      echo "local git repository has untracked files"
+      return $STATUS_CONFLICT_HALT
+    fi
 
     # guess we're clean, so things are OK
     return $STATUS_OK ;;
