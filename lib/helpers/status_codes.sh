@@ -16,16 +16,16 @@ STATUS_UNSUPPORTED_PLATFORM=34
 
 if [ ! -z "$BORK_COLOR" ]; then
     # Green = everything's good
-    GREEN="\e[92m"
+    GREEN="\033[92m"
 
     # Red = something is wrong, and not simple to fix
-    RED="\e[91m"
+    RED="\033[91m"
 
     # Yellow = outdated/missing, and bork can fix it
-    YELLOW="\e[93m"
+    YELLOW="\033[93m"
 
     # then set back to normal
-    RESET="\e[39m"
+    RESET="\033[39m"
 fi
 
 _status_for () {
