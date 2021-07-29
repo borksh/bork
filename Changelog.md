@@ -5,16 +5,24 @@ All notable changes to this project will be documented in this file, from 2016-0
 
 Changes here will be in the next release. You can use them now by checking out the HEAD of the `main` branch, or specifying the `--HEAD` option with `brew install bork`.
 
+## [0.13.0-rc.1] - 2021-07-29
+
+This is a release candidate and not yet fully tested, but once it is, will be changed to represent the 0.13.0 release of Bork. Thank you in particular to [@lucymhdavies][] for your work on many of the changes below.
+
 ### Fixed
 - Homebrew is now installed with a shell script instead of the Ruby installer. (#7)
 - the `mas` type will now check that the user is signed into the App Store before continuing.
+- The `mas` type will now only update the specified apps instead of all installed apps. (#18)
+- The `download` type will now follow redirects. (#21)
 
 ### Added
 - Bork now has a man page in `docs/`. This will be installed by the next version of the Homebrew formula, but can be installed manually as well by linking or copying into `/usr/share/man/man1` (or wherever you keep your man pages).
 - `bork types` now supports a single type as an argument to get documentation for that specific type only.
 - `bork inspect` will generate a Bork-compatible config file based on the current status of the system. This is currently available on a per-type basis only, and will only be implemented for some types. (#14)
 - Bork will now report its version by running `bork --version` (or `bork version`).
-- The `git` type can now show untracked files, using the `--untracked-files` option. It responds to the same values as the `--untracked-files` option on git: `no` (default, ignore them), `normal` or `all`.
+- The `git` type can now show untracked files, using the `--untracked-files` option. It responds to the same values as the `--untracked-files` option on git: `no` (default, ignore them), `normal` or `all`. (#28)
+- The `brew` type now accepts a `--HEAD` option, which will install the latest available git commit as though you had specified the option on the `brew install` command itself. (#31)
+- Bork will now display its output in colour if the `BORK_COLOR` environment variable is set. (#24)
 
 ## [0.12.0] - 2021-02-20
 

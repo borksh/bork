@@ -375,7 +375,7 @@ Honestly, I forked this for my own purposes, but if anyone else still uses this 
 
 ## Version
 
-0.12.0
+0.13.0-rc.1
 
 ## License
 
