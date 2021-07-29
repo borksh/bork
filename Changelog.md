@@ -138,3 +138,4 @@ Initial tagged release, prompted by getting bork into homebrew. Conversely, abou
 [@ngkz]: https://github.com/ngkz
 [@rgieseke]: https://github.com/rgieseke
 [@rmhsilva]: https://github.com/rmhsilva
+[@lucymhdavies]: https://github.com/lucymhdavies
