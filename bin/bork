@@ -89,6 +89,21 @@ case "$operation" in
     ;;
   version | --version)
     echo "bork 0.12.0"
+    if [ -d "$BORK_SOURCE_DIR/.git" ]; then
+      echo "Installed via git"
+      branch=$(git --git-dir="$BORK_SOURCE_DIR/.git" symbolic-ref --short HEAD 2>/dev/null)
+      branch_status=$?
+      ref=$(git --git-dir="$BORK_SOURCE_DIR/.git" rev-parse --short HEAD)
+      if [ $branch_status -eq 0 ]; then
+        echo "On branch $branch at $ref"
+      else
+        echo "Detached HEAD at $ref"
+      fi
+    fi
+    if [ -d "$BORK_SOURCE_DIR/.brew" ]; then
+      echo "Installed via Homebrew"
+    fi
+    exit 0
     ;;
   inspect)
     typearg=$1
