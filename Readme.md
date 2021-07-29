@@ -34,6 +34,31 @@ platform differences between BSD and GPL versions of unix utilities.
 1. Install via Homebrew:
   `brew install bork`
 
+## Updating
+
+Bork can update itself as part of satisfying your config file. Your config file should look
+something like this to update via git:
+
+```
+ok github /usr/local/src/bork skylarmacdonald/bork --branch=main
+ok symlink /usr/local/bin/bork /usr/local/src/bork/bin/bork
+```
+
+(This example relies on you being able to write to `/usr/local`; if your Bork is installed elsewhere
+you should replace the paths above.)
+
+If you have Homebrew available to you, you can do this instead:
+
+```
+ok brew bork
+```
+
+Note that this approach [currently doesn't work](https://github.com/skylarmacdonald/bork/issues/30)
+if you install Bork using the `--HEAD` option on `brew`.
+
+Using a package manager is the recommended way to install, as then you can rely on it to update Bork
+for you. If you prefer to use git, you can use `bork version` to show the status of your local repo.
+
 # Usage and Operations
 
 Running bork without arguments will output some help:
