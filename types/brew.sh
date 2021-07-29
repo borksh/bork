@@ -14,6 +14,7 @@ if [ -z "$name" ]; then
       echo "* brew                  (installs/updates homebrew)"
       echo "* brew package-name     (installs package)"
       echo "--from=caskroom/cask    (source repository)"
+      echo "--HEAD                  (install package at HEAD)"
       ;;
     status)
       baking_platform_is "Darwin" || return $STATUS_UNSUPPORTED_PLATFORM
@@ -52,13 +53,25 @@ else
 
     install)
       if [ -z "$from" ]; then
-        HOMEBREW_NO_AUTO_UPDATE=true bake brew install --formula $name
+        formula="$name"
       else
-        HOMEBREW_NO_AUTO_UPDATE=true bake brew install --formula $from/$name
+        formula="$from/$name"
+      fi
+
+      if [ -n  "$(arguments get HEAD $*)" ]; then
+        HOMEBREW_NO_AUTO_UPDATE=true bake brew install --formula $formula --HEAD --fetch-HEAD
+      else
+        HOMEBREW_NO_AUTO_UPDATE=true bake brew install --formula $formula
       fi
       ;;
 
-    upgrade) HOMEBREW_NO_AUTO_UPDATE=true bake brew upgrade --formula $name ;;
+    upgrade)
+      if [ -n  "$(arguments get HEAD $*)" ]; then
+        HOMEBREW_NO_AUTO_UPDATE=true bake brew upgrade --formula $name --fetch-HEAD
+      else
+        HOMEBREW_NO_AUTO_UPDATE=true bake brew upgrade --formula $name
+      fi
+      ;;
 
     *) return 1 ;;
   esac

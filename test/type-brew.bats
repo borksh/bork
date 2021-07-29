@@ -44,11 +44,33 @@ setup () {
   [ "$output" = 'brew install --formula missing_package_is_missing' ]
 }
 
+@test "brew install runs 'install' with 'from'" {
+  run brew install missing_package_is_missing --from=example_tap
+  [ "$status" -eq 0 ]
+  run baked_output
+  echo $output
+  [ "$output" = 'brew install --formula example_tap/missing_package_is_missing' ]
+}
+
+@test "brew install runs 'install' from HEAD" {
+  run brew install missing_package_is_missing --HEAD
+  [ "$status" -eq 0 ]
+  run baked_output
+  [ "$output" = 'brew install --formula missing_package_is_missing --HEAD --fetch-HEAD' ]
+}
+
 @test "brew upgrade runs 'upgrade'" {
   run brew upgrade outdated_package
   [ "$status" -eq 0 ]
   run baked_output
   [ "$output" = 'brew upgrade --formula outdated_package' ]
+}
+
+@test "brew upgrade runs 'upgrade' from HEAD" {
+  run brew upgrade outdated_package --HEAD
+  [ "$status" -eq 0 ]
+  run baked_output
+  [ "$output" = 'brew upgrade --formula outdated_package --fetch-HEAD' ]
 }
 
 @test "brew inspect: returns FAILED_PRECONDITION without brew exec" {
