@@ -7,7 +7,7 @@ shift 3
 
 case $action in
   desc)
-    echo "Verifies OS X machine name with scutil"
+    echo "Verifies macOS machine name with scutil"
     echo "> scutil ComputerName bork"
     ;;
   status)

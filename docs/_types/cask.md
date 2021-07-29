@@ -2,7 +2,7 @@
 name: cask
 inspects: true
 ---
-asserts presenece of apps installed via caskroom.io on Mac OS X
+asserts presence of apps installed via caskroom.io on macOS
 
 
 ### Usage

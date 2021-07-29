@@ -26,7 +26,7 @@ fi
 
 case $action in
   desc)
-    echo "asserts settings for OS X's 'defaults' system"
+    echo "asserts settings for macOS's 'defaults' system"
     echo "* defaults domain key type value"
     echo "> defaults com.apple.dock autohide bool true"
     ;;

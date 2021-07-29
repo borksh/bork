@@ -1,7 +1,7 @@
 ---
 name: defaults
 ---
-asserts settings for OS X's 'defaults' system
+asserts settings for macOS's 'defaults' system
 
 
 ### Usage

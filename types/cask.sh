@@ -5,7 +5,7 @@ appdir=$(arguments get appdir $*)
 
 case $action in
   desc)
-    echo "asserts presenece of apps installed via caskroom.io on Mac OS X"
+    echo "asserts presence of apps installed via caskroom.io on macOS"
     echo "* cask app-name         (installs cask)"
     echo "--appdir=/Applications  (changes symlink path)"
     ;;

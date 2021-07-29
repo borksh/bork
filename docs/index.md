@@ -29,7 +29,7 @@ platform differences between BSD and GPL versions of UNIX utilities.
   ln -sf /usr/local/src/bork/bin/bork /usr/local/bin/bork
 ```
 
-## via Homebrew (Mac OS X)
+## via Homebrew (macOS)
 
 1. Install via Homebrew:
   `brew install bork`
@@ -157,15 +157,15 @@ and some basic information about their usage and options.
          go-get: asserts the presence of a go package
 ```
 
-### Mac OS X specific
+### macOS specific
 ```
-           brew: asserts presence of packages installed via Homebrew on Mac OS X
+           brew: asserts presence of packages installed via Homebrew on macOS
        brew-tap: asserts a Homebrew formula repository has been tapped; does NOT assert updatedness of a tap's formula. Use `ok brew` for that.
-           cask: asserts presence of apps installed via caskroom.io on Mac OS X
-       defaults: asserts settings for OS X's 'defaults' system
+           cask: asserts presence of apps installed via caskroom.io on macOS
+       defaults: asserts settings for macOS's 'defaults' system
             mas: asserts a Mac app is installed and up-to-date from the App Store
                  via the 'mas' utility https://github.com/argon/mas
-         scutil: verifies OS X machine name with scutil
+         scutil: verifies macOS machine name with scutil
 ```
 
 ### Linux specific:
