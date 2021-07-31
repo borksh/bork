@@ -115,6 +115,10 @@ case "$operation" in
       typefile="$BORK_SOURCE_DIR/types/$typearg.sh"
       if [ -s $typefile ]; then
         . $typefile inspect
+        if [ $? -eq 1 ]; then
+          echo "$typearg is not inspectable"
+          exit 1
+        fi
       else
         echo "undefined type: $typearg"
         exit 1
