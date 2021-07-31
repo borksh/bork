@@ -109,6 +109,7 @@ case "$operation" in
     typearg=$1
     if [ -z $typearg ]; then
       echo "missing a type to inspect"
+      echo "usage: bork inspect [type]"
       exit 1
     else
       typefile="$BORK_SOURCE_DIR/types/$typearg.sh"
