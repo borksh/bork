@@ -31,5 +31,5 @@
     target="/boo/baz"
     run http_get_cmd "$url" "$target"
     [ "$status" -eq 0 ]
-    [[ "curl -soL \"$target\" \"$url\" &> /dev/null" == $output ]]
+    [[ "curl -sLo \"$target\" \"$url\" &> /dev/null" == $output ]]
 }
