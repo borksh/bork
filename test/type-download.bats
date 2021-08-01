@@ -50,6 +50,6 @@ download () { . $BORK_SOURCE_DIR/types/download.sh $*; }
     run download install "$target" "http://foo.com/bar.txt"
     [ "$status" -eq $STATUS_OK ]
     run baked_output
-    expected="curl -soL \"$target\" \"http://foo.com/bar.txt\" &> /dev/null"
+    expected="curl -sLo \"$target\" \"http://foo.com/bar.txt\" &> /dev/null"
     [[ "${lines[1]}" = $expected ]]
 }

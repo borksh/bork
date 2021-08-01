@@ -25,7 +25,7 @@ http_get_cmd () {
     target=$2
     has_curl
     if [ "$?" -eq 0 ]; then
-        echo "curl -soL \"$target\" \"$url\" &> /dev/null"
+        echo "curl -sLo \"$target\" \"$url\" &> /dev/null"
     else
         echo "curl not found; wget support not implemented yet"
         return 1
