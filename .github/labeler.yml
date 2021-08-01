@@ -1,2 +1,13 @@
 types:
-  - "types/*"
+- types/*
+- docs/_types/*
+- test/type-*.bats
+documentation:
+- docs/**/*
+core:
+- lib/**/*
+- bin/bork
+- test/declare-*.bats
+- test/fn-*.bats
+- test/help-*.bats
+- test/helpers.bats
