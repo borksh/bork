@@ -40,7 +40,7 @@ When called with `status`, the assertion script should determine if the assertio
 
 Example: checks that targetfile exists, has the same md5 sum as sourcefile.
 
-See the [Status codes reference](./assertion_status_codes.markdown) for the complete list.
+See the [Status codes reference](./assertion_status_codes) for the complete list.
 
 ### `install`
 
