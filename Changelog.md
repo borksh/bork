@@ -5,9 +5,11 @@ All notable changes to this project will be documented in this file, from 2016-0
 
 Changes here will be in the next release. You can use them now by checking out the HEAD of the `main` branch, or specifying the `--HEAD` option with `brew install bork`.
 
-## [0.13.0-rc.1] - 2021-07-29
+## [0.13.0] - 2021-08-02
 
-This is a release candidate and not yet fully tested, but once it is, will be changed to represent the 0.13.0 release of Bork. Thank you in particular to [@lucymhdavies][] for your work on many of the changes below.
+This was originally pre-released as 0.13.0-rc.1 on 2021-07-29.
+
+The second release under Bork's new maintainership! Thank you in particular to [@lucymhdavies][] for your work on many of the changes below.
 
 ### Fixed
 - Homebrew is now installed with a shell script instead of the Ruby installer. (#7)
