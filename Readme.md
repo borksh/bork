@@ -63,8 +63,11 @@ ok brew bork --HEAD
 This will always keep the latest commit installed. Note that the latest commit will contain
 unreleased code that might break, so take care when using it.
 
-Using a package manager is the recommended way to install, as then you can rely on it to update Bork
-for you. If you prefer to use git, you can use `bork version` to show the status of your local repo.
+Using a package manager is the recommended way to install, as then you can ensure you're only
+installing released versions of Bork, and rely on it to update Bork for you. If you prefer to use
+git, you can use `bork version` to show the status of your local repo or installation. This command
+should be able to tell you how you installed Bork (e.g. via git or Homebrew), and therefore how you
+should go about updating it.
 
 # Usage and Operations
 
