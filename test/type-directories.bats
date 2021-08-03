@@ -37,8 +37,17 @@ mkdirs () {
 }
 
 @test "directory: install creates target directory" {
+  respond_to "uname -s" "echo Linux"
   run directory install foo
   [ "$status" -eq 0 ]
   run baked_output
-  [ "${lines[0]}" = "install -C -d foo" ]
+  [ "${lines[1]}" = "install -C -d foo" ]
+}
+
+@test "directory: install uses correct syntax on Darwin" {
+  respond_to "uname -s" "echo Darwin"
+  run directory install foo
+  [ "$status" -eq 0 ]
+  run baked_output
+  [ "${lines[1]}" = "install -d foo" ]
 }

@@ -60,7 +60,11 @@ case "$action" in
     ;;
 
   install|upgrade)
-    inst_cmd=( install -C -d )
+    if baking_platform_is "Darwin"; then
+      inst_cmd=( install -d )
+    else
+      inst_cmd=( install -C -d )
+    fi
     [[ -z ${owner} && -z ${group} ]] || inst_cmd=( sudo "${inst_cmd[@]}" )
     [[ -z ${owner} ]] || inst_cmd+=( -o "${owner}" )
     [[ -z ${group} ]] || inst_cmd+=( -g "${group}" )
