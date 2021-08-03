@@ -5,6 +5,9 @@ All notable changes to this project will be documented in this file, from 2016-0
 
 Changes here will be in the next release. You can use them now by checking out the HEAD of the `main` branch, or specifying the `--HEAD` option with `brew install bork`.
 
+### Added
+- Bork now supports before hooks. You can define functions named `bork_will_change`, `bork_will_install` or `bork_will_upgrade`, and Bork will run them just before making any changes. (#16)
+
 ## [0.13.0] - 2021-08-02
 
 This was originally pre-released as 0.13.0-rc.1 on 2021-07-29.
