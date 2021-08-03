@@ -168,8 +168,57 @@ include project-two.sh
 
 ### TAKING FURTHER ACTION ON CHANGES
 
-Bork doesn't have callbacks per-se, but after each assertion there are a handful
-of functions you can call to take further action:
+Bork has two types of callback: before and after functions. These are only used
+when Bork is satisfying assertions (i.e. when running `bork satisfy`).
+
+Until Bork starts processing an assertion made with `ok`, there's no way to know
+if anything will change. Therefore, Bork will look for and execute functions
+with known names while it processes an `ok` assertion, before making the change.
+
+The functions Bork expects are named:
+
+- `bork_will_change`: Bork will make any change at all to the system, i.e., the
+  assertion is not satisfied and Bork will change it.
+- `bork_will_install`: The assertion is completely missing, and Bork will
+  install something fresh to satisfy it.
+- `bork_will_upgrade`: The assertion is partially satisfied, but needs upgrading
+  (e.g. an outdated package, a file with the wrong permissions). Bork will
+  change it in-place to satisfy it fully.
+
+Each of these will be unset by Bork after it has run them. You should only
+define these functions immediately before the assertion you wish to apply them
+to.
+
+Bork will also call all of these functions with `_any` appended to the names
+(e.g. `bork_will_change_any`) -- these callbacks will not be unset, and will be
+called every time it applies.
+
+These are used as follows:
+
+```bash
+bork_will_install () {
+  echo "callback says hello world"
+}
+ok directory foo
+```
+
+Bork will then output the following if (and only if) the directory `foo` has
+been newly created:
+
+```
+missing: directory foo
+callback says hello world
+verifying : directory foo
+* success
+```
+
+If the directory had already existed, the `bork_will_install` function would not
+have been called. Bork would also not have called the function if it had
+upgraded the state of the system, e.g. if the directory had existed but had the
+incorrect permissions.
+
+After Bork has made a change, you may call a provided function in your script to
+determine the outcome of the change. These are used as follows:
 
 ```bash
 ok brew fish
@@ -178,7 +227,7 @@ if did_install; then
   chsh -s /usr/local/bin/fish
 fi
 ```
-There are four functions to help you take further actions on change:
+There are four functions to help you take further actions after a change:
 
 - `did_install`: did the previous assertion result in the item being installed
   from scratch?
@@ -188,6 +237,11 @@ There are four functions to help you take further actions on change:
   installed or upgraded?
 - `did_error`: did attempting to install or upgrade the previous assertion
   result in an error?
+
+Unlike with before callbacks, Bork will not call any functions after making a
+change. It is up to you to handle the logic however you wish. As with the before
+callbacks, you are strongly advised to use these functions immediately after the
+assertion you wish to check.
 
 ## SEE ALSO
 

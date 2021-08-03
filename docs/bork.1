@@ -1,7 +1,7 @@
 .\" generated with Ronn/v0.7.3
 .\" http://github.com/rtomayko/ronn/tree/0.7.3
 .
-.TH "BORK" "1" "July 2021" "Skylar MacDonald" "bork"
+.TH "BORK" "1" "August 2021" "Skylar MacDonald" "bork"
 .
 .SH "NAME"
 \fBbork\fR \- The Bash\-Operated Reconciling Kludge
@@ -49,7 +49,7 @@ Per the usage guide, bork has a few main modes of operation:
 \fBdo\fR: Performs a satisfy operation on a single assertion\.
 .
 .IP "\(bu" 4
-\fBinspect\fR: Output a Bork-compatible config file based on the current state of the system\.
+\fBinspect\fR: Output a Bork\-compatible config file based on the current state of the system\.
 .
 .IP "" 0
 .
@@ -166,7 +166,68 @@ include project\-two\.sh
 .IP "" 0
 .
 .SS "TAKING FURTHER ACTION ON CHANGES"
-Bork doesn\'t have callbacks per\-se, but after each assertion there are a handful of functions you can call to take further action:
+Bork has two types of callback: before and after functions\. These are only used when Bork is satisfying assertions (i\.e\. when running \fBbork satisfy\fR)\.
+.
+.P
+Until Bork starts processing an assertion made with \fBok\fR, there\'s no way to know if anything will change\. Therefore, Bork will look for and execute functions with known names while it processes an \fBok\fR assertion, before making the change\.
+.
+.P
+The functions Bork expects are named:
+.
+.IP "\(bu" 4
+\fBbork_will_change\fR: Bork will make any change at all to the system, i\.e\., the assertion is not satisfied and Bork will change it\.
+.
+.IP "\(bu" 4
+\fBbork_will_install\fR: The assertion is completely missing, and Bork will install something fresh to satisfy it\.
+.
+.IP "\(bu" 4
+\fBbork_will_upgrade\fR: The assertion is partially satisfied, but needs upgrading (e\.g\. an outdated package, a file with the wrong permissions)\. Bork will change it in\-place to satisfy it fully\.
+.
+.IP "" 0
+.
+.P
+Each of these will be unset by Bork after it has run them\. You should only define these functions immediately before the assertion you wish to apply them to\.
+.
+.P
+Bork will also call all of these functions with \fB_any\fR appended to the names (e\.g\. \fBbork_will_change_any\fR) \-\- these callbacks will not be unset, and will be called every time it applies\.
+.
+.P
+These are used as follows:
+.
+.IP "" 4
+.
+.nf
+
+bork_will_install () {
+  echo "callback says hello world"
+}
+ok directory foo
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Bork will then output the following if (and only if) the directory \fBfoo\fR has been newly created:
+.
+.IP "" 4
+.
+.nf
+
+missing: directory foo
+callback says hello world
+verifying : directory foo
+* success
+.
+.fi
+.
+.IP "" 0
+.
+.P
+If the directory had already existed, the \fBbork_will_install\fR function would not have been called\. Bork would also not have called the function if it had upgraded the state of the system, e\.g\. if the directory had existed but had the incorrect permissions\.
+.
+.P
+After Bork has made a change, you may call a provided function in your script to determine the outcome of the change\. These are used as follows:
 .
 .IP "" 4
 .
@@ -183,7 +244,7 @@ fi
 .IP "" 0
 .
 .P
-There are four functions to help you take further actions on change:
+There are four functions to help you take further actions after a change:
 .
 .IP "\(bu" 4
 \fBdid_install\fR: did the previous assertion result in the item being installed from scratch?
@@ -198,6 +259,9 @@ There are four functions to help you take further actions on change:
 \fBdid_error\fR: did attempting to install or upgrade the previous assertion result in an error?
 .
 .IP "" 0
+.
+.P
+Unlike with before callbacks, Bork will not call any functions after making a change\. It is up to you to handle the logic however you wish\. As with the before callbacks, you are strongly advised to use these functions immediately after the assertion you wish to check\.
 .
 .SH "SEE ALSO"
 Bork documentation: \fIhttps://skylarmacdonald\.github\.io/bork\fR

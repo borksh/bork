@@ -94,11 +94,13 @@ ok () {
           echo "$status_output"
           ;;
         10)
+          _changes_expected 'install' $assertion $argstr
           eval "$(_source_runner $fn) install $quoted_argstr"
           _changes_complete $? 'install'
           ;;
         11|12|13)
           echo "$status_output"
+          _changes_expected 'upgrade' $assertion $argstr
           eval "$(_source_runner $fn) upgrade $quoted_argstr"
           _changes_complete $? 'upgrade'
           ;;
@@ -107,6 +109,7 @@ ok () {
           _conflict_approve $assertion $argstr
           if [ "$?" -eq 0 ]; then
             echo "Resolving conflict..."
+            _changes_expected 'upgrade' $assertion $argstr
             eval "$(_source_runner $fn) upgrade $quoted_argstr"
             _changes_complete $? 'upgrade'
           else

@@ -34,3 +34,26 @@ _changes_complete () {
   [ "$status" -gt 0 ] && echo "* failure"
 }
 
+# TODO: tests for this
+_changes_expected () {
+  action=$1
+  assertion=$2
+  shift 2
+  argstr=$*
+  _callback_run "change" "$assertion" "$argstr"
+  _callback_run "$action" "$assertion" "$argstr"
+  unset bork_will_change
+  unset bork_will_install
+  unset bork_will_upgrade
+}
+
+_callback_defined () { declare -F "$1" > /dev/null; }
+
+_callback_run () {
+  callback=$1
+  assertion=$2
+  shift 2
+  argstr=$*
+  _callback_defined "bork_will_$callback" && eval "bork_will_$callback $assertion $argstr"
+  _callback_defined "bork_will_{$callback}_any" && eval "bork_will_{$callback}_any $assertion $argstr"
+}
