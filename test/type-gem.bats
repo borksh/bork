@@ -40,3 +40,10 @@ setup () {
     run gem inspect
     [ "$status" -eq $STATUS_OK ]
 }
+
+@test "gem remove: uninstalls the gem" {
+  run gem remove foo
+  [ "$status" -eq 0 ]
+  run baked_output
+  [ "${lines[0]}" = "sudo gem uninstall foo" ]
+}

@@ -30,4 +30,7 @@ case $action in
         echo "ok gem $gem"
     done <<< "$installed"
     ;;
+  remove)
+    bake sudo gem uninstall "$gemname"
+    ;;
 esac
