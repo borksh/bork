@@ -28,4 +28,7 @@ case $action in
   install)
     bake ${bin} install "$pkgname"
     ;;
+  remove)
+    bake ${bin} remove "$pkgname"
+    ;;
 esac
