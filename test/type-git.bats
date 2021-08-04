@@ -141,3 +141,10 @@ git_status_handler ()   { echo "$git_status"; }
   [[ "git checkout master" == ${lines[3]} ]]
   [[ "git log HEAD@{2}.." == ${lines[4]} ]]
 }
+
+@test "git remove: removes target directory" {
+  run git remove $repo
+  [ "$status" -eq 0 ]
+  run baked_output
+  [[ "rm -r bork" == ${lines[0]} ]]
+}

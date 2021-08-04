@@ -116,6 +116,10 @@ case $action in
     printf "\n"
     ;;
 
+  remove)
+    bake rm -r $target_dir
+    ;;
+
   *) return 1 ;;
 esac
 

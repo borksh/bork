@@ -1,5 +1,6 @@
 ---
 name: github
+removable: true
 ---
 front-end for git type, uses github urls
 

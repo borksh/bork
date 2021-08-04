@@ -1,5 +1,6 @@
 ---
 name: git
+removable: true
 ---
 asserts presence and state of a git repository
 

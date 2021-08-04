@@ -22,7 +22,7 @@ case $action in
     include_assertion git $BORK_SOURCE_DIR/types/git.sh
     ;;
 
-  status|install|upgrade)
+  status|install|upgrade|remove)
     next=$1
     target_dir=
     if [ -n "$next" ] && [ ${next:0:1} != '-' ]; then
