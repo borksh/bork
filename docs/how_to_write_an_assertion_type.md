@@ -40,7 +40,7 @@ When called with `status`, the assertion script should determine if the assertio
 
 Example: checks that targetfile exists, has the same md5 sum as sourcefile.
 
-See the [Status codes reference](./assertion_status_codes) for the complete list.
+See the [Status codes reference](./assertion_status_codes) for the complete list. Note that in the case of negative assertions with the `no` command, you should still return the status as normal -- the `no` command is expecting you to return `10` to verify things are completely missing from the system.
 
 ### `install`
 
@@ -66,13 +66,13 @@ Example: Updates the permissions on targetfile to 700.
 
 The script should output any relevant messages and updates, and return 0 on success.
 
-### `delete`
+### `remove`
 
 ```
-types/file.sh delete to/targetfile from/sourcefile
+types/file.sh remove to/targetfile from/sourcefile
 ```
 
-Not implemented in the runner yet. The script should remove the artifacts of the assertion from the system.
+The script should remove the artifacts of the assertion from the system. The assertion can assume that `status` was called with the same arguments and returned a status indicating it was present (i.e. not `10` for missing) on the system.
 
 Example: Deletes targetfile
 

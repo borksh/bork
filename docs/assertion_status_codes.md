@@ -14,7 +14,7 @@ When writing a status clause, it is best practice to traverse the codes describe
 
 `13`: Mismatched, Upgrade. Satisfy with 'upgrade'. No conflict (defined below) occurs, and the assertion is not 'outdated', but perhaps some options are different.
 
-`14`: Mismatched, Clobber. Satisfy with 'delete' followed by 'install'. Not supported yet.
+`14`: Mismatched, Clobber. Satisfy with 'remove' followed by 'install'. Not supported yet.
 
 ## Conflict status codes
 
@@ -24,7 +24,7 @@ Conflicts are not currently resolvable, but a future version of bork will prompt
 
 `20`: Conflict, Upgrade. Satisfy with 'upgrade'. Some data might be lost, such as a file with a different md5 sum, uncommitted SCM changes, etc.
 
-`21`: Conflict, Clobber. Satisfy with 'delete' followed by 'install'.
+`21`: Conflict, Clobber. Satisfy with 'remove' followed by 'install'.
 
 `25`: Conflict, Halt. The script does not know how to resolve this conflict.
 
