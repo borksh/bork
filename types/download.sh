@@ -33,5 +33,11 @@ case "$action" in
         bake $(http_get_cmd "$sourceurl" "$targetfile")
     ;;
 
+    remove)
+        echo "remove is not possible on download type"
+        echo "use file type to assert absence of a file"
+        return 1
+    ;;
+
     *) return 1 ;;
 esac
