@@ -51,3 +51,11 @@ mkdirs () {
   run baked_output
   [ "${lines[1]}" = "install -d foo" ]
 }
+
+@test "directory: remove deletes target directory" {
+  mkdir foo
+  run directory remove foo
+  [ "$status" -eq 0 ]
+  run baked_output
+  [ "${lines[0]}" = "rm -r foo" ]
+}

@@ -72,5 +72,9 @@ case "$action" in
     bake "${inst_cmd[@]}" "${dir}"
     ;;
 
+  remove)
+    bake "rm -r ${dir}"
+    ;;
+
   *) return 1 ;;
 esac
