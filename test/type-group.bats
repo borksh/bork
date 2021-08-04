@@ -13,6 +13,12 @@ setup () {
   [ "$status" -eq $STATUS_FAILED_PRECONDITION ]
 }
 
+@test "group status: returns FAILED_PRECONDITION when missing groupdel exec" {
+  respond_to "which groupdel" "return 1"
+  run group status foo
+  [ "$status" -eq $STATUS_FAILED_PRECONDITION ]
+}
+
 @test "group status: returns MISSING when group doesn't exist" {
   run group status custom
   [ "$status" -eq $STATUS_MISSING ]

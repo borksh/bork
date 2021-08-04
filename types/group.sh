@@ -11,6 +11,7 @@ case $action in
     ;;
   status)
     needs_exec groupadd || return $STATUS_FAILED_PRECONDITION
+    needs_exec groupdel || return $STATUS_FAILED_PRECONDITION
 
     bake cat /etc/group | grep -E "^$groupname:"
     [ "$?" -gt 0 ] && return $STATUS_MISSING
