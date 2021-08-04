@@ -30,3 +30,11 @@ setup () {
   [ "${#lines[*]}" -eq 1 ]
   [ "${lines[0]}" = "groupadd custom" ]
 }
+
+@test "group remove: bakes 'groupdel'" {
+  run group remove custom
+  [ "$status" -eq 0 ]
+  run baked_output
+  [ "${#lines[*]}" -eq 1 ]
+  [ "${lines[0]}" = "groupdel custom" ]
+}

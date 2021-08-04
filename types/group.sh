@@ -19,5 +19,8 @@ case $action in
   install)
     bake groupadd $groupname ;;
 
+  remove)
+    bake groupdel $groupname ;;
+
   *) return 1 ;;
 esac
