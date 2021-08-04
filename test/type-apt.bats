@@ -56,3 +56,9 @@ setup () {
   [ "$output" = 'sudo apt-get --yes install outdated_package' ]
 }
 
+@test "apt remove runs 'apt-get remove'" {
+  run apt remove unwanted_package
+  [ "$status" -eq $STATUS_OK ]
+  run baked_output
+  [ "$output" = 'sudo apt-get --yes remove unwanted_package' ]
+}

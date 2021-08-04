@@ -33,6 +33,10 @@ case $action in
     bake sudo apt-get --yes install $name
     ;;
 
+  remove)
+    bake sudo apt-get --yes remove $name
+    ;;
+
   *) return 1 ;;
 esac
 
