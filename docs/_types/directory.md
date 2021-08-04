@@ -1,5 +1,6 @@
 ---
 name: directory
+removable: true
 ---
 asserts presence of a directory
 
