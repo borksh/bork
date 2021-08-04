@@ -79,3 +79,10 @@ setup () {
     run brew-tap inspect
     [ "$status" -eq $STATUS_OK ]
 }
+
+@test "brew-tap remove untaps tap" {
+    run brew-tap remove homebrew/science
+    [ "$status" -eq 0 ]
+    run baked_output
+    [ "$output" = 'brew untap homebrew/science' ]
+}

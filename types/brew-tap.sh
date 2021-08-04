@@ -53,5 +53,9 @@ case $action in
         done <<< "$installed"
         ;;
 
+    remove)
+        bake brew untap $name
+        ;;
+
     *) return 1 ;;
 esac
