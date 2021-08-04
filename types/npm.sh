@@ -26,12 +26,12 @@ case $action in
     return $STATUS_OK
     ;;
 
-  install)
+  install|upgrade)
     bake npm -g install "$pkgname"
     ;;
 
-  upgrade)
-    bake npm -g install "$pkgname"
+  remove)
+    bake npm -g uninstall "$pkgname"
     ;;
 
   *) return 1 ;;

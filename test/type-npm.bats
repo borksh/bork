@@ -41,3 +41,10 @@ setup () {
   run baked_output
   [ "${lines[0]}" = "npm -g install foo" ]
 }
+
+@test "npm remove: performs an uninstall" {
+  run npm remove foo
+  [ "$status" -eq 0 ]
+  run baked_output
+  [ "${lines[0]}" = "npm -g uninstall foo" ]
+}
