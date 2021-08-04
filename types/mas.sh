@@ -37,5 +37,7 @@ case $action in
 
         ;;
 
+    remove) bake mas uninstall $appid ;;
+
     *) return 1 ;;
 esac

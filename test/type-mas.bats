@@ -61,3 +61,10 @@ setup () {
     run mas inspect
     [ "$status" -eq $STATUS_OK ]
 }
+
+@test "mas remove: performs uninstall" {
+    run mas remove 477670270 2Do
+    [ "$status" -eq 0 ]
+    run baked_output
+    [ "$output" = 'mas uninstall 477670270' ]
+}
