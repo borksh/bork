@@ -36,6 +36,10 @@ if [ -z "$name" ]; then
       done <<< "$installed"
       ;;
 
+    remove)
+      bake '/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/uninstall.sh)"'
+      ;;
+
     *) return 1 ;;
   esac
 
@@ -71,6 +75,15 @@ else
       else
         HOMEBREW_NO_AUTO_UPDATE=true bake brew upgrade --formula $name
       fi
+      ;;
+
+    remove)
+      if [ -z "$from" ]; then
+        formula="$name"
+      else
+        formula="$from/$name"
+      fi
+      HOMEBREW_NO_AUTO_UPDATE=true bake brew remove --formula $formula
       ;;
 
     *) return 1 ;;

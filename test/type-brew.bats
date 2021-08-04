@@ -84,3 +84,17 @@ setup () {
     [ "$status" -eq $STATUS_OK ]
 }
 
+@test "brew remove runs 'remove'" {
+  run brew remove unwanted_package
+  [ "$status" -eq 0 ]
+  run baked_output
+  [ "$output" = 'brew remove --formula unwanted_package' ]
+}
+
+@test "brew remove runs 'remove' with 'from'" {
+  run brew remove unwanted_package --from=example_tap
+  [ "$status" -eq 0 ]
+  run baked_output
+  echo $output
+  [ "$output" = 'brew remove --formula example_tap/unwanted_package' ]
+}

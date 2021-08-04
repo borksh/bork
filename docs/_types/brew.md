@@ -1,6 +1,7 @@
 ---
 name: brew
 inspects: true
+removable: true
 ---
 asserts presence of packages installed via homebrew on mac os x
 
