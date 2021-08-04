@@ -1,5 +1,6 @@
 ---
 name: pipsi
+removable: true
 ---
 asserts presence of packages installed via pipsi
 

@@ -59,3 +59,10 @@ zypper() { . $BORK_SOURCE_DIR/types/zypper.sh "$@"; }
   run baked_output
   [[ ${output} == 'sudo zypper -nt remove current_package' ]]
 }
+
+@test "zypper remove runs 'remove pkg'" {
+  run zypper remove current_package
+  (( status == 0 ))
+  run baked_output
+  [[ ${output} == 'sudo zypper -nt remove current_package' ]]
+}

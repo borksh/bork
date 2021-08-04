@@ -21,7 +21,7 @@ case "${action}" in
   install|upgrade)
     bake sudo apk add "${name}"
     ;;
-  delete)
+  delete|remove)
     bake sudo apk del "${name}"
     ;;
   *) return 1 ;;

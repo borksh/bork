@@ -101,8 +101,8 @@ case "${action}" in
     fi
     bake "${pip}" install --upgrade pip setuptools
     ;;
-  upgrade|delete)
-    if [[ ${action} == delete ]]; then
+  upgrade|delete|remove)
+    if [ "$action" = "delete" ] || [ "$action" = "remove" ]; then
       action="uninstall"
     fi
     bake "$(get_su)" pipsi "${pipsi_opts[@]}" "${action}" "${name}"

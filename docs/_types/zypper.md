@@ -1,5 +1,6 @@
 ---
 name: zypper
+removable: true
 ---
 asserts presence of packages installed via zypper (SUSE)
 

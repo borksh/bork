@@ -19,7 +19,7 @@ case "${action}" in
       || return "${STATUS_OUTDATED}"
     return "${STATUS_OK}"
     ;;
-  install|upgrade|delete)
+  install|upgrade|delete|remove)
     case "${action}" in
       upgrade) action="update" ;;
       delete) action="remove" ;;

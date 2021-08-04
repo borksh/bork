@@ -141,6 +141,13 @@ setup() {
   [[ ${output} =~ 'pipsi uninstall pipsi' ]]
 }
 
+@test "pipsi remove (no-pkg) removes itself" {
+  run pipsi remove
+  (( status == 0 ))
+  run baked_output
+  [[ ${output} =~ 'pipsi uninstall pipsi' ]]
+}
+
 # tests for pipsi installing packages
 
 @test "pipsi status returns FAILED_PRECONDITION when pipsi is missing" {
@@ -246,8 +253,25 @@ setup() {
   [[ ${output} =~ 'pipsi uninstall current_package' ]]
 }
 
+@test "pipsi remove runs 'uninstall pkg'" {
+  run pipsi remove current_package
+  (( status == 0 ))
+  run baked_output
+  [[ ${output} =~ 'pipsi uninstall current_package' ]]
+}
+
 @test "pipsi delete global runs 'uninstall pkg' with appropriate options" {
   run pipsi delete current_package --global
+  (( status == 0 ))
+  run baked_output
+  [[ ${lines[${#lines[@]}-1]} =~ ^\ *pipsi ]]
+  [[ ${lines[${#lines[@]}-1]} =~ --bin-dir=${pipsi_global_bin_dir} ]]
+  [[ ${lines[${#lines[@]}-1]} =~ --home=${pipsi_global_home} ]]
+  [[ ${lines[${#lines[@]}-1]} =~ uninstall\ current_package ]]
+}
+
+@test "pipsi remove global runs 'uninstall pkg' with appropriate options" {
+  run pipsi remove current_package --global
   (( status == 0 ))
   run baked_output
   [[ ${lines[${#lines[@]}-1]} =~ ^\ *pipsi ]]

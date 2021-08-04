@@ -55,3 +55,10 @@ apk() { . $BORK_SOURCE_DIR/types/apk.sh "$@"; }
   run baked_output
   [[ ${output} == 'sudo apk del current_package' ]]
 }
+
+@test "apk remove runs 'del pkg'" {
+  run apk remove current_package
+  (( status == 0 ))
+  run baked_output
+  [[ ${output} == 'sudo apk del current_package' ]]
+}
