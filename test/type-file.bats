@@ -50,6 +50,13 @@ setup () {
   [ "${lines[0]}" = "cp source target" ]
 }
 
+@test "file remove: deletes file" {
+  run file remove target source
+  [ "$status" -eq 0 ]
+  run baked_output
+  [ "${lines[0]}" = "rm target" ]
+}
+
 # -- with permission argument ------------------------
 @test "file status: returns MISMATCH_UPGRADE when target file has incorrect permissions" {
   respond_to "$(md5cmd $platform tfile)" "echo $readsum"
@@ -99,6 +106,13 @@ setup () {
   [ "${lines[1]}" = "sudo chown kermit path/to" ]
   [ "${lines[2]}" = "sudo cp path/from/source path/to/target" ]
   [ "${lines[3]}" = "sudo chown kermit path/to/target" ]
+}
+
+@test "file remove: removes file with sudo" {
+  run file remove path/to/target path/from/source --owner=kermit
+  [ "$status" -eq 0 ]
+  run baked_output
+  [ "${lines[0]}" = "sudo rm path/to/target" ]
 }
 
 # --- compile ----------------------------------------

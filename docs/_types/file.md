@@ -1,7 +1,8 @@
 ---
 name: file
+removable: true
 ---
-asserts the presence, checksum, owner and permissions of a file
+asserts the presence, checksum, owner and permissions of a file. when removing, deletes the target file.
 
 
 ### Usage

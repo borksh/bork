@@ -88,6 +88,10 @@ case $action in
     return 0
     ;;
 
+  remove)
+    _bake rm $targetfile
+    ;;
+
   compile)
     if [ ! -f "$sourcefile" ]; then
       echo "fatal: file '$sourcefile' does not exist!" 1>&2
