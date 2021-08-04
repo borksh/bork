@@ -40,3 +40,10 @@ setup () {
     run pip3 inspect
     [ "$status" -eq $STATUS_OK ]
 }
+
+@test "pip3 remove: performs uninstallation" {
+  run pip3 remove foo
+  [ "$status" -eq 0 ]
+  run baked_output
+  [ "${lines[0]}" = "pip3 uninstall foo" ]
+}

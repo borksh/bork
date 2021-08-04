@@ -28,5 +28,8 @@ case $action in
         echo "ok pip3 $pkg" | sed -E 's/==[0-9\.]+$//g'
     done <<< "$installed"
     ;;
+  remove)
+    bake pip3 uninstall "$name"
+    ;;
 esac
 

@@ -21,5 +21,8 @@ case $action in
   install)
     bake pip install "$name"
     ;;
+  remove)
+    bake pip uninstall "$name"
+    ;;
 esac
 

@@ -1,6 +1,7 @@
 ---
 name: pip3
 inspects: true
+removable: true
 ---
 asserts presence of packages installed via pip
 

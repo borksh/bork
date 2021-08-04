@@ -29,3 +29,10 @@ setup () {
   run baked_output
   [ "${lines[0]}" = "pip install foo" ]
 }
+
+@test "pip remove: performs uninstallation" {
+  run pip remove foo
+  [ "$status" -eq 0 ]
+  run baked_output
+  [ "${lines[0]}" = "pip uninstall foo" ]
+}
