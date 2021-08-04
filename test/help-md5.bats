@@ -27,6 +27,19 @@
   [ "$output" = "md5sum Readme.md | awk '{print \$1}'" ]
 }
 
+@test "md5cmd FreeBSD echoes 'md5'" {
+  run md5cmd FreeBSD
+  [ "$status" -eq 0 ]
+  p "$output"
+  [ "$output" = "md5" ]
+}
+
+@test "md5cmd FreeBSD :file echoes 'md5 :file'" {
+  run md5cmd FreeBSD Readme.md
+  [ "$status" -eq 0 ]
+  [ "$output" = "md5 -q Readme.md" ]
+}
+
 @test "md5cmd BSD returns 1" {
   run md5cmd BSD
   [ "$status" -eq 1 ]
