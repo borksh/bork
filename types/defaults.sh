@@ -79,5 +79,9 @@ case $action in
     bake defaults write $domain $key "-$desired_type" $desired_val
     ;;
 
+  remove)
+    bake defaults delete $domain $key
+    ;;
+
   *) return 1 ;;
 esac

@@ -1,5 +1,6 @@
 ---
 name: defaults
+removable: true
 ---
 asserts settings for macOS's 'defaults' system
 

@@ -67,3 +67,10 @@ defaults () { . $BORK_SOURCE_DIR/types/defaults.sh $*; }
   run baked_output
   [ "$output" = "defaults write com.runningwithcrayons.Alfred-Preferences hotkey.default -dict key -int 49 mod -int 1048576 string Space" ]
 }
+
+@test "defaults remove: runs defaults write with: \$domain \$key" {
+  run defaults remove NSGlobalDomain AppleEnableMenuBarTransparency
+  [ "$status" -eq 0 ]
+  run baked_output
+  [ "$output" = "defaults delete NSGlobalDomain AppleEnableMenuBarTransparency" ]
+}
