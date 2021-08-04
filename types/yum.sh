@@ -24,5 +24,9 @@ case $action in
     bake sudo yum -y install $name
     ;;
 
+  remove)
+    bake sudo yum -y remove $name
+    ;;
+    
   *) return 1 ;;
 esac

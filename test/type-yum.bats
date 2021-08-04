@@ -51,3 +51,10 @@ setup () {
   run baked_output
   [ "$output" = 'sudo yum -y install outdated_package' ]
 }
+
+@test "yum remove runs 'yum install'" {
+  run yum remove unwanted_package
+  [ "$status" -eq $STATUS_OK ]
+  run baked_output
+  [ "$output" = 'sudo yum -y remove unwanted_package' ]
+}
