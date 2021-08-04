@@ -31,3 +31,10 @@ setup () {
     run shells inspect
     [ "$status" -eq $STATUS_OK ]
 }
+
+@test "shells remove: returns OK when shell removes" {
+  run shells remove /bin/tcsh
+  [ "$status" -eq $STATUS_OK ]
+  run baked_output
+  [ "${lines[0]}" = "sed \~^/bin/tcsh\$~d /etc/shells" ]
+}

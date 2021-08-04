@@ -1,5 +1,6 @@
 ---
 name: shells
+removable: true
 ---
 asserts presence of a shell in /etc/shells
 

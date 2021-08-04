@@ -24,5 +24,9 @@ case $action in
         done <<< "$installed"
     ;;
 
+    remove)
+        bake sed "\\~^${shell}\$~d" /etc/shells | bake sudo tee /etc/shells
+    ;;
+
     *) return 1 ;;
 esac
