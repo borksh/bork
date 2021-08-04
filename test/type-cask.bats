@@ -68,3 +68,10 @@ setup () {
     run cask inspect
     [ "$status" -eq $STATUS_OK ]
 }
+
+@test "cask remove runs 'remove'" {
+  run cask remove unwanted_package
+  [ "$status" -eq 0 ]
+  run baked_output
+  [ "$output" = 'brew remove --cask unwanted_package' ]
+}
