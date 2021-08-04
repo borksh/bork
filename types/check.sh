@@ -13,4 +13,5 @@ case $action in
     eval "$*"
     [ "$?" -gt 0 ] && return $STATUS_FAILED || return $STATUS_OK
     ;;
+  *) return 1 ;;
 esac

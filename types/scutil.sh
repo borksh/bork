@@ -23,4 +23,5 @@ case $action in
   upgrade)
     bake scutil --set $type $name
     ;;
+  *) return 1 ;;
 esac
