@@ -1,6 +1,6 @@
 md5cmd () {
   case $1 in
-    Darwin)
+    Darwin|FreeBSD)
       [ -z "$2" ] && echo "md5" || echo "md5 -q $2"
       ;;
     Linux)
