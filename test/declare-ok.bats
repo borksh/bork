@@ -29,3 +29,28 @@ BORK_SCRIPT_DIR="$BORK_SOURCE_DIR/test"
   [ "$status" -eq 0 ]
   [[ "$BORK_SCRIPT_DIR/fixtures/custom.sh foo" == $output ]]
 }
+
+@test "no: checks against core types" {
+  run no directory foo
+  [ "$status" -eq 0 ]
+  [[ "$BORK_SOURCE_DIR/types/directory.sh foo" == $output ]]
+}
+
+@test "no: checks against stdlib_types" {
+  run no brew foo
+  [ "$status" -eq 0 ]
+  [[ "$BORK_SOURCE_DIR/types/brew.sh foo" == $output ]]
+}
+
+@test "no: checks against local scripts" {
+  run no fixtures/custom.sh foo
+  [ "$status" -eq 0 ]
+  [[ "$BORK_SCRIPT_DIR/fixtures/custom.sh foo" == $output ]]
+}
+
+@test "no: checks against registered types" {
+  register fixtures/custom.sh
+  run no custom foo
+  [ "$status" -eq 0 ]
+  [[ "$BORK_SCRIPT_DIR/fixtures/custom.sh foo" == $output ]]
+}

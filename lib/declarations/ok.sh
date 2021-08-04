@@ -56,7 +56,17 @@ _yesno () {
   [[ "$answer" == 'y' || "$answer" == 'yes' ]]
 }
 
-ok () {
+_make_change () {
+  change_type=$1
+  _changes_expected "$change_type" "$assertion" "$argstr"
+  eval "$(_source_runner $fn) $change_type $quoted_argstr"
+  _changes_complete $? 'remove'
+  last_change_type=$change_type
+}
+
+assert () {
+  assert_mode=$1
+  shift
   assertion=$1
   shift
   _bork_check_failed=0
@@ -78,40 +88,43 @@ ok () {
       _checking "checking" $assertion $argstr
       output=$(eval "$(_source_runner $fn) status $quoted_argstr")
       status=$?
-      _checked "$(_status_for $status): $assertion $argstr"
+      _checked "$(_status_for $assert_mode $status): $assertion $argstr"
       [ "$status" -eq 1 ] && _bork_check_failed=1
       [ "$status" -ne 0 ] && [ -n "$output" ] && echo "$output"
-      return $status ;;
+      [ "$assert_mode" = 'no' ] && [ $status -eq $STATUS_MISSING ] && return 0
+      return $status
+      ;;
     satisfy)
       _checking "checking" $assertion $argstr
       status_output=$(eval "$(_source_runner $fn) status $quoted_argstr")
       status=$?
-      _checked "$(_status_for $status): $assertion $argstr"
+      _checked "$(_status_for $assert_mode $status): $assertion $argstr"
       case $status in
-        0) : ;;
+        0)
+          [ $assert_mode = 'no' ] && _make_change 'remove'
+          ;;
         1)
           _bork_check_failed=1
           echo "$status_output"
           ;;
         10)
-          _changes_expected 'install' $assertion $argstr
-          eval "$(_source_runner $fn) install $quoted_argstr"
-          _changes_complete $? 'install'
+          [ $assert_mode = 'ok' ] && _make_change 'install'
           ;;
         11|12|13)
-          echo "$status_output"
-          _changes_expected 'upgrade' $assertion $argstr
-          eval "$(_source_runner $fn) upgrade $quoted_argstr"
-          _changes_complete $? 'upgrade'
+          if [ $assert_mode = 'ok' ]; then
+            echo "$status_output"
+            _make_change 'upgrade'
+          elif [ $assert_mode = 'no' ]; then
+            _make_change 'remove'
+          fi
           ;;
         20)
           echo "$status_output"
           _conflict_approve $assertion $argstr
           if [ "$?" -eq 0 ]; then
             echo "Resolving conflict..."
-            _changes_expected 'upgrade' $assertion $argstr
-            eval "$(_source_runner $fn) upgrade $quoted_argstr"
-            _changes_complete $? 'upgrade'
+            [ $assert_mode = 'ok' ] && _make_change 'upgrade'
+            [ $assert_mode = 'no' ] && _make_change 'remove'
           else
             echo "Conflict unresolved."
           fi
@@ -125,9 +138,13 @@ ok () {
         echo "verifying $last_change_type: $assertion $argstr"
         output=$(eval "$(_source_runner $fn) status $quoted_argstr")
         status=$?
-        if [ "$status" -gt 0 ]; then
+        if [ "$status" -gt 0 ] && [ "$assert_mode" = 'ok' ]; then
           echo "* $last_change_type failed"
-          _checked "$(_status_for $status)"
+          _checked "$(_status_for $assert_mode $status)"
+          echo "$output"
+        elif [ "$status" -ne "$STATUS_MISSING" ] && [ "$assert_mode" = 'no' ]; then
+          echo "* $last_change_type failed"
+          _checked "$(_status_for $assert_mode $status)"
           echo "$output"
         else
           echo "* success"
@@ -138,4 +155,10 @@ ok () {
   esac
 }
 
+ok () {
+  assert 'ok' $*
+}
 
+no () {
+  assert 'no' $*
+}

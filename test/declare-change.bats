@@ -20,7 +20,7 @@
   [ "$status" -eq 1 ]
 }
 
-@test "did_update reflects both install/upgrade" {
+@test "did_update reflects all of install/upgrade/remove" {
   bork_performed_install=1
   run did_update
   [ "$status" -eq 0 ]
@@ -29,6 +29,19 @@
   run did_update
   [ "$status" -eq 0 ]
   bork_performed_upgrade=0
+  bork_performed_remove=1
   run did_update
+  [ "$status" -eq 0 ]
+  bork_performed_remove=0
+  run did_update
+  [ "$status" -eq 1 ]
+}
+
+@test "did_remove reflects \$performed_remove" {
+  bork_performed_remove=1
+  run did_remove
+  [ "$status" -eq 0 ]
+  bork_performed_remove=0
+  run did_remove
   [ "$status" -eq 1 ]
 }

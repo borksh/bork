@@ -28,7 +28,7 @@ if [ ! -z "$BORK_COLOR" ]; then
     RESET="\033[39m"
 fi
 
-_status_for () {
+_present_status_for () {
   case "$1" in
     $STATUS_OK)                           echo -e "${GREEN}ok${RESET}" ;;
     $STATUS_FAILED)                       echo -e "${RED}failed${RESET}" ;;
@@ -49,3 +49,18 @@ _status_for () {
   esac
 }
 
+_absent_status_for () {
+  case "$1" in
+    $STATUS_OK)      echo -e "${YELLOW}present${RESET}" ;;
+    $STATUS_MISSING) echo -e "${GREEN}no${RESET}" ;;
+    *)               _present_status_for $1 ;;
+  esac
+}
+
+_status_for () {
+  if [ "$1" = "ok" ]; then
+    _present_status_for $2
+  else
+    _absent_status_for $2
+  fi
+}
