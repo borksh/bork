@@ -9,6 +9,7 @@ shift 2
 
 shell=$(arguments get shell $*)
 groups=$(arguments get groups $*)
+preserve_home=$(arguments get preserve-home $*)
 
 user_get () {
   row=$(bake cat /etc/passwd | grep -E "^$1:")
@@ -55,6 +56,7 @@ case $action in
     ;;
   status)
     needs_exec "useradd" || return $STATUS_FAILED_PRECONDITION
+    needs_exec "userdel" || return $STATUS_FAILED_PRECONDITION
 
     row=$(user_get $handle)
     [ "$?" -gt 0 ] && return $STATUS_MISSING
@@ -97,6 +99,14 @@ case $action in
       for group in $groups_to_create; do
         bake adduser $handle $group
       done
+    fi
+    ;;
+
+  remove)
+    if [ -z "$preserve_home" ]; then
+      bake userdel -r $handle
+    else
+      bake userdel $handle
     fi
     ;;
 

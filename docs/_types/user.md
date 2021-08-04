@@ -1,5 +1,6 @@
 ---
 name: user
+removable: true
 ---
 assert presence of a user on the system
 

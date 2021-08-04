@@ -17,6 +17,12 @@ setup () {
   [ "$status" -eq $STATUS_FAILED_PRECONDITION ]
 }
 
+@test "user status: returns FAILED_PRECONDITION when userdel isn't found" {
+  respond_to "which userdel" "return 1"
+  run user status foo
+  [ "$status" -eq $STATUS_FAILED_PRECONDITION ]
+}
+
 @test "user status: returns MISSING when user doesn't exist" {
   run user status nonexistant
   [ "$status" -eq $STATUS_MISSING ]
@@ -33,6 +39,14 @@ setup () {
   run baked_output
   [ "${#lines[*]}" -eq 1 ]
   [ "${lines[0]}" = "useradd -m nonexistant" ]
+}
+
+@test "user remove: bakes 'userdel' with -r" {
+  run user remove unwanted
+  [ "$status" -eq 0 ]
+  run baked_output
+  [ "${#lines[*]}" -eq 1 ]
+  [ "${lines[0]}" = "userdel -r unwanted" ]
 }
 
 # --- with shell argument -------------------------------------
@@ -125,4 +139,13 @@ setup () {
   [ "${lines[0]}" = "$groups_query" ]
   [ "${lines[1]}" = "adduser existant foo" ]
   [ "${lines[2]}" = "adduser existant bar" ]
+}
+
+# --- with preserve-home argument ----------------------------
+@test "user remove: bakes 'userdel' without -r" {
+  run user remove unwanted --preserve-home
+  [ "$status" -eq 0 ]
+  run baked_output
+  [ "${#lines[*]}" -eq 1 ]
+  [ "${lines[0]}" = "userdel unwanted" ]
 }
