@@ -23,7 +23,9 @@ platform differences between BSD and GPL versions of unix utilities.
 ## From source
 
 1. Clone this repository:
-  `git clone https://github.com/skylarmacdonald/bork /usr/local/src/bork`
+```bash
+git clone https://github.com/skylarmacdonald/bork /usr/local/src/bork
+```
 
 1. Symlink the bork binaries into your `$PATH`:
 ```bash
@@ -33,14 +35,16 @@ platform differences between BSD and GPL versions of unix utilities.
 ## via Homebrew (macOS)
 
 1. Install via Homebrew:
-  `brew install bork`
+```bash
+brew install bork
+```
 
 ## Updating
 
 Bork can update itself as part of satisfying your config file. Your config file
 should look something like this to update via git:
 
-```
+```bash
 ok github /usr/local/src/bork skylarmacdonald/bork --branch=main
 ok symlink /usr/local/bin/bork /usr/local/src/bork/bin/bork
 ```
@@ -50,14 +54,14 @@ installed elsewhere you should replace the paths above.)
 
 If you have Homebrew available to you, you can do this instead:
 
-```
+```bash
 ok brew bork
 ```
 
 You can also specify the `--HEAD` option on the assertion to install Bork's
 `main` branch via Homebrew:
 
-```
+```bash
 ok brew bork --HEAD
 ```
 
