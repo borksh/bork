@@ -6,7 +6,7 @@ All notable changes to this project will be documented in this file, from 2016-0
 Changes here will be in the next release. You can use them now by checking out the HEAD of the `main` branch, or specifying the `--HEAD` option with `brew install bork`.
 
 ### Added
-- Bork now supports before hooks. You can define functions named `bork_will_change`, `bork_will_install` or `bork_will_upgrade`, and Bork will run them just before making any changes. (#16)
+- Bork now supports before hooks. You can define functions named `bork_will_change`, `bork_will_install`, `bork_will_upgrade` or `bork_will_remove`, and Bork will run them just before making any changes. (#16)
 - You can now use the `no` command in place of `ok` to check for the absence, rather than the presence, of an assertion. This will delete files, uninstall packages, etc. when satisfying to ensure an assertion is absent from the system. (#9)
 
 ## [0.13.0] - 2021-08-02
