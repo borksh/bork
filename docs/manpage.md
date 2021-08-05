@@ -232,8 +232,8 @@ determine the outcome of the change. These are used as follows:
 ```bash
 ok brew fish
 if did_install; then
-  sudo echo "/usr/local/bin/fish" >> /etc/shells
-  chsh -s /usr/local/bin/fish
+  ok shells $(brew --prefix)/bin/fish
+  chsh -s $(brew --prefix)/bin/fish
 fi
 ```
 There are four functions to help you take further actions after a change:

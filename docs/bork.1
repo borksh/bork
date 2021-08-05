@@ -244,8 +244,8 @@ After Bork has made a change, you may call a provided function in your script to
 
 ok brew fish
 if did_install; then
-  sudo echo "/usr/local/bin/fish" >> /etc/shells
-  chsh \-s /usr/local/bin/fish
+  ok shells $(brew --prefix)/bin/fish
+  chsh -s $(brew --prefix)/bin/fish
 fi
 .
 .fi
