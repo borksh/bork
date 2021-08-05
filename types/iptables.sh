@@ -1,4 +1,3 @@
-# TODO test for precondition of iptables exec
 # TODO need a way to test for ordering of rules, discussion in the original PR: https://github.com/mattly/bork/pull/10
 # TODO maybe take the chain as the first argument, the rule as the rest?
 
@@ -12,6 +11,7 @@ case $action in
     echo "> iptables INPUT -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT"
     ;;
   status)
+    needs_exec "iptables" || return $STATUS_FAILED_PRECONDITION
     out=$(bake sudo iptables -C $* 2>&1)
     status=$?
     [ "$status" -gt 0 ] && return $STATUS_MISSING

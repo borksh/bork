@@ -4,6 +4,12 @@
 
 iptables () { . $BORK_SOURCE_DIR/types/iptables.sh $*; }
 
+@test "iptables status reports missing iptables exec" {
+  respond_to "which iptables" "return 1"
+  run iptables status "INPUT -i lo -j ACCEPT"
+  [ "$status" -eq $STATUS_FAILED_PRECONDITION ]
+}
+
 @test "iptables status: returns MISSING when rule is missing" {
   respond_to "sudo iptables -C INPUT -i lo -j ACCEPT" \
     "echo 'iptables: Bad rule (does a matching rule exist in that chain?).' >&2; return 1"
