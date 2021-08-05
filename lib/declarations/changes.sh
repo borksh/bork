@@ -61,5 +61,5 @@ _callback_run () {
   shift 2
   argstr=$*
   _callback_defined "bork_will_$callback" && eval "bork_will_$callback $assertion $argstr"
-  _callback_defined "bork_will_{$callback}_any" && eval "bork_will_{$callback}_any $assertion $argstr"
+  _callback_defined "bork_will_${callback}_any" && eval "bork_will_${callback}_any $assertion $argstr"
 }
