@@ -381,7 +381,7 @@ been newly created:
 ```
 missing: directory foo
 callback says hello world
-verifying : directory foo
+verifying install: directory foo
 * success
 ```
 

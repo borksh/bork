@@ -30,10 +30,10 @@ Bork will then output the following if (and only if) the directory `foo` has bee
 ```
 missing: directory foo
 callback says hello world
-verifying : directory foo
+verifying install: directory foo
 * success
 missing: directory bar
-verifying : directory bar
+verifying install: directory bar
 * success
 ```
 
@@ -127,15 +127,15 @@ However, if you want to keep your scripts tidy, you can always write your own fu
 
 ```bash
 bork_will_install () {
-	# it's a good idea to pass on the arguments too
-	my_directory_install_function "$*"
+  # it's a good idea to pass on the arguments too
+  my_directory_install_function "$*"
 }
 ok directory foo
 
 # elsewhere in the file...
 
 my_directory_install_function () {
-	echo "Bork is creating the foo directory"
+  echo "Bork is creating the foo directory"
 }
 ```
 
