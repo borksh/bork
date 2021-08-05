@@ -60,7 +60,7 @@ _make_change () {
   change_type=$1
   _changes_expected "$change_type" "$assertion" "$argstr"
   eval "$(_source_runner $fn) $change_type $quoted_argstr"
-  _changes_complete $? 'remove'
+  _changes_complete $? $change_type
   last_change_type=$change_type
 }
 
