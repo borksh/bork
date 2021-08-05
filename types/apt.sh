@@ -24,7 +24,7 @@ case $action in
 
     outdated=$(bake sudo apt-get upgrade --dry-run \
                 | grep "^Inst" | awk '{print $2}')
-    $(str_contains "$outdated" "$name")
+    str_contains "$outdated" "$name"
     [ "$?" -eq 0 ] && return $STATUS_OUTDATED
     return $STATUS_OK
     ;;
