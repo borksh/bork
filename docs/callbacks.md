@@ -1,6 +1,6 @@
 # Callbacks guide
 
-Bork has callbacks that allow you to carry out your own custom actions before or after it makes changes. How to use these is explained briefly in the [readme](/) and [man page](manpage), but there's a more detailed explanation below.
+Bork has callbacks that allow you to carry out your own custom actions before or after it makes changes. How to use these is explained briefly in the [readme](/bork) and [man page](manpage), but there's a more detailed explanation below.
 
 ## Before callbacks
 
@@ -15,7 +15,7 @@ The callbacks available are:
 - `bork_will_upgrade`: The assertion is partially satisfied, but needs upgrading (e.g. an outdated package, a file with the wrong permissions). Bork will change it in-place to satisfy it fully.
 - `bork_will_remove`: The assertion requires the absence of something that is present on the system, and Bork will remove it to satisfy the assertion.
 
-Bork will call functions with these exact names, if they exist, before taking action. It will then unset them to ensure they're not called twice. Here's an example from the [Readme](/):
+Bork will call functions with these exact names, if they exist, before taking action. It will then unset them to ensure they're not called twice. Here's an example from the [Readme](/bork):
 
 ```bash
 bork_will_install () {
