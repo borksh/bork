@@ -1,5 +1,3 @@
-# TODO add --permissions flag, perhaps copy/extract from file?
-
 action=$1
 dir=$2
 shift 2
