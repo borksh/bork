@@ -53,3 +53,8 @@ download () { . $BORK_SOURCE_DIR/types/download.sh $*; }
     expected="curl -sLo \"$target\" \"http://foo.com/bar.txt\" &> /dev/null"
     [[ "${lines[1]}" = $expected ]]
 }
+
+@test "download remove: exits 1 with error" {
+    run download remove "foo/bar.txt" "http://foo.com/bar.txt"
+    [ "$status" -eq 1 ]
+}
