@@ -19,10 +19,10 @@ Bork is a bash DSL for making declarative assertions about the state of a system
 Bork is written against Bash 3\.2 and common unix utilities such as sed, awk and grep\. It is designed to work on any UNIX\-based system and maintain awareness of platform differences between BSD and GPL versions of unix utilities\.
 .
 .SH "ASSERTIONS AND CONFIG FILES"
-At the heart of bork is making \fBassertions\fR in a \fBdeclarative\fR manner via the \fBok\fR function\. That is, you tell it \fIwhat\fR you want the system to look like instead of \fIhow\fR to make it look like that\. An assertion takes a \fBtype\fR and a number of arguments\. It invokes the type\'s handler function with an \fIaction\fR such as \fBstatus\fR, \fBinstall\fR, or \fBupgrade\fR, which determines the imperative commands needed to test the assertion or bring it up to date\. There are a number of included types in the \fBtypes\fR directory, and bork makes it easy to create your own\.
+At the heart of bork is making \fBassertions\fR in a \fBdeclarative\fR manner via the \fBok\fR and \fBno\fR functions\. That is, you tell it \fIwhat\fR you want the system to look like instead of \fIhow\fR to make it look like that\. An assertion takes a \fBtype\fR and a number of arguments\. It invokes the type\'s handler function with an \fIaction\fR such as \fBstatus\fR, \fBinstall\fR, or \fBupgrade\fR, which determines the imperative commands needed to test the assertion or bring it up to date\. There are a number of included types in the \fBtypes\fR directory, and bork makes it easy to create your own\. The \fBno\fR function works as an opposite to \fBok\fR \-\- an \fBok\fR assertion will require the \fIpresence\fR of something, and a \fBno\fR assertion will require its absence\.
 .
 .P
-When run, bork will test each \fBok\fR assertion and determine if it\'s met or not\. If not, bork can go ahead and \fIsatisfy\fR the assertion by installing, upgrading, or altering the configuration of the item to match the assertion\. It will then test the assertion again\. Declarations are idempotent \-\- if the assertion is already met, bork will not do anything\.
+When run, bork will test each \fBok\fR/\fBno\fR assertion and determine if it\'s met or not\. If not, bork can go ahead and \fIsatisfy\fR the assertion by installing, upgrading, removing, or otherwise altering the configuration of the item to match the assertion\. It will then test the assertion again\. Declarations are idempotent \-\- if the assertion is already met, bork will not do anything\.
 .
 .P
 When you\'re happy with your config script, you can compile it to a standalone script which does not require bork to run\. The compiled script can be passed around via curl, scp or the like and run on completely new systems\.
@@ -54,7 +54,7 @@ Per the usage guide, bork has a few main modes of operation:
 .IP "" 0
 .
 .SS "\fBstatus\fR \fIconfig\-file\fR"
-The \fBstatus\fR command will confirm that assertions are met or not, and output their status\. It will not take any action to satisfy those assertions\. There are a handful of statuses an assertion can return, and this since this mode is the closest bork can do to a true \fBdry run\fR(*) you can use it to test a script against a pre\-existing machine\.
+The \fBstatus\fR command will confirm that assertions are met or not, and output their status\. It will not take any action to satisfy those assertions\. There are a handful of statuses an assertion can return, and this since this mode is the closest bork can do to a true \'dry run\'*, you can use it to test a script against a pre\-existing machine\.
 .
 .P
 * Some types, such as \fBgit\fR, need to modify local state by talking to the network (such as performing \fBgit fetch\fR), without modifying the things the assertion aims to check\.
@@ -92,7 +92,13 @@ Each item reports its status like so:
 \fBok\fR: The assertion is met as best we can determine\.
 .
 .IP "\(bu" 4
+\fBno\fR: The assertion is met, because the item is absent from the system\.
+.
+.IP "\(bu" 4
 \fBmissing\fR: The assertion is not met, and no trace of it ever being met was found\.
+.
+.IP "\(bu" 4
+\fBpresent\fR: The assertion is not met, as something is present on the system that shouldn\'t be\. It can be satisfied by removing the item\.
 .
 .IP "\(bu" 4
 \fBoutdated\fR: The assertion is met, but can be upgraded to a newer version\.
@@ -112,13 +118,13 @@ Each item reports its status like so:
 The \fBcheck\fR command will take a single assertion on the command line and perform a \fBstatus\fR check as above for it\.
 .
 .SS "\fBsatisfy\fR \fIconfig\-file\fR"
-The \fBsatisfy\fR command is where the real magic happens\. For every assertion in the config file, bork will check its status as described in the \fBstatus\fR command above, and if it is not \fBok\fR it will attempt to make it \fBok\fR, typically via \fIinstalling\fR or \fIupgrading\fR something \-\- but sometimes a \fIconflict\fR is detected which could lose data, such as a local git repository having uncommitted changes\. In that case, bork will warn you about the problem and ask if you want to proceed\. Sometimes conflicts are detected which bork does not know how to resolve — it will warn you about the problem so you can fix it yourself\.
+The \fBsatisfy\fR command is where the real magic happens\. For every assertion in the config file, bork will check its status as described in the \fBstatus\fR command above, and if it is not \fBok\fR or \fBno\fR it will attempt to make it \fBok\fR or \fBno\fR, typically via \fIinstalling\fR, \fIupgrading\fR or \fIremoving\fR something \-\- but sometimes a \fIconflict\fR is detected which could lose data, such as a local git repository having uncommitted changes\. In that case, bork will warn you about the problem and ask if you want to proceed\. Sometimes conflicts are detected which bork does not know how to resolve — it will warn you about the problem so you can fix it yourself\.
 .
 .SS "\fBdo\fR \fIassertion\fR"
 The \fBdo\fR command will take a single assertion on the command line and perform a \fBsatisfy\fR operation on it as above\.
 .
 .SS "\fBcompile\fR \fIconfig\-file\fR"
-The \fBcompile\fR command will output to STDOUT a standalone shell script that does not require Bork to run\. You may pass this around as with any file via curl or scp or whatever you like and run it\. Any sub\-configs via \fBinclude\fR will be included in the output, and any type that needs to include resources to do what it does, such as the \fBfile\fR type, will include their resources in the script as base64 encoded data\.
+The \fBcompile\fR command will output to STDOUT a standalone shell script that does not require bork to run\. You may pass this around as with any file via curl or scp or whatever you like and run it\. Any sub\-configs via \fBinclude\fR will be included in the output, and any type that needs to include resources to do what it does, such as the \fBfile\fR type, will include their resources in the script as base64 encoded data\.
 .
 .SS "\fBinspect\fR \fItype\fR"
 The \fBinspect\fR command will ask a type for a current inventory of how a system is configured, and output to STDOUT a Bork\-compatible config file to configure the same state\. For example, when used with the \fBbrew\fR type, this will list all formulae installed with Homebrew and output a config file to check for those same formulae\. \fBNot all types will work with this command\.\fR Bork will exit with code 1 if a type has not implemented \fBinspect\fR\.
@@ -169,7 +175,7 @@ include project\-two\.sh
 Bork has two types of callback: before and after functions\. These are only used when Bork is satisfying assertions (i\.e\. when running \fBbork satisfy\fR)\.
 .
 .P
-Until Bork starts processing an assertion made with \fBok\fR, there\'s no way to know if anything will change\. Therefore, Bork will look for and execute functions with known names while it processes an \fBok\fR assertion, before making the change\.
+Until Bork starts processing an assertion made with \fBok\fR or \fBno\fR, there\'s no way to know if anything will change\. Therefore, Bork will look for and execute functions with known names while it processes an assertion, before making the change\.
 .
 .P
 The functions Bork expects are named:
@@ -182,6 +188,9 @@ The functions Bork expects are named:
 .
 .IP "\(bu" 4
 \fBbork_will_upgrade\fR: The assertion is partially satisfied, but needs upgrading (e\.g\. an outdated package, a file with the wrong permissions)\. Bork will change it in\-place to satisfy it fully\.
+.
+.IP "\(bu" 4
+\fBbork_will_remove\fR: The assertion specifies the removal of something that is present on the system, and Bork will remove it to satisfy the assertion\.
 .
 .IP "" 0
 .
@@ -254,6 +263,9 @@ There are four functions to help you take further actions after a change:
 .
 .IP "\(bu" 4
 \fBdid_update\fR: did the previous assertion result in either the item being installed or upgraded?
+.
+.IP "\(bu" 4
+\fBdid_remove\fR: did the previous assertion result in the existing item being removed (e\.g\. deleted or uninstalled)?
 .
 .IP "\(bu" 4
 \fBdid_error\fR: did attempting to install or upgrade the previous assertion result in an error?
