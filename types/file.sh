@@ -1,6 +1,5 @@
 # TODO change compiled filename transformation to md5 representation instead of base64
 # TODO any way to test for sudo???
-# TODO distinguish target from local system for file sums
 
 action=$1
 targetfile=$2
@@ -16,6 +15,7 @@ _bake () {
   fi
 }
 file_varname="borkfiles__$(echo "$sourcefile" | base64 | sed -E 's|\+|_|' | sed -E 's|\?|__|' | sed -E 's|=+||')"
+target_platform=$(get_baking_platform)
 
 case $action in
   desc)
@@ -25,6 +25,7 @@ case $action in
     echo "--owner=owner-name      owner name of the file"
     ;;
   status)
+
     if ! is_compiled && [ ! -f $sourcefile ]; then
       echo "source file doesn't exist: $sourcefile"
       return $STATUS_FAILED_ARGUMENTS
@@ -39,14 +40,13 @@ case $action in
 
     bake [ -f $targetfile ] || return $STATUS_MISSING
 
-    # TODO: need to distinguish local platfrom from target platform
     if is_compiled; then
-      md5c=$(md5cmd $platform)
+      md5c=$(md5cmd $target_platform)
       sourcesum=$(echo "${!file_varname}" | base64 --decode | eval $md5c)
     else
-      sourcesum=$(eval $(md5cmd $platform $sourcefile))
+      sourcesum=$(eval $(md5cmd $target_platform $sourcefile))
     fi
-    targetsum=$(_bake $(md5cmd $platform $targetfile))
+    targetsum=$(_bake $(md5cmd $target_platform $targetfile))
     if [ "$targetsum" != $sourcesum ]; then
       echo "expected sum: $sourcesum"
       echo "received sum: $targetsum"
@@ -55,7 +55,7 @@ case $action in
 
     mismatch=
     if [ -n "$perms" ]; then
-      existing_perms=$(_bake $(permission_cmd $platform) $targetfile)
+      existing_perms=$(_bake $(permission_cmd $target_platform) $targetfile)
       if [ "$existing_perms" != $perms ]; then
         echo "expected permissions: $perms"
         echo "received permissions: $existing_perms"
@@ -102,7 +102,7 @@ case $action in
       exit 1
     fi
     echo "# source: $sourcefile"
-    echo "# md5 sum: $(eval $(md5cmd $platform $sourcefile))"
+    echo "# md5 sum: $(eval $(md5cmd $target_platform $sourcefile))"
     echo "$file_varname=\"$(cat $sourcefile | base64)\""
     ;;
 

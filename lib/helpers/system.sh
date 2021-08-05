@@ -44,4 +44,7 @@ baking_platform_is () {
   [ "$baking_platform" = $1 ]
   return $?
 }
-
+# so this can be overridden when testing
+get_baking_platform () {
+  bake uname -s
+}

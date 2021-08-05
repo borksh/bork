@@ -37,3 +37,6 @@ respond_to () {
 }
 return_with () { return $1; }
 
+get_baking_platform () {
+  uname -s # don't bake it in tests
+}

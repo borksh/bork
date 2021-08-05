@@ -11,6 +11,8 @@ shell=$(arguments get shell $*)
 groups=$(arguments get groups $*)
 preserve_home=$(arguments get preserve-home $*)
 
+target_platform=$(get_baking_platform)
+
 user_get () {
   row=$(bake cat /etc/passwd | grep -E "^$1:")
   stat=$?
@@ -29,7 +31,7 @@ user_shell () {
 
 user_groups () {
   current_groups=$(bake groups $1)
-  case $platform in
+  case $target_platform in
     Linux) current_groups=$(echo "$current_groups" | cut -d: -f 2) ;;
   esac
   missing_groups=
