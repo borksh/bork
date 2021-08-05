@@ -11,11 +11,11 @@ Bork puts the 'sh' back into IT. [Bork Bork Bork](https://www.youtube.com/result
 
 ## the Swedish Chef Puppet of Config Management
 
-Bork is a Bash DSL for making declarative assertions about the state of a system.
+Bork is a bash DSL for making declarative assertions about the state of a system.
 
-Bork is written against Bash 3.2 and common UNIX utilities such as sed, awk and
+Bork is written against Bash 3.2 and common unix utilities such as sed, awk and
 grep. It is designed to work on any UNIX-based system and maintain awareness of
-platform differences between BSD and GPL versions of UNIX utilities.
+platform differences between BSD and GPL versions of unix utilities.
 
 # Installation
 
@@ -36,16 +36,16 @@ platform differences between BSD and GPL versions of UNIX utilities.
 
 ## Updating
 
-Bork can update itself as part of satisfying your config file. Your config file should look
-something like this to update via git:
+Bork can update itself as part of satisfying your config file. Your config file
+should look something like this to update via git:
 
 ```
 ok github /usr/local/src/bork skylarmacdonald/bork --branch=main
 ok symlink /usr/local/bin/bork /usr/local/src/bork/bin/bork
 ```
 
-(This example relies on you being able to write to `/usr/local`; if your Bork is installed elsewhere
-you should replace the paths above.)
+(This example relies on you being able to write to `/usr/local`; if your Bork is
+installed elsewhere you should replace the paths above.)
 
 If you have Homebrew available to you, you can do this instead:
 
@@ -53,21 +53,22 @@ If you have Homebrew available to you, you can do this instead:
 ok brew bork
 ```
 
-You can also specify the `--HEAD` option on the assertion to install Bork's `main` branch via
-Homebrew:
+You can also specify the `--HEAD` option on the assertion to install Bork's
+`main` branch via Homebrew:
 
 ```
 ok brew bork --HEAD
 ```
 
-This will always keep the latest commit installed. Note that the latest commit will contain
-unreleased code that might break, so take care when using it.
+This will always keep the latest commit installed. Note that the latest commit
+will contain unreleased code that might break, so take care when using it.
 
-Using a package manager is the recommended way to install, as then you can ensure you're only
-installing released versions of Bork, and rely on it to update Bork for you. If you prefer to use
-git, you can use `bork version` to show the status of your local repo or installation. This command
-should be able to tell you how you installed Bork (e.g. via git or Homebrew), and therefore how you
-should go about updating it.
+Using a package manager is the recommended way to install, as then you can
+ensure you're only installing released versions of Bork, and rely on it to
+update Bork for you. If you prefer to use git, you can use `bork version` to
+show the status of your local repo or installation. This command should be able
+to tell you how you installed Bork (e.g. via git or Homebrew), and therefore how
+you should go about updating it.
 
 # Usage and Operations
 
@@ -100,13 +101,15 @@ Let's explore these in more depth:
 ## Assertions and Config Files
 
 At the heart of bork is making **assertions** in a **declarative** manner via
-the `ok` function. That is, you tell it *what* you want the system to look like
-instead of *how* to make it look like that. An assertion takes a **type** and a
-number of arguments. It invokes the type's handler function with an *action*
-such as `status`, `install`, or `upgrade`, which determines the imperative
-commands needed to test the assertion or bring it up to date. There are a number
-of included types in the `types` directory, and bork makes it easy to create
-your own.
+the `ok` and `no` functions. That is, you tell it *what* you want the system to
+look like instead of *how* to make it look like that. An assertion takes a
+**type** and a number of arguments. It invokes the type's handler function with
+an *action* such as `status`, `install`, or `upgrade`, which determines the
+imperative commands needed to test the assertion or bring it up to date. There
+are a number of included types in the `types` directory, and bork makes it easy
+to create your own. The `no` function works as an opposite to `ok` -- an `ok`
+assertion will require the *presence* of something, and a `no` assertion will
+require its absence.
 
 Here's a basic example:
 
@@ -122,11 +125,11 @@ do                                            # for each file in ~/code/dotfiles
 done
 ```
 
-When run, bork will test each `ok` assertion and determine if it's met or not.
-If not, bork can go ahead and *satisfy* the assertion by installing, upgrading, or
-altering the configuration of the item to match the assertion. It will then test
-the assertion again. Declarations are idempotent -- if the assertion is already
-met, bork will not do anything.
+When run, bork will test each `ok`/`no` assertion and determine if it's met or
+not. If not, bork can go ahead and *satisfy* the assertion by installing,
+upgrading, removing, or otherwise altering the configuration of the item to
+match the assertion. It will then test the assertion again. Declarations are
+idempotent -- if the assertion is already met, bork will not do anything.
 
 When you're happy with your config script, you can compile it to a standalone
 script which does not require bork to run. The compiled script can be passed
@@ -134,8 +137,12 @@ around via curl, scp or the like and run on completely new systems.
 
 ## Assertion Types
 
-You can run `bork types` from the command line to get a list of the assertion types
-and some basic information about their usage and options.
+You can run `bork types` from the command line to get a list of the assertion
+types and some basic information about their usage and options.
+
+If adding features to Bork core, you can also use the command `bork docgen` to
+generate GitHub Pages-compatible Markdown files based on how a type responds to
+the `desc` action.
 
 ### Generic assertions
 ```
@@ -181,6 +188,7 @@ and some basic information about their usage and options.
 ### Linux specific:
 ```
             apt: asserts packages installed via apt-get on Debian or Ubuntu Linux
+            apk: asserts packages installed via apk (Alpine Linux)
             yum: asserts packages installed via yum on CentOS or RedHat Linux
          zypper: asserts packages installed via zypper (SUSE)
 ```
@@ -215,12 +223,12 @@ the system.
 The `status` command will confirm that assertions are met or not, and output
 their status. It will not take any action to satisfy those assertions. There are
 a handful of statuses an assertion can return, and this since this mode is the
-closest bork can do to a true `dry run`(*) you can use it to test a script
+closest bork can do to a true 'dry run'\*, you can use it to test a script
 against a pre-existing machine.
 
-* Some types, such as `git`, need to modify local state by talking to the network
-(such as performing `git fetch`), without modifying the things the assertion aims
-to check.
+\* Some types, such as `git`, need to modify local state by talking to the
+network (such as performing `git fetch`), without modifying the things the
+assertion aims to check.
 
 The status command will give you output such as:
 
@@ -244,7 +252,10 @@ received value: 55
 Each item reports its status like so:
 
 - `ok`: The assertion is met as best we can determine.
+- `no`: The assertion is met, because the item is absent from the system.
 - `missing`: The assertion is not met, and no trace of it ever being met was found.
+- `present`: The assertion is not met, as something is present on the system
+  that shouldn't be. It can be satisfied by removing the item.
 - `outdated`: The assertion is met, but can be upgraded to a newer version.
 - `mismatch (upgradable)`: The assertion is not met as specified, something is
   different. It can be satisfied easily. An explanation will be given.
@@ -263,12 +274,13 @@ a `status` check as above for it.
 
 The `satisfy` command is where the real magic happens. For every assertion in
 the config file, bork will check its status as described in the `status` command
-above, and if it is not `ok` it will attempt to make it `ok`, typically via
-*installing* or *upgrading* something -- but sometimes a *conflict* is detected
-which could lose data, such as a local git repository having uncommitted
-changes. In that case, bork will warn you about the problem and ask if you want
-to proceed. Sometimes conflicts are detected which bork does not know how to
-resolve — it will warn you about the problem so you can fix it yourself.
+above, and if it is not `ok` or `no` it will attempt to make it `ok` or `no`,
+typically via *installing*, *upgrading* or *removing* something -- but sometimes
+a *conflict* is detected which could lose data, such as a local git repository
+having uncommitted changes. In that case, bork will warn you about the problem
+and ask if you want to proceed. Sometimes conflicts are detected which bork does
+not know how to resolve — it will warn you about the problem so you can fix it
+yourself.
 
 ### bork do ok github skylarmacdonald/dotfiles
 
@@ -328,9 +340,10 @@ include project-two.sh
 Bork has two types of callback: before and after functions. These are only used
 when Bork is satisfying assertions (i.e. when running `bork satisfy`).
 
-Until Bork starts processing an assertion made with `ok`, there's no way to know
-if anything will change. Therefore, Bork will look for and execute functions
-with known names while it processes an `ok` assertion, before making the change.
+Until Bork starts processing an assertion made with `ok` or `no`, there's no way
+to know if anything will change. Therefore, Bork will look for and execute
+functions with known names while it processes an assertion, before making the
+change.
 
 The functions Bork expects are named:
 
@@ -341,6 +354,8 @@ The functions Bork expects are named:
 - `bork_will_upgrade`: The assertion is partially satisfied, but needs upgrading
   (e.g. an outdated package, a file with the wrong permissions). Bork will
   change it in-place to satisfy it fully.
+- `bork_will_remove`: The assertion specifies the removal of something that is
+  present on the system, and Bork will remove it to satisfy the assertion.
 
 Each of these will be unset by Bork after it has run them. You should only
 define these functions immediately before the assertion you wish to apply them
@@ -392,6 +407,8 @@ There are four functions to help you take further actions after a change:
   upgraded?
 - `did_update`: did the previous assertion result in either the item being
   installed or upgraded?
+- `did_remove`: did the previous assertion result in the existing item being
+  removed (e.g. deleted or uninstalled)?
 - `did_error`: did attempting to install or upgrade the previous assertion
   result in an error?
 
@@ -431,7 +448,7 @@ assertion you wish to check.
 
 ## Community
 
-Honestly, I forked this for my own purposes, but if anyone else still uses this I'll turn on Discussions in GitHub.
+Discuss on [GitHub Discussions](https://github.com/skylarmacdonald/bork/discussions)
 
 ## Requirements / Dependencies
 

@@ -17,19 +17,21 @@ platform differences between BSD and GPL versions of unix utilities.
 ## ASSERTIONS AND CONFIG FILES
 
 At the heart of bork is making **assertions** in a **declarative** manner via
-the `ok` function. That is, you tell it *what* you want the system to look like
-instead of *how* to make it look like that. An assertion takes a **type** and a
-number of arguments. It invokes the type's handler function with an *action*
-such as `status`, `install`, or `upgrade`, which determines the imperative
-commands needed to test the assertion or bring it up to date. There are a number
-of included types in the `types` directory, and bork makes it easy to create
-your own.
+the `ok` and `no` functions. That is, you tell it *what* you want the system to
+look like instead of *how* to make it look like that. An assertion takes a
+**type** and a number of arguments. It invokes the type's handler function with
+an *action* such as `status`, `install`, or `upgrade`, which determines the
+imperative commands needed to test the assertion or bring it up to date. There
+are a number of included types in the `types` directory, and bork makes it easy
+to create your own. The `no` function works as an opposite to `ok` -- an `ok`
+assertion will require the *presence* of something, and a `no` assertion will
+require its absence.
 
-When run, bork will test each `ok` assertion and determine if it's met or not.
-If not, bork can go ahead and *satisfy* the assertion by installing, upgrading,
-or altering the configuration of the item to match the assertion. It will then
-test the assertion again. Declarations are idempotent -- if the assertion is
-already met, bork will not do anything.
+When run, bork will test each `ok`/`no` assertion and determine if it's met or
+not. If not, bork can go ahead and *satisfy* the assertion by installing,
+upgrading, removing, or otherwise altering the configuration of the item to
+match the assertion. It will then test the assertion again. Declarations are
+idempotent -- if the assertion is already met, bork will not do anything.
 
 When you're happy with your config script, you can compile it to a standalone
 script which does not require bork to run. The compiled script can be passed
@@ -44,12 +46,12 @@ types and some basic information about their usage and options.
 
 Per the usage guide, bork has a few main modes of operation:
 
-- `status`: Reports on the status of the assertions in a config file.  
+- `status`: Reports on the status of the assertions in a config file.
 - `satisfy`: Checks the status of assertions in a config file, satisfying them
-where needed.  
-- `compile`: Compiles a config file to a standalone script.  
-- `check`: Performs a status report on a single assertion.  
-- `do`: Performs a satisfy operation on a single assertion.  
+  where needed.
+- `compile`: Compiles a config file to a standalone script.
+- `check`: Performs a status report on a single assertion.
+- `do`: Performs a satisfy operation on a single assertion.
 - `inspect`: Output a Bork-compatible config file based on the current state of
 the system.
 
@@ -58,12 +60,12 @@ the system.
 The `status` command will confirm that assertions are met or not, and output
 their status. It will not take any action to satisfy those assertions. There are
 a handful of statuses an assertion can return, and this since this mode is the
-closest bork can do to a true `dry run`(*) you can use it to test a script
+closest bork can do to a true 'dry run'\*, you can use it to test a script
 against a pre-existing machine.
 
-\* Some types, such as `git`, need to modify local state by talking to the network
-(such as performing `git fetch`), without modifying the things the assertion aims
-to check.
+\* Some types, such as `git`, need to modify local state by talking to the
+network (such as performing `git fetch`), without modifying the things the
+assertion aims to check.
 
 The status command will give you output such as:
 
@@ -87,7 +89,10 @@ received value: 55
 Each item reports its status like so:
 
 - `ok`: The assertion is met as best we can determine.
+- `no`: The assertion is met, because the item is absent from the system.
 - `missing`: The assertion is not met, and no trace of it ever being met was found.
+- `present`: The assertion is not met, as something is present on the system
+  that shouldn't be. It can be satisfied by removing the item.
 - `outdated`: The assertion is met, but can be upgraded to a newer version.
 - `mismatch (upgradable)`: The assertion is not met as specified, something is
   different. It can be satisfied easily. An explanation will be given.
@@ -106,14 +111,15 @@ a `status` check as above for it.
 
 The `satisfy` command is where the real magic happens. For every assertion in
 the config file, bork will check its status as described in the `status` command
-above, and if it is not `ok` it will attempt to make it `ok`, typically via
-*installing* or *upgrading* something -- but sometimes a *conflict* is detected
-which could lose data, such as a local git repository having uncommitted
-changes. In that case, bork will warn you about the problem and ask if you want
-to proceed. Sometimes conflicts are detected which bork does not know how to
-resolve — it will warn you about the problem so you can fix it yourself.
+above, and if it is not `ok` or `no` it will attempt to make it `ok` or `no`,
+typically via *installing*, *upgrading* or *removing* something -- but sometimes
+a *conflict* is detected which could lose data, such as a local git repository
+having uncommitted changes. In that case, bork will warn you about the problem
+and ask if you want to proceed. Sometimes conflicts are detected which bork does
+not know how to resolve — it will warn you about the problem so you can fix it
+yourself.
 
-### `do` *`assertion`*
+### `do` *`assertion`*
 
 The `do` command will take a single assertion on the command line and perform a
 `satisfy` operation on it as above.
@@ -121,7 +127,7 @@ The `do` command will take a single assertion on the command line and perform a
 ### `compile` *`config-file`*
 
 The `compile` command will output to STDOUT a standalone shell script that does
-not require Bork to run. You may pass this around as with any file via curl or
+not require bork to run. You may pass this around as with any file via curl or
 scp or whatever you like and run it. Any sub-configs via `include` will be
 included in the output, and any type that needs to include resources to do what
 it does, such as the `file` type, will include their resources in the script as
@@ -171,9 +177,10 @@ include project-two.sh
 Bork has two types of callback: before and after functions. These are only used
 when Bork is satisfying assertions (i.e. when running `bork satisfy`).
 
-Until Bork starts processing an assertion made with `ok`, there's no way to know
-if anything will change. Therefore, Bork will look for and execute functions
-with known names while it processes an `ok` assertion, before making the change.
+Until Bork starts processing an assertion made with `ok` or `no`, there's no way
+to know if anything will change. Therefore, Bork will look for and execute
+functions with known names while it processes an assertion, before making the
+change.
 
 The functions Bork expects are named:
 
@@ -184,6 +191,8 @@ The functions Bork expects are named:
 - `bork_will_upgrade`: The assertion is partially satisfied, but needs upgrading
   (e.g. an outdated package, a file with the wrong permissions). Bork will
   change it in-place to satisfy it fully.
+- `bork_will_remove`: The assertion specifies the removal of something that is
+  present on the system, and Bork will remove it to satisfy the assertion.
 
 Each of these will be unset by Bork after it has run them. You should only
 define these functions immediately before the assertion you wish to apply them
@@ -235,6 +244,8 @@ There are four functions to help you take further actions after a change:
   upgraded?
 - `did_update`: did the previous assertion result in either the item being
   installed or upgraded?
+- `did_remove`: did the previous assertion result in the existing item being
+  removed (e.g. deleted or uninstalled)?
 - `did_error`: did attempting to install or upgrade the previous assertion
   result in an error?
 
