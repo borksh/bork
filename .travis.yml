@@ -1,4 +1,8 @@
 language: bash
 os: freebsd
-install: pkg install bash base64 bats-core
+addons: 
+  pkg: 
+  - bash
+  - base64
+  - bats-core
 script: bats --tap test
