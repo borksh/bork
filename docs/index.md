@@ -5,6 +5,7 @@ I still use [Bork](https://github.com/mattly/bork) in the year 2021, so I forked
 Bork puts the 'sh' back into IT. [Bork Bork Bork](https://www.youtube.com/results?search_query=swedish+chef).
 
 * [Assertion types reference](types)
+* [Callbacks guide](callbacks)
 * [Assertion status codes](assertion_status_codes)
 * [How to write an assertion type](how_to_write_an_assertion_type)
 * [Packages](packages)
