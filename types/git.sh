@@ -4,7 +4,6 @@
 # TODO submodules?
 # TODO anything here we can extract and re-use for an hg or darcs type?
 # TODO use merge instead of pull
-# TODO specify alternate refs instead of "master"; maybe change branch?
 
 action=$1
 git_url=$2
@@ -20,8 +19,6 @@ else
 fi
 
 branch=$(arguments get branch $*)
-
-
 if [[ ! -z $branch ]]; then
   git_branch=$branch
 else
