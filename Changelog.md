@@ -8,6 +8,7 @@ Changes here will be in the next release. You can use them now by checking out t
 ### Added
 - Bork now supports before hooks. You can define functions named `bork_will_change`, `bork_will_install`, `bork_will_upgrade` or `bork_will_remove`, and Bork will run them just before making any changes. (#16)
 - You can now use the `no` command in place of `ok` to check for the absence, rather than the presence, of an assertion. This will delete files, uninstall packages, etc. when satisfying to ensure an assertion is absent from the system. (#9)
+  - A new `did_remove` function has been added, which you can use after an assertion to determine whether Bork has removed something.
 
 ## [0.13.0] - 2021-08-02
 
