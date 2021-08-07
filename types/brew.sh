@@ -18,8 +18,7 @@ if [ -z "$name" ]; then
       ;;
     status)
       baking_platform_is "Darwin" || return $STATUS_UNSUPPORTED_PLATFORM
-      path=$(bake which brew)
-      [ "$?" -gt 0 ] && return $STATUS_MISSING
+      needs_exec "brew" || return $STATUS_MISSING
       bake brew update && return $STATUS_OK || return $STATUS_FAILED
       ;;
 
