@@ -1,4 +1,3 @@
-# TODO write tests for the packageless 'brew' assertion
 # TODO specify install/upgrade options, such as --env, --cc, etc
 # TODO would handling --cc etc also handle package options such as --with-spacemacs-icon on emacs-mac ?
 

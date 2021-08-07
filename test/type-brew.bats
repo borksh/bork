@@ -82,6 +82,8 @@ setup () {
 @test "brew inspect: returns OK if preconditions met" {
     run brew inspect
     [ "$status" -eq $STATUS_OK ]
+    run baked_output
+    [ "${lines[2]}" = 'brew list --formula' ]
 }
 
 @test "brew remove runs 'remove'" {
@@ -95,6 +97,31 @@ setup () {
   run brew remove unwanted_package --from=example_tap
   [ "$status" -eq 0 ]
   run baked_output
-  echo $output
   [ "$output" = 'brew remove --formula example_tap/unwanted_package' ]
+}
+
+@test "brew install: installs Homebrew" {
+  run brew install
+  [ "$status" -eq 0 ]
+  run baked_output
+  [ "$output" = '/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"' ]
+}
+
+@test "brew remove: uninstalls Homebrew" {
+  run brew remove
+  [ "$status" -eq 0 ]
+  run baked_output
+  [ "$output" = '/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/uninstall.sh)"' ]
+}
+
+@test "brew status without package reports unsupported platform" {
+  respond_to "uname -s" "echo Linux"
+  run brew status
+  [ "$status" -eq $STATUS_UNSUPPORTED_PLATFORM ]
+}
+
+@test "brew status without package reports missing brew exec as MISSING" {
+  respond_to "which brew" "return 1"
+  run brew status
+  [ "$status" -eq $STATUS_MISSING ]
 }
