@@ -9,7 +9,7 @@ on:
     branches:
     - bug/*
     - feature/*
-    - docs/*r
+    - docs/*
 
 jobs:
   danger:
