@@ -39,6 +39,13 @@ git clone https://github.com/skylarmacdonald/bork /usr/local/src/bork
 brew install bork
 ```
 
+## via npm
+
+1. Install via npm:
+```bash
+npm install -g @borksh/bork
+```
+
 ## Updating
 
 Bork can update itself as part of satisfying your config file. Your config file

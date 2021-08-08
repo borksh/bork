@@ -12,6 +12,7 @@ This quick reference uses [shields.io](https://shields.io) to fetch the latest p
 
 ![Latest GitHub release](https://img.shields.io/github/v/release/skylarmacdonald/bork)  
 ![Latest version available via Homebrew](https://img.shields.io/homebrew/v/bork)  
+![Latest version available via npm](https://img.shields.io/npm/v/@borksh/bork)  
 ![GitHub commits since latest release](https://img.shields.io/github/commits-since/skylarmacdonald/bork/latest/main)
 
 The last one is how many commits have been made to `main` since the latest release. The bigger the number, the sooner a new release is likely to come.
@@ -24,3 +25,9 @@ Formula: bork
 Version: 0.13.0  
 Link to formula: <https://formulae.brew.sh/formula/bork>  
 Formula code: <https://github.com/Homebrew/homebrew-core/blob/HEAD/Formula/bork.rb>  
+
+### npm
+
+Package: @borksh/bork  
+Version: 0.13.0  
+Link to registry: <https://www.npmjs.com/package/@borksh/bork>
