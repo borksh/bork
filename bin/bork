@@ -103,6 +103,10 @@ case "$operation" in
     if [ -d "$BORK_SOURCE_DIR/.brew" ]; then
       echo "Installed via Homebrew"
     fi
+    if [ -f "$BORK_SOURCE_DIR/package.json" ]; then
+      cat "$BORK_SOURCE_DIR/package.json" | grep '"_from": "@borksh/bork"' > /dev/null
+      [ "$?" -eq 0 ] && echo "Installed via npm"
+    fi
     exit 0
     ;;
   inspect)
