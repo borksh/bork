@@ -2,15 +2,15 @@
   "name": "@borksh/bork",
   "version": "0.13.0",
   "description": "Bash-Operated Reconciling Kludge",
-  "homepage": "https://skylarmacdonald.github.io/bork",
+  "homepage": "https://bork.sh",
   "license": "Apache-2.0",
   "author": "Skylar MacDonald",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/skylarmacdonald/bork.git"
+    "url": "git+https://github.com/borksh/bork.git"
   },
   "bugs": {
-    "url": "https://github.com/skylarmacdonald/bork/issues"
+    "url": "https://github.com/borksh/bork/issues"
   },
   "files": [
     "bin",

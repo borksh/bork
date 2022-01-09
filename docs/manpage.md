@@ -256,7 +256,7 @@ assertion you wish to check.
 
 ## SEE ALSO
 
-Bork documentation: <https://skylarmacdonald.github.io/bork>
+Bork documentation: <https://borksh.github.io/bork>
 
 ## AUTHORS
 
@@ -264,12 +264,12 @@ Bork's lead maintainer is Skylar MacDonald. It was created and previously
 maintained by Matthew Lyon.
 
 A full list of contributors is available on GitHub:  
-<https://github.com/skylarmacdonald/bork/graphs/contributors>
+<https://github.com/borksh/bork/graphs/contributors>
 
 ## BUGS
 
 See our issues on GitHub:  
-<https://github.com/skylarmacdonald/bork/issues>
+<https://github.com/borksh/bork/issues>
 
 [SYNOPSIS]: #SYNOPSIS "SYNOPSIS"
 [DESCRIPTION]: #DESCRIPTION "DESCRIPTION"

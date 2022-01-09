@@ -7,18 +7,18 @@ intercept_git () { echo "$*"; }
 git_call="intercept_git"
 
 @test "github status: handles implicit target" {
-  run github status skylarmacdonald/bork
-  [ "$output" = "status https://github.com/skylarmacdonald/bork.git" ]
+  run github status borksh/bork
+  [ "$output" = "status https://github.com/borksh/bork.git" ]
 }
 
 @test "github status: handles explicit target" {
-  run github status /Users/skylar/code/bork skylarmacdonald/bork
-  [ "$output" = "status /Users/skylar/code/bork https://github.com/skylarmacdonald/bork.git" ]
+  run github status /Users/skylar/code/bork borksh/bork
+  [ "$output" = "status /Users/skylar/code/bork https://github.com/borksh/bork.git" ]
 }
 
 @test "github status: handles --ssh argument" {
-  run github status skylarmacdonald/bork --ssh
-  [ "$output" = "status git@github.com:skylarmacdonald/bork.git" ]
+  run github status borksh/bork --ssh
+  [ "$output" = "status git@github.com:borksh/bork.git" ]
 }
 
 @test "github compile: outputs git type via include_assertion" {

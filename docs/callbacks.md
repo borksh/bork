@@ -75,7 +75,7 @@ bork_will_install_any () {
   fi
 }
 ok directory foo
-ok github foo/bork skylarmacdonald/bork --ssh --branch=main
+ok github foo/bork borksh/bork --ssh --branch=main
 ```
 
 That will output:
@@ -85,11 +85,11 @@ missing: directory foo
 Bork is creating a directory
 verifying install: directory foo
 * success
-missing: github foo/bork skylarmacdonald/bork --ssh --branch=main 
+missing: github foo/bork borksh/bork --ssh --branch=main 
 Bork is doing something else
 Cloning into 'foo/bork'...
 [git output goes here]
-verifying install: github foo/bork skylarmacdonald/bork --ssh --branch=main
+verifying install: github foo/bork borksh/bork --ssh --branch=main
 * success
 ```
 

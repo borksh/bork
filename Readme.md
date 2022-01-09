@@ -2,9 +2,9 @@
 
 I still use [Bork](https://github.com/mattly/bork) in the year 2021, so I forked it to fix it.
 
-![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/skylarmacdonald/bork)
-![Test status](https://github.com/skylarmacdonald/bork/workflows/Test/badge.svg)
-![FreeBSD test status](https://img.shields.io/travis/com/skylarmacdonald/bork?label=FreeBSD&logo=freebsd)
+![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/borksh/bork)
+![Test status](https://github.com/borksh/bork/workflows/Test/badge.svg)
+![FreeBSD test status](https://img.shields.io/travis/com/borksh/bork?label=FreeBSD&logo=freebsd)
 
 Bork puts the 'sh' back into IT. [Bork Bork Bork](https://www.youtube.com/results?search_query=swedish+chef).
 
@@ -22,7 +22,7 @@ platform differences between BSD and GPL versions of unix utilities.
 
 1. Clone this repository:
 ```bash
-git clone https://github.com/skylarmacdonald/bork /usr/local/src/bork
+git clone https://github.com/borksh/bork /usr/local/src/bork
 ```
 
 1. Symlink the bork binaries into your `$PATH`:
@@ -54,7 +54,7 @@ Bork can update itself as part of satisfying your config file. Your config file
 should look something like this to update via git:
 
 ```bash
-ok github /usr/local/src/bork skylarmacdonald/bork --branch=main
+ok github /usr/local/src/bork borksh/bork --branch=main
 ok symlink /usr/local/bin/bork /usr/local/src/bork/bin/bork
 ```
 
@@ -462,7 +462,7 @@ assertion you wish to check.
 
 ## Community
 
-Discuss on [GitHub Discussions](https://github.com/skylarmacdonald/bork/discussions)
+Discuss on [GitHub Discussions](https://github.com/borksh/bork/discussions)
 
 ## Requirements / Dependencies
 

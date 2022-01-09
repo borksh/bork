@@ -11,7 +11,7 @@ on:
 jobs:
   build-manpage:
     runs-on: ubuntu-latest
-    if: github.repository == 'skylarmacdonald/bork'
+    if: github.repository == 'borksh/bork'
     steps:
     - uses: actions/checkout@v2
     - name: Install ronn

@@ -34,8 +34,8 @@ fi
 case $action in
   desc)
     echo "asserts presence and state of a git repository"
-    echo "> git git@github.com:skylarmacdonald/bork"
-    echo "> git ~/code/bork git@github.com:skylarmacdonald/bork"
+    echo "> git git@github.com:borksh/bork"
+    echo "> git ~/code/bork git@github.com:borksh/bork"
     echo "--branch=gh-pages             (specify branch, tag, or ref)"
     echo "--untracked-files=normal      (specify what to do with untracked files. default is to ignore)"
     ;;

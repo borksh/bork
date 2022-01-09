@@ -13,8 +13,8 @@ case $action in
   desc)
     echo "front-end for git type, uses github urls"
     echo "passes arguments to git type"
-    echo "> ok github skylarmacdonald/bork"
-    echo "> ok github ~/code/bork skylarmacdonald/bork"
+    echo "> ok github borksh/bork"
+    echo "> ok github ~/code/bork borksh/bork"
     echo "--ssh                    (clones via ssh instead of https)"
     ;;
 

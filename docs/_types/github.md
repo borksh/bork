@@ -9,7 +9,7 @@ front-end for git type, uses github urls
 
 ```bash
 passes arguments to git type
-> ok github skylarmacdonald/bork
-> ok github ~/code/bork skylarmacdonald/bork
+> ok github borksh/bork
+> ok github ~/code/bork borksh/bork
 --ssh                    (clones via ssh instead of https)
 ```

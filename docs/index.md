@@ -24,7 +24,7 @@ platform differences between BSD and GPL versions of unix utilities.
 
 1. Clone this repository:
 ```bash
-git clone https://github.com/skylarmacdonald/bork /usr/local/src/bork
+git clone https://github.com/borksh/bork /usr/local/src/bork
 ```
 
 1. Symlink the bork binaries into your `$PATH`:
@@ -52,7 +52,7 @@ Bork can update itself as part of satisfying your config file. Your config file
 should look something like this to update via git:
 
 ```bash
-ok github /usr/local/src/bork skylarmacdonald/bork --branch=main
+ok github /usr/local/src/bork borksh/bork --branch=main
 ok symlink /usr/local/bin/bork /usr/local/src/bork/bin/bork
 ```
 
@@ -460,7 +460,7 @@ assertion you wish to check.
 
 ## Community
 
-Discuss on [GitHub Discussions](https://github.com/skylarmacdonald/bork/discussions)
+Discuss on [GitHub Discussions](https://github.com/borksh/bork/discussions)
 
 ## Requirements / Dependencies
 

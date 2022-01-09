@@ -3,7 +3,7 @@
 . test/helpers.sh
 git () { . $BORK_SOURCE_DIR/types/git.sh $*; }
 
-repo="git@github.com:skylarmacdonald/bork"
+repo="git@github.com:borksh/bork"
 dir_exists=1
 dir_listing=$(echo 'foo'; echo 'bar')
 git_status=
@@ -68,34 +68,34 @@ git_status_handler ()   { echo "$git_status"; }
 
 @test "git status: returns CONFLICT_UPGRADE when the local git repository has unstaged changes" {
   git_status=$(echo "## master"; echo " D foo")
-  run git status git@github.com:skylarmacdonald/bork
+  run git status git@github.com:borksh/bork
   [ "$status" -eq $STATUS_CONFLICT_UPGRADE ]
   echo "$output" | grep -E 'uncommitted'
 }
 
 @test "git status: returns CONFLICT_UPGRADE when local git repository has uncommitted staged changes" {
   git_status=$(echo "## master"; echo "D  foo")
-  run git status git@github.com:skylarmacdonald/bork
+  run git status git@github.com:borksh/bork
   [ "$status" -eq $STATUS_CONFLICT_UPGRADE ]
   echo "$output" | grep -E 'uncommitted'
 }
 
 @test "git status: returns OUTDATED when the local git repository is known to be behind" {
   git_status="## master..origin/master [behind 3]"
-  run git status git@github.com:skylarmacdonald/bork
+  run git status git@github.com:borksh/bork
   [ "$status" -eq $STATUS_OUTDATED ]
 }
 
 @test "git status: returns CONFLICT_HALT when local git repository has untracked files" {
   git_status=$(echo "## master"; echo "?? foo/bin/")
-  run git status git@github.com:skylarmacdonald/bork --untracked-files=normal
+  run git status git@github.com:borksh/bork --untracked-files=normal
   [ "$status" -eq $STATUS_CONFLICT_HALT ]
   echo "$output" | grep -E 'untracked'
 }
 
 @test "git status: returns OK when the git repository is up-to-date" {
   git_status="## master"
-  run git status git@github.com:skylarmacdonald/bork
+  run git status git@github.com:borksh/bork
   [ "$status" -eq $STATUS_OK ]
 }
 
@@ -103,7 +103,7 @@ git_status_handler ()   { echo "$git_status"; }
   respond_to "[ ! -d /Users/skylar/code/bork ]" "return 1"
   respond_to "ls -A /Users/skylar/code/bork" "dir_listing_handler"
   git_status="## master"
-  run git status /Users/skylar/code/bork git@github.com:skylarmacdonald/bork
+  run git status /Users/skylar/code/bork git@github.com:borksh/bork
   [ "$status" -eq $STATUS_OK ]
 }
 

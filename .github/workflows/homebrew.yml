@@ -15,6 +15,6 @@ jobs:
       with:
         formula-name: bork
         tag-name: ${{ github.event.inputs.tag-name }}
-        download-url: https://github.com/skylarmacdonald/bork/archive/${{ github.event.inputs.tag-name }}.tar.gz
+        download-url: https://github.com/borksh/bork/archive/${{ github.event.inputs.tag-name }}.tar.gz
       env:
         COMMITTER_TOKEN: ${{ secrets.COMMITTER_TOKEN }}

@@ -44,7 +44,7 @@ Hello! I've forked bork in 2021 to fix some bugs and carry on the project. I'm i
 - new `pip3` type for Python 3.x
 - new `shells` type for registering a shell in `/etc/shells`
 - `apk` type support has now been merged and the tests fixed. Thanks [@mattly][] & [@jitakirin][] for your work in 2018!
-- there is now Markdown documentation in `docs/`, which is also the source of the [GitHub Pages site](https://skylarmacdonald.github.io/bork).
+- there is now Markdown documentation in `docs/`, which is also the source of the [GitHub Pages site](https://borksh.github.io/bork).
 
 ## [0.11.1] - 2018-01-28
 
