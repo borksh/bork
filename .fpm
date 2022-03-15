@@ -1,0 +1,14 @@
+-s dir
+--name bork
+--license asl2
+--version 0.13.0
+--architecture all
+--depends bash
+--description "The Bash-Operated Reconciling Kludge"
+--url "https://bork.sh"
+--maintainer "Skylar MacDonald <dev@bork.sh>"
+--after-install pkg/after-install.sh
+--after-remove pkg/after-uninstall.sh
+--rpm-os linux
+
+bin=/usr/local/src/bork lib=/usr/local/src/bork types=/usr/local/src/bork docs/bork.1=/usr/local/share/man/man1/bork.1
