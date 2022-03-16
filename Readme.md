@@ -48,6 +48,13 @@ brew install bork
 npm install -g @borksh/bork
 ```
 
+## via pre-built package
+
+Starting with version 0.13.0, packages are available for a handful of operating
+systems on the [GitHub releases page](https://github.com/borksh/bork/releases).
+These are generally from CI and built unsigned, but SHA-1 hashes are always
+available.
+
 ## Updating
 
 Bork can update itself as part of satisfying your config file. Your config file

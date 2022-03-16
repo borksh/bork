@@ -31,3 +31,12 @@ Formula code: <https://github.com/Homebrew/homebrew-core/blob/HEAD/Formula/bork.
 Package: @borksh/bork  
 Version: 0.13.0  
 Link to registry: <https://www.npmjs.com/package/@borksh/bork>
+
+## Pre-built system packages
+
+Starting with version 0.13.0, packages are available for a handful of operating systems on the [GitHub releases page](https://github.com/borksh/bork/releases). These are generally from CI and built unsigned, but SHA-1 hashes are always
+available. Packages are currently available for the following operating systems:
+
+- Debian/Ubuntu-like (`.deb`)
+- Fedora/CentOS/Red Hat (`.rpm`)
+- macOS installer (`.pkg`)
