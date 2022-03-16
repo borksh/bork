@@ -1,5 +1,3 @@
-# TODO some flag for git:// urls
-
 if [ -z "$git_call" ]; then
   git_call=". $BORK_SOURCE_DIR/types/git.sh"
   is_compiled && git_call="type_git"
