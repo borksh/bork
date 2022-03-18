@@ -1,6 +1,4 @@
 # TODO install - test for necessity of 'sudo' prefix
-# TODO status - check against "gem outdated" list
-# TODO update - update outdated gems mentioned
 # TODO --version - support for status, install, update
 # TODO gem flags - figure out convention to pass through, similar to brew?
 
@@ -19,9 +17,16 @@ case $action in
     if ! str_matches "$gems" "^$gemname"; then
       return $STATUS_MISSING
     fi
+    outdated_gems=$(bake gem outdated)
+    if str_matches "$outdated_gems" "^$gemname"; then
+      return $STATUS_OUTDATED
+    fi
     return 0 ;;
   install)
     bake sudo gem install "$gemname"
+    ;;
+  upgrade)
+    bake sudo gem update "$gemname"
     ;;
   inspect)
     needs_exec "gem" || return $STATUS_FAILED_PRECONDITION

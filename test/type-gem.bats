@@ -5,6 +5,7 @@ gem () { . $BORK_SOURCE_DIR/types/gem.sh $*; }
 
 setup () {
   respond_to "gem list" "cat $fixtures/gem-list.txt"
+  respond_to "gem outdated" "cat $fixtures/gem-outdated.txt"
 }
 
 @test "gem status: returns FAILED_PRECONDITION without gem exec" {
@@ -18,6 +19,11 @@ setup () {
   [ "$status" -eq $STATUS_MISSING ]
 }
 
+@test "gem status: returns OUTDATED if gem is outdated" {
+  run gem status bar
+  [ "$status" -eq $STATUS_OUTDATED ]
+}
+
 @test "gem status: returns OK if gem is installed" {
   run gem status foo
   [ "$status" -eq $STATUS_OK ]
@@ -28,6 +34,13 @@ setup () {
   [ "$status" -eq 0 ]
   run baked_output
   [ "${lines[0]}" = "sudo gem install foo" ]
+}
+
+@test "gem upgrade: performs the upgrade" {
+  run gem upgrade foo
+  [ "$status" -eq 0 ]
+  run baked_output
+  [ "${lines[0]}" = "sudo gem update foo" ]
 }
 
 @test "gem inspect: returns FAILED_PRECONDITION without gem exec" {
