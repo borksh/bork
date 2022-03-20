@@ -3,7 +3,7 @@ name: cask
 inspects: true
 removable: true
 ---
-asserts presence of apps installed via caskroom.io on macOS
+asserts presence of apps installed via Homebrew Casks on macOS
 
 
 ### Usage

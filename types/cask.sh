@@ -5,7 +5,7 @@ appdir=$(arguments get appdir $*)
 
 case $action in
   desc)
-    echo "asserts presence of apps installed via caskroom.io on macOS"
+    echo "asserts presence of apps installed via Homebrew Casks on macOS"
     echo "* cask app-name         (installs cask)"
     echo "--appdir=/Applications  (changes symlink path)"
     ;;
@@ -22,26 +22,23 @@ case $action in
 
     info=$(bake brew info --cask $name)
     echo "$info" | grep 'Not installed' > /dev/null
-    # TODO replace with perhaps "OUTDATED_CLOBBER" ?
     [ "$?" -eq 0 ] && return $STATUS_OUTDATED
 
     return 0 ;;
 
   install)
     if [ -n "$appdir"  ]; then
-      bake brew install --cask $name --appdir=$appdir
+      HOMEBREW_NO_AUTO_UPDATE=true bake brew install --cask $name --appdir=$appdir
     else
-      bake brew install --cask $name
+      HOMEBREW_NO_AUTO_UPDATE=true bake brew install --cask $name
     fi
     ;;
 
   upgrade)
-    # TODO move rm statement to remove action with clobber
-    bake rm -rf "/usr/local/Caskroom/$name"
     if [ -n "$appdir" ]; then
-      bake brew install --cask $name --appdir=$appdir --force
+      HOMEBREW_NO_AUTO_UPDATE=true bake brew upgrade --cask $name --appdir=$appdir
     else
-      bake brew install --cask $name --force
+      HOMEBREW_NO_AUTO_UPDATE=true bake brew upgrade --cask $name
     fi
     ;;
 
@@ -55,7 +52,7 @@ case $action in
     ;;
 
   remove)
-    bake brew remove --cask $name
+    HOMEBREW_NO_AUTO_UPDATE=true bake brew remove --cask $name
     ;;
 
   *) return 1 ;;
