@@ -1,6 +1,9 @@
 #compdef bork
 
 _bork () {
+  if [ "${#words[@]}" -gt "2" ]; then
+    return
+  fi
   local -a borkcmds
   borkcmds=(
     "check:perform 'status' for a single command"
