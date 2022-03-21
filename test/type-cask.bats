@@ -50,12 +50,11 @@ setup () {
   [ "$output" = 'brew install --cask missing_package' ]
 }
 
-@test "cask upgrade performs a force install and cleans up old versions" {
+@test "cask upgrade performs an upgrade" {
   run cask upgrade installed_package
   [ "$status" -eq 0 ]
   run baked_output
-  [ "${lines[0]}" = "rm -rf /usr/local/Caskroom/installed_package" ]
-  [ "${lines[1]}" = "brew install --cask installed_package --force" ]
+  [ "${lines[0]}" = "brew upgrade --cask installed_package" ]
 }
 
 @test "cask inspect: returns FAILED_PRECONDITION without brew exec" {
