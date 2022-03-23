@@ -43,7 +43,11 @@ done
 case "$operation" in
   compile) bork_compile $* ;;
   load) : ;;
-  satisfy | status) . $1 ;;
+  satisfy | status)
+    BORK_EXIT_STATUS=0
+    . $1
+    exit $BORK_EXIT_STATUS
+    ;;
   check)
     fn=$1
     shift
