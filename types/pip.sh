@@ -5,11 +5,13 @@
 action=$1
 name=$2
 shift 2
+sudo=$(arguments get sudo $*)
 
 case $action in
   desc)
     echo "asserts presence of packages installed via pip"
     echo "> pip pygments"
+    echo "--sudo            (install with sudo)"
     ;;
   status)
     needs_exec "pip" || return $STATUS_FAILED_PRECONDITION
@@ -19,10 +21,18 @@ case $action in
     fi
     return 0 ;;
   install)
-    bake pip install "$name"
+    if [ -n "$sudo" ]; then
+      bake sudo pip install "$name"
+    else
+      bake pip install "$name"
+    fi
     ;;
   remove)
-    bake pip uninstall "$name"
+    if [ -n "$sudo" ]; then
+      bake sudo pip uninstall "$name"
+    else
+      bake pip uninstall "$name"
+    fi
     ;;
 esac
 

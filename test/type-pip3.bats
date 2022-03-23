@@ -30,6 +30,13 @@ setup () {
   [ "${lines[0]}" = "pip3 install foo" ]
 }
 
+@test "pip3 install: performs installation with sudo flag" {
+  run pip3 install foo --sudo
+  [ "$status" -eq 0 ]
+  run baked_output
+  [ "${lines[0]}" = "sudo pip3 install foo" ]
+}
+
 @test "pip3 inspect: returns FAILED_PRECONDITION without pip3 exec" {
     respond_to "which pip3" "return 1"
     run pip3 inspect
@@ -46,4 +53,11 @@ setup () {
   [ "$status" -eq 0 ]
   run baked_output
   [ "${lines[0]}" = "pip3 uninstall foo" ]
+}
+
+@test "pip3 remove: performs uninstallation with sudo flag" {
+  run pip3 remove foo --sudo
+  [ "$status" -eq 0 ]
+  run baked_output
+  [ "${lines[0]}" = "sudo pip3 uninstall foo" ]
 }

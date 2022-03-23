@@ -30,9 +30,23 @@ setup () {
   [ "${lines[0]}" = "pip install foo" ]
 }
 
+@test "pip install: performs installation with sudo flag" {
+  run pip install foo --sudo
+  [ "$status" -eq 0 ]
+  run baked_output
+  [ "${lines[0]}" = "sudo pip install foo" ]
+}
+
 @test "pip remove: performs uninstallation" {
   run pip remove foo
   [ "$status" -eq 0 ]
   run baked_output
   [ "${lines[0]}" = "pip uninstall foo" ]
+}
+
+@test "pip remove: performs uninstallation with sudo flag" {
+  run pip remove foo --sudo
+  [ "$status" -eq 0 ]
+  run baked_output
+  [ "${lines[0]}" = "sudo pip uninstall foo" ]
 }

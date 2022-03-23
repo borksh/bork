@@ -5,11 +5,13 @@
 action=$1
 name=$2
 shift 2
+sudo=$(arguments get sudo $*)
 
 case $action in
   desc)
-    echo "asserts presence of packages installed via pip"
+    echo "asserts presence of packages installed via pip3"
     echo "> pip3 pygments"
+    echo "--sudo            (install with sudo)"
     ;;
   status)
     needs_exec "pip3" || return $STATUS_FAILED_PRECONDITION
@@ -19,7 +21,11 @@ case $action in
     fi
     return 0 ;;
   install)
-    bake pip3 install "$name"
+    if [ -n "$sudo" ]; then
+      bake sudo pip3 install "$name"
+    else
+      bake pip3 install "$name"
+    fi
     ;;
   inspect)
     needs_exec "pip3" || return $STATUS_FAILED_PRECONDITION
@@ -29,7 +35,11 @@ case $action in
     done <<< "$installed"
     ;;
   remove)
-    bake pip3 uninstall "$name"
+    if [ -n "$sudo" ]; then
+      bake sudo pip3 uninstall "$name"
+    else
+      bake pip3 uninstall "$name"
+    fi
     ;;
 esac
 

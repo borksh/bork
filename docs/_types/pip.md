@@ -9,4 +9,5 @@ asserts presence of packages installed via pip
 
 ```bash
 > pip pygments
+--sudo            (install with sudo)
 ```
