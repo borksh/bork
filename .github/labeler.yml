@@ -11,3 +11,6 @@ core:
 - test/fn-*.bats
 - test/help-*.bats
 - test/helpers.bats
+packages:
+- pkg/**/*
+- .fpm

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Warn when a PR is classed as work in progress
-warn 'PR is classed as Work in Progress' if github.pr_title.include? '[WIP]'
+warn 'PR is classed as Work in Progress' if github.pr_title.downcase.include? '(wip)'
 
 # Note when a PR cannot be manually merged, which goes away when you can
 can_merge = github.pr_json['mergeable']
@@ -13,6 +13,7 @@ labels_to_add << 'types' if github.pr_title.include? '(types)'
 labels_to_add << 'bug' if github.pr_title.include? '(bug)'
 labels_to_add << 'core' if github.pr_title.include? '(core)'
 labels_to_add << 'documentation' if github.pr_title.include? '(docs)'
+labels_to_add << 'packages' if github.pr_title.include? '(pkg)'
 github.api.add_labels_to_an_issue github.pr_json[:base][:repo][:full_name], github.pr_json[:number], labels_to_add
 
 # Note when PRs don't reference a milestone, which goes away when it does
