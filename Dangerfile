@@ -26,6 +26,7 @@ github.review.start
 github.review.fail 'Please provide a summary in the Pull Request description' if github.pr_body.length < 5
 
 # Check that there are both app and test code changes for the main app
+CHANGED_FILES = (git.added_files + git.modified_files).freeze
 changed_app_files = CHANGED_FILES.select { |path| path =~ /^(bin|lib|types)/ }
 if changed_app_files.any?
   changed_test_files = CHANGED_FILES.select { |path| path =~ /^test/ }
