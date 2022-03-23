@@ -12,4 +12,4 @@
 --rpm-os linux
 --osxpkg-identifier-prefix sh.bork
 
-bin=/usr/local/src/bork lib=/usr/local/src/bork types=/usr/local/src/bork docs/bork.1=/usr/local/share/man/man1/bork.1
+bin=/usr/local/src/bork lib=/usr/local/src/bork types=/usr/local/src/bork pkg=/usr/local/src/bork docs/bork.1=/usr/local/share/man/man1/bork.1
