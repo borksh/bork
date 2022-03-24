@@ -1,4 +1,4 @@
 destination () {
-  echo "deprecation warning: 'destination' utility will be removed in a future version - use 'cd' instead" 1>&2
+  ohno "deprecation warning: 'destination' utility will be removed in a future version - use 'cd' instead"
   cd $1
 }

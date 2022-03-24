@@ -64,3 +64,10 @@ _status_for () {
     _absent_status_for $2
   fi
 }
+
+_is_bad () {
+  case $1 in
+    1|25|30|31|32|33|34) return 0 ;;
+    *) return 1 ;;
+  esac
+}

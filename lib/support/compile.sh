@@ -44,7 +44,7 @@ compile_file () {
                 type=$(str_get_field "$line" 2)
                 fn=$(_lookup_type $type)
                 if [ -z "$fn" ]; then
-                    echo "type $type not found, can't proceed" 1>&2
+                    ohno "type $type not found, can't proceed"
                     exit 1
                 fi
                 include_assertion $type $fn
@@ -92,7 +92,7 @@ DONE
       y|yes) echo "BORK_CONFLICT_RESOLVE=0" ;;
       n|no) echo "BORK_CONFLICT_RESOLVE=1" ;;
       *)
-        echo "Invalid value $conflicts provided for --conflicts argument" 1&>2
+        ohno "Invalid value $conflicts provided for --conflicts argument"
         exit 1 ;;
     esac
   fi

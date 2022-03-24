@@ -15,6 +15,6 @@ type_help () {
       done <<< "$usage"
     fi
   else
-    echo "undefined type: $(basename $1 '.sh')"
+    ohno "undefined type: $(basename $1 '.sh')"
   fi
 }

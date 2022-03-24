@@ -9,7 +9,7 @@ http_head_cmd () {
     if [ "$?" -eq 0 ]; then
         echo "curl -sIL \"$url\""
     else
-        echo "curl not found; wget support not implemented yet"
+        ohno "curl not found; wget support not implemented yet"
         return 1
     fi
 }
@@ -27,7 +27,7 @@ http_get_cmd () {
     if [ "$?" -eq 0 ]; then
         echo "curl -sLo \"$target\" \"$url\" &> /dev/null"
     else
-        echo "curl not found; wget support not implemented yet"
+        ohno "curl not found; wget support not implemented yet"
         return 1
     fi
 }

@@ -36,7 +36,7 @@ _changes_complete () {
   elif [ "$action" = "remove" ]; then bork_performed_remove=1
   fi
   if did_update; then bork_any_updated=1 ;fi
-  [ "$status" -gt 0 ] && echo "* failure"
+  [ "$status" -gt 0 ] && ohno "* failure"
 }
 
 # TODO: tests for this

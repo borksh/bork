@@ -13,9 +13,11 @@ _checking () {
   shift
   check_str="$type: $*"
   _checked_len=${#check_str}
-  echo -n "$check_str"$'\r'
+  think "$check_str"$'\r'
 }
 _checked () {
+  status=$1
+  shift
   report="$*"
 
   # We need to clear the current line with spaces so find out how wide the
@@ -28,16 +30,17 @@ _checked () {
     report+=" "
     (( i++ ))
   done
-  echo "$report"
+  _is_bad "$status" && ohno "$report"
+  _is_bad "$status" || tell "$report"
 }
 
 _conflict_approve () {
   if [ -n "$BORK_CONFLICT_RESOLVE" ]; then
     return $BORK_CONFLICT_RESOLVE
   fi
-  echo
-  echo "== Warning! Assertion: $*"
-  echo "Attempting to satisfy has resulted in a conflict.  Satisfying this may overwrite data."
+  tell
+  tell "== Warning! Assertion: $*"
+  tell "Attempting to satisfy has resulted in a conflict.  Satisfying this may overwrite data."
   _yesno "Do you want to continue?"
   return $?
 }
@@ -50,7 +53,7 @@ _yesno () {
     if [[ "$answer" == 'y' || "$answer" == "yes" || "$answer" == "n" || "$answer" == "no" ]]; then
       answered=1
     else
-      echo "Valid answers are: yes y no n" >&2
+      ohno "Valid answers are: yes y no n"
     fi
   done
   [[ "$answer" == 'y' || "$answer" == 'yes' ]]
@@ -66,7 +69,7 @@ _make_change () {
 
 _fail_fast () {
   if [ -n "$BORK_FAIL_FAST" ]; then
-    echo "--- bork stopped"
+    ohno "--- bork stopped"
     exit 1
   fi
 }
@@ -80,7 +83,7 @@ assert () {
   _changes_reset
   fn=$(_lookup_type $assertion)
   if [ -z "$fn" ]; then
-    echo "not found: $assertion" 1>&2
+    ohno "not found: $assertion"
     return 1
   fi
   argstr=$*
@@ -95,9 +98,12 @@ assert () {
       _checking "checking" $assertion $argstr
       output=$(eval "$(_source_runner $fn) status $quoted_argstr")
       status=$?
-      _checked "$(_status_for $assert_mode $status): $assertion $argstr"
+      _checked "$status" "$(_status_for $assert_mode $status): $assertion $argstr"
       [ "$status" -eq 1 ] && _bork_check_failed=1
-      [ "$status" -ne 0 ] && [ -n "$output" ] && echo "$output"
+      if [ "$status" -ne 0 ] && [ -n "$output" ]; then
+        _is_bad "$status" && ohno "$output"
+        _is_bad "$status" || tell "$output"
+      fi
       [ "$assert_mode" = 'no' ] && [ $status -eq $STATUS_MISSING ] && return 0
       [ "$status" -ne 0 ] && BORK_EXIT_STATUS=$status && _fail_fast
       return $status
@@ -106,14 +112,14 @@ assert () {
       _checking "checking" $assertion $argstr
       status_output=$(eval "$(_source_runner $fn) status $quoted_argstr")
       status=$?
-      _checked "$(_status_for $assert_mode $status): $assertion $argstr"
+      _checked "$status" "$(_status_for $assert_mode $status): $assertion $argstr"
       case $status in
         0)
           [ $assert_mode = 'no' ] && _make_change 'remove'
           ;;
         1)
           _bork_check_failed=1
-          echo "$status_output"
+          ohno "$status_output"
           _fail_fast
           ;;
         10)
@@ -121,46 +127,46 @@ assert () {
           ;;
         11|12|13)
           if [ $assert_mode = 'ok' ]; then
-            echo "$status_output"
+            tell "$status_output"
             _make_change 'upgrade'
           elif [ $assert_mode = 'no' ]; then
             _make_change 'remove'
           fi
           ;;
         20)
-          echo "$status_output"
+          tell "$status_output"
           _conflict_approve $assertion $argstr
           if [ "$?" -eq 0 ]; then
-            echo "Resolving conflict..."
+            tell "Resolving conflict..."
             [ $assert_mode = 'ok' ] && _make_change 'upgrade'
             [ $assert_mode = 'no' ] && _make_change 'remove'
           else
-            echo "Conflict unresolved."
+            tell "Conflict unresolved."
             _fail_fast
           fi
           ;;
         *)
-          echo "-- sorry, bork doesn't handle this response yet"
-          echo "$status_output"
+          ohno "-- sorry, bork doesn't handle this response yet"
+          ohno "$status_output"
           _fail_fast
           ;;
       esac
       if did_update; then
-        echo "verifying $last_change_type: $assertion $argstr"
+        tell "verifying $last_change_type: $assertion $argstr"
         output=$(eval "$(_source_runner $fn) status $quoted_argstr")
         status=$?
         if [ "$status" -gt 0 ] && [ "$assert_mode" = 'ok' ]; then
-          echo "* $last_change_type failed"
-          _checked "$(_status_for $assert_mode $status)"
-          echo "$output"
+          ohno "* $last_change_type failed"
+          _checked "$status" "$(_status_for $assert_mode $status)"
+          ohno "$output"
           _fail_fast
         elif [ "$status" -ne "$STATUS_MISSING" ] && [ "$assert_mode" = 'no' ]; then
-          echo "* $last_change_type failed"
-          _checked "$(_status_for $assert_mode $status)"
-          echo "$output"
+          ohno "* $last_change_type failed"
+          _checked "$status" "$(_status_for $assert_mode $status)"
+          ohno "$output"
           _fail_fast
         else
-          echo "* success"
+          tell "* success"
         fi
         return 1
       fi

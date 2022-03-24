@@ -92,43 +92,43 @@ case "$operation" in
     done
     ;;
   version | --version)
-    echo "bork 0.13.0"
+    tell "bork 0.13.0"
     if [ -d "$BORK_SOURCE_DIR/.git" ]; then
-      echo "Installed via git"
+      tell "Installed via git"
       branch=$(git --git-dir="$BORK_SOURCE_DIR/.git" symbolic-ref --short HEAD 2>/dev/null)
       branch_status=$?
       ref=$(git --git-dir="$BORK_SOURCE_DIR/.git" rev-parse --short HEAD)
       if [ $branch_status -eq 0 ]; then
-        echo "On branch $branch at $ref"
+        tell "On branch $branch at $ref"
       else
-        echo "Detached HEAD at $ref"
+        tell "Detached HEAD at $ref"
       fi
     fi
     if [ -d "$BORK_SOURCE_DIR/.brew" ]; then
-      echo "Installed via Homebrew"
+      tell "Installed via Homebrew"
     fi
     if [ -f "$BORK_SOURCE_DIR/package.json" ]; then
       cat "$BORK_SOURCE_DIR/package.json" | grep '"_from": "@borksh/bork"' > /dev/null
-      [ "$?" -eq 0 ] && echo "Installed via npm"
+      [ "$?" -eq 0 ] && tell "Installed via npm"
     fi
     exit 0
     ;;
   inspect)
     typearg=$1
     if [ -z $typearg ]; then
-      echo "missing a type to inspect"
-      echo "usage: bork inspect [type]"
+      ohno "missing a type to inspect"
+      ohno "usage: bork inspect [type]"
       exit 1
     else
       typefile="$BORK_SOURCE_DIR/types/$typearg.sh"
       if [ -s $typefile ]; then
         . $typefile inspect
         if [ $? -eq 1 ]; then
-          echo "$typearg is not inspectable"
+          ohno "$typearg is not inspectable"
           exit 1
         fi
       else
-        echo "undefined type: $typearg"
+        ohno "undefined type: $typearg"
         exit 1
       fi  
     fi

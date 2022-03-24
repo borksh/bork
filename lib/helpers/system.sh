@@ -15,7 +15,7 @@ needs_exec () {
   path=$(bake "which $1")
 
   if [ "$?" -gt 0 ]; then
-    echo "missing required exec: $1"
+    ohno "missing required exec: $1"
     retval=$((running_status+1))
     return $retval
   else return $running_status
