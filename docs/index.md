@@ -479,4 +479,4 @@ Discuss on [GitHub Discussions](https://github.com/borksh/bork/discussions)
 
 ## License
 
-[Apache License 2.0](LICENSE)
+[Apache License 2.0](https://github.com/borksh/bork/blob/main/LICENSE)
