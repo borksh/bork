@@ -63,13 +63,13 @@ case $action in
     fi
     if [ "$desired_type" != $current_type ]; then
       conflict=1
-      echo "expected type: $desired_type"
-      echo "received type: $current_type"
+      tell "expected type: $desired_type"
+      tell "received type: $current_type"
     fi
     if [ "$current_val" != $desired_val ]; then
       conflict=1
-      echo "expected value: $desired_val"
-      echo "received value: $current_val"
+      tell "expected value: $desired_val"
+      tell "received value: $current_val"
     fi
     [ -n "$conflict" ] && return $STATUS_MISMATCH_UPGRADE
     return $STATUS_OK

@@ -58,11 +58,11 @@ case $action in
 
     # If the directory isn't a git repo, conflict
     if [ $git_fetch_status -gt 0 ]; then
-      echo "destination directory $target_dir exists, not a git repository (exit status $git_fetch_status)"
+      tell "destination directory $target_dir exists, not a git repository (exit status $git_fetch_status)"
       return $STATUS_CONFLICT_CLOBBER
     elif str_matches "$git_fetch" '"^fatal"'; then
-      echo "destination directory exists, not a git repository"
-      echo "$git_fetch"
+      tell "destination directory exists, not a git repository"
+      tell "$git_fetch"
       return $STATUS_CONFLICT_CLOBBER
     fi
 
@@ -71,19 +71,19 @@ case $action in
 
     git_divergence=$(str_get_field "$git_first_line" 3)
     if str_matches "$git_divergence" 'ahead'; then
-      echo "local git repository is ahead of remote"
+      tell "local git repository is ahead of remote"
       return $STATUS_CONFLICT_UPGRADE
     fi
 
     # are there changes?
     if str_matches "$git_stat" "^\\s?\\w"; then
-      echo "local git repository has uncommitted changes"
+      tell "local git repository has uncommitted changes"
       return $STATUS_CONFLICT_UPGRADE
     fi
 
     str_matches "$(str_get_field "$git_first_line" 2)" "$git_branch"
     if [ "$?" -ne 0 ]; then
-      echo "local git repository is on incorrect branch"
+      tell "local git repository is on incorrect branch"
       return $STATUS_MISMATCH_UPGRADE
     fi
 
@@ -92,7 +92,7 @@ case $action in
 
     # are there untracked files?
     if str_matches "$git_stat" "^\?\?"; then
-      echo "local git repository has untracked files"
+      ohno "local git repository has untracked files"
       return $STATUS_CONFLICT_HALT
     fi
 

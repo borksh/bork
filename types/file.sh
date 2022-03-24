@@ -27,13 +27,13 @@ case $action in
   status)
 
     if ! is_compiled && [ ! -f $sourcefile ]; then
-      echo "source file doesn't exist: $sourcefile"
+      ohno "source file doesn't exist: $sourcefile"
       return $STATUS_FAILED_ARGUMENTS
     fi
     if [ -n "$owner" ]; then
       owner_id=$(bake id -u $owner)
       if [ "$?" -gt 0 ]; then
-        echo "unknown owner: $owner"
+        ohno "unknown owner: $owner"
         return $STATUS_FAILED_ARGUMENT_PRECONDITION
       fi
     fi
@@ -48,8 +48,8 @@ case $action in
     fi
     targetsum=$(_bake $(md5cmd $target_platform $targetfile))
     if [ "$targetsum" != $sourcesum ]; then
-      echo "expected sum: $sourcesum"
-      echo "received sum: $targetsum"
+      tell "expected sum: $sourcesum"
+      tell "received sum: $targetsum"
       return $STATUS_CONFLICT_UPGRADE
     fi
 
@@ -57,16 +57,16 @@ case $action in
     if [ -n "$perms" ]; then
       existing_perms=$(_bake $(permission_cmd $target_platform) $targetfile)
       if [ "$existing_perms" != $perms ]; then
-        echo "expected permissions: $perms"
-        echo "received permissions: $existing_perms"
+        tell "expected permissions: $perms"
+        tell "received permissions: $existing_perms"
         mismatch=1
       fi
     fi
     if [ -n "$owner" ]; then
       existing_user=$(_bake ls -l $targetfile | awk '{print $3}')
       if [ "$existing_user" != $owner ]; then
-        echo "expected owner: $owner"
-        echo "received owner: $existing_user"
+        tell "expected owner: $owner"
+        tell "received owner: $existing_user"
         mismatch=1
       fi
     fi
@@ -94,11 +94,11 @@ case $action in
 
   compile)
     if [ ! -f "$sourcefile" ]; then
-      echo "fatal: file '$sourcefile' does not exist!" 1>&2
+      ohno "fatal: file '$sourcefile' does not exist!"
       exit 1
     fi
     if [ ! -r "$sourcefile" ]; then
-      echo "fatal: you do not have read permission for file '$sourcefile'"
+      ohno "fatal: you do not have read permission for file '$sourcefile'"
       exit 1
     fi
     echo "# source: $sourcefile"

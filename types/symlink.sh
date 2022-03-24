@@ -11,13 +11,13 @@ case "$action" in
   status)
     bake [ ! -e "$target" ] && return $STATUS_MISSING
     if bake [ ! -h "$target" ]; then
-      echo "not a symlink: $target"
+      tell "not a symlink: $target"
       return $STATUS_CONFLICT_CLOBBER
     else
       existing_source=$(bake readlink \"$target\")
       if [ "$existing_source" != "$source" ]; then
-        echo "received source for existing symlink: $existing_source"
-        echo "expected source for symlink: $source"
+        tell "received source for existing symlink: $existing_source"
+        tell "expected source for symlink: $source"
         return $STATUS_MISMATCH_UPGRADE
       fi
     fi

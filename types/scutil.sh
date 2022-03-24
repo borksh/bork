@@ -14,8 +14,8 @@ case $action in
     needs_exec "scutil" || return $STATUS_FAILED_PRECONDITION
     current_val=$(bake scutil --get $type)
     if [ "$current_val" != $name ]; then
-      echo "expected: $name"
-      echo "received: $current_val"
+      tell "expected: $name"
+      tell "received: $current_val"
       return $STATUS_MISMATCH_UPGRADE
     fi
     return $STATUS_OK

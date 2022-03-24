@@ -74,7 +74,7 @@ case $action in
     if [ -n "$groups" ]; then
       msg=$(user_groups $handle $groups)
       if [ "$?" -gt 0 ]; then
-        echo "--groups: expected $groups; missing $(echo $msg)"
+        tell "--groups: expected $groups; missing $(echo $msg)"
         partial=1
       fi
     fi

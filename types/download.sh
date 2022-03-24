@@ -21,8 +21,8 @@ case "$action" in
             remotesize=$(http_header "Content-Length" "$remoteinfo")
             remotesize=${remotesize%%[^0-9]*}
             if [ "$sourcesize" != "$remotesize" ]; then
-                echo "expected size: $remotesize bytes"
-                echo "received size: $localsize bytes"
+                tell "expected size: $remotesize bytes"
+                tell "received size: $localsize bytes"
                 return $STATUS_CONFLICT_UPGRADE
             fi
         fi
@@ -34,8 +34,8 @@ case "$action" in
     ;;
 
     remove)
-        echo "remove is not possible on download type"
-        echo "use file type to assert absence of a file"
+        ohno "remove is not possible on download type"
+        ohno "use file type to assert absence of a file"
         return 1
     ;;
 
