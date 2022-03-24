@@ -40,6 +40,8 @@ do
   . $file
 done
 
+BORK_QUIET=$(arguments get quiet $*)
+
 case "$operation" in
   compile) bork_compile $* ;;
   load) : ;;
