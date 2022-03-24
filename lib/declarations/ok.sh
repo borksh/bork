@@ -99,8 +99,7 @@ assert () {
       [ "$status" -eq 1 ] && _bork_check_failed=1
       [ "$status" -ne 0 ] && [ -n "$output" ] && echo "$output"
       [ "$assert_mode" = 'no' ] && [ $status -eq $STATUS_MISSING ] && return 0
-      [ "$status" -ne 0 ] && BORK_EXIT_STATUS=$status
-      [ "$status" -ne 0 ] && _fail_fast
+      [ "$status" -ne 0 ] && BORK_EXIT_STATUS=$status && _fail_fast
       return $status
       ;;
     satisfy)
