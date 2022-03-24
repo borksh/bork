@@ -30,6 +30,14 @@ case $action in
     bake npm -g install "$pkgname"
     ;;
 
+  inspect)
+    needs_exec "npm" || return $STATUS_FAILED_PRECONDITION
+    installed=$(bake npm ls -g --depth 0 | grep -E "^(├|└)─" | cut -d" " -f2 | sed -E 's/@[0-9\.]+$//g')
+    while IFS= read -r formula; do
+      echo "ok npm $formula"
+    done <<< "$installed"
+    ;;
+
   remove)
     bake npm -g uninstall "$pkgname"
     ;;
