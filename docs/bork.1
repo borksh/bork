@@ -276,13 +276,16 @@ There are four functions to help you take further actions after a change:
 Unlike with before callbacks, Bork will not call any functions after making a change\. It is up to you to handle the logic however you wish\. As with the before callbacks, you are strongly advised to use these functions immediately after the assertion you wish to check\.
 .
 .SH "ENVIRONMENT VARIABLES"
-Bork will check two environment variables to modify its behaviour when it runs\.
+Bork will check three environment variables to modify its behaviour when it runs\.
 .
 .SS "\fBBORK_COLOR\fR"
 Setting \fBBORK_COLOR\fR to anything other than an empty string will make Bork\'s output colourful: green if all is well, yellow if something needs action (and Bork can fix it), and red if there is something wrong that Bork can\'t fix\.
 .
 .SS "\fBBORK_FAIL_FAST\fR"
 If \fBBORK_FAIL_FAST\fR is set, Bork will stop executing its script as soon as it reaches an error\. Running in \fBstatus\fR mode, this means that anything in the script that is unsatisfied will cause Bork to stop, including outdated or missing items that Bork can fix\. In \fBsatisfy\fR mode, however, Bork will only stop if it is unable to fix something itself — missing or outdated assertions will be resolved, and Bork will only stop the script if this fails\.
+.
+.SS "\fBBORK_QUIET\fR"
+If \fBBORK_QUIET\fR is set, Bork will not output anything other than errors, which it will only write to stdout\. This is broadly the same as redirecting its output to \fB/dev/null\fR, except it is up to each assertion type how they want to handle being quiet\. Some types may still need user interaction whilst installing or upgrading packages, so this is a safer way to reduce Bork\'s output\.
 .
 .SH "SEE ALSO"
 Bork documentation: \fIhttps://borksh\.github\.io/bork\fR

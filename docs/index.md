@@ -455,6 +455,14 @@ missing items that Bork can fix. In `satisfy` mode, however, Bork will only stop
 if it is unable to fix something itself — missing or outdated assertions will be
 resolved, and Bork will only stop the script if this fails.
 
+### `BORK_QUIET`
+
+If `BORK_QUIET` is set, Bork will not output anything other than errors, which
+it will only write to stdout. This is broadly the same as redirecting its output
+to `/dev/null`, except it is up to each assertion type how they want to handle
+being quiet. Some types may still need user interaction whilst installing or
+upgrading packages, so this is a safer way to reduce Bork's output.
+
 ## Contributing
 
 1. Fork it
