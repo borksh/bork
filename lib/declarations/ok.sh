@@ -115,6 +115,7 @@ assert () {
         1)
           _bork_check_failed=1
           echo "$status_output"
+          _fail_fast
           ;;
         10)
           [ $assert_mode = 'ok' ] && _make_change 'install'
@@ -136,11 +137,13 @@ assert () {
             [ $assert_mode = 'no' ] && _make_change 'remove'
           else
             echo "Conflict unresolved."
+            _fail_fast
           fi
           ;;
         *)
           echo "-- sorry, bork doesn't handle this response yet"
           echo "$status_output"
+          _fail_fast
           ;;
       esac
       if did_update; then
@@ -151,10 +154,12 @@ assert () {
           echo "* $last_change_type failed"
           _checked "$(_status_for $assert_mode $status)"
           echo "$output"
+          _fail_fast
         elif [ "$status" -ne "$STATUS_MISSING" ] && [ "$assert_mode" = 'no' ]; then
           echo "* $last_change_type failed"
           _checked "$(_status_for $assert_mode $status)"
           echo "$output"
+          _fail_fast
         else
           echo "* success"
         fi
