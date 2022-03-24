@@ -438,6 +438,25 @@ change. It is up to you to handle the logic however you wish. As with the before
 callbacks, you are strongly advised to use these functions immediately after the
 assertion you wish to check.
 
+## Environment variables
+
+Bork will check two environment variables to modify its behaviour when it runs.
+
+### `BORK_COLOR`
+
+Setting `BORK_COLOR` to anything other than an empty string will make Bork's
+output colourful: green if all is well, yellow if something needs action (and
+Bork can fix it), and red if there is something wrong that Bork can't fix.
+
+### `BORK_FAIL_FAST`
+
+If `BORK_FAIL_FAST` is set, Bork will stop executing its script as soon as it
+reaches an error. Running in `status` mode, this means that anything in the
+script that is unsatisfied will cause Bork to stop, including outdated or
+missing items that Bork can fix. In `satisfy` mode, however, Bork will only stop
+if it is unable to fix something itself — missing or outdated assertions will be
+resolved, and Bork will only stop the script if this fails.
+
 ## Contributing
 
 1. Fork it
