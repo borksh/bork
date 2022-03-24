@@ -9,5 +9,4 @@ Asserts a homebrew formula repository has been tapped. Does NOT assert the updat
 
 ```bash
 > brew-tap homebrew/games    (taps homebrew/games)
---pin                        (pins the formula repository)
 ```
