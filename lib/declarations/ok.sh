@@ -64,6 +64,13 @@ _make_change () {
   last_change_type=$change_type
 }
 
+_fail_fast () {
+  if [ -n "$BORK_FAIL_FAST" ]; then
+    echo "--- bork stopped"
+    exit 1
+  fi
+}
+
 assert () {
   assert_mode=$1
   shift
@@ -93,6 +100,7 @@ assert () {
       [ "$status" -ne 0 ] && [ -n "$output" ] && echo "$output"
       [ "$assert_mode" = 'no' ] && [ $status -eq $STATUS_MISSING ] && return 0
       [ "$status" -ne 0 ] && BORK_EXIT_STATUS=$status
+      [ "$status" -ne 0 ] && _fail_fast
       return $status
       ;;
     satisfy)
