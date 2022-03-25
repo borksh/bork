@@ -1,25 +1,40 @@
 name: Danger
 
 on:
-  pull_request:
+  pull_request_target:
     types: [opened, synchronize, reopened, edited]
+
+permissions:
+  contents: read
+  pull-requests: write
+  checks: write
+  statuses: write
 
 jobs:
   danger:
     name: 'Danger'
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - name: Check out PR changes
+      uses: actions/checkout@v3
       with:
         fetch-depth: 100
+        ref: ${{ github.event.pull_request.head.sha }}
+        path: head_branch
+    - name: Check out Bork main branch
+      uses: actions/checkout@v3
+      with:
+        ref: main
+        path: main_branch
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
       with:
         ruby-version: 3.0.2
-    - name: Install dependencies
+        bundler-cache: true
+    - name: Install Danger
       run: |
         gem install danger
     - name: Run Danger
       env:
         DANGER_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: danger
+      run: cd head_branch && danger --dangerfile=../main_branch/Dangerfile
