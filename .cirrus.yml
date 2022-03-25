@@ -1,0 +1,6 @@
+freebsd_instance:
+  image_family: freebsd-13-0
+
+task:
+  install_script: pkg install -y bash base64 bats-core
+  script: /usr/local/bin/bash -c "bats --tap test"
