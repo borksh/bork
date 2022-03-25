@@ -22,6 +22,13 @@ setup () {
     [ "$status" -eq $STATUS_FAILED_PRECONDITION ]
 }
 
+@test "mas status: does not return FAILED_PRECONDITION when mas account fails on macOS >= 12" {
+    respond_to "mas account" "return 1"
+    respond_to "uname -r" "echo 21.4.0"
+    run mas status 497799835 Xcode
+    [ "$status" -eq $STATUS_OK ]
+}
+
 @test "mas status: returns MISSING when app not installed" {
     run mas status 477670270 2Do
     [ "$status" -eq $STATUS_MISSING ]
