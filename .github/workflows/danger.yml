@@ -3,13 +3,6 @@ name: Danger
 on:
   pull_request:
     types: [opened, synchronize, reopened, edited]
-  pull_request_review:
-  push:
-    branches:
-    - bug/*
-    - feature/*
-    - feat/*
-    - docs/*
 
 jobs:
   danger:
