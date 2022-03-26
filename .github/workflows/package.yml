@@ -13,12 +13,20 @@ jobs:
       run: sudo gem install fpm
     - name: Build package
       run: fpm -t deb
+    - name: Calculate checksum
+      run: shasum -a 256 bork_*.deb > deb.shasum
     - name: Upload compiled package
       uses: actions/upload-artifact@v2
       with:
         name: deb
-        path: bork_*.deb
+        path: |
+          bork_*.deb
+          deb.shasum
         if-no-files-found: error
+    - name: Attach to release
+      run: gh release upload ${{ github.ref_name }} bork_*.deb --repo borksh/bork
+      env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   rpm:
     runs-on: ubuntu-latest
     if: github.repository == 'borksh/bork'
@@ -28,12 +36,20 @@ jobs:
       run: sudo gem install fpm
     - name: Build package
       run: fpm -t rpm
+    - name: Calculate checksum
+      run: shasum -a 256 bork-*.rpm > rpm.shasum
     - name: Upload compiled package
       uses: actions/upload-artifact@v2
       with:
         name: rpm
-        path: bork-*.rpm
+        path: |
+          bork-*.rpm
+          rpm.shasum
         if-no-files-found: error
+    - name: Attach to release
+      run: gh release upload ${{ github.ref_name }} bork-*.rpm --repo borksh/bork
+      env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   osxpkg:
     runs-on: macos-latest
     if: github.repository == 'borksh/bork'
@@ -43,9 +59,17 @@ jobs:
       run: sudo gem install fpm
     - name: Build package
       run: fpm -t osxpkg
+    - name: Calculate checksum
+      run: shasum -a 256 bork-*.pkg > osxpkg.shasum
     - name: Upload compiled package
       uses: actions/upload-artifact@v2
       with:
         name: osxpkg
-        path: bork-*.pkg
+        path: |
+          bork-*.pkg
+          osxpkg.shasum
         if-no-files-found: error
+    - name: Attach to release
+      run: gh release upload ${{ github.ref_name }} bork-*.pkg --repo borksh/bork
+      env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
