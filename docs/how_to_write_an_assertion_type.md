@@ -39,7 +39,7 @@ The runner decides what calls to perform based on its current operation and the 
 
 ### `desc`
 
-```
+```bash
 types/file.sh desc
 ```
 
@@ -47,7 +47,7 @@ Outputs basic usage information. This is included in `bork types`. Only really u
 
 ### `status`
 
-```
+```bash
 types/file.sh status path/to/targetfile path/from/sourcefile
 ```
 
@@ -59,7 +59,7 @@ See the [Status codes reference](./assertion_status_codes) for the complete list
 
 ### `install`
 
-```
+```bash
 types/file.sh install path/to/targetfile path/from/sourcefile
 ```
 
@@ -71,7 +71,7 @@ The script should output any relevant messages, and return 0 on success.
 
 ### `upgrade`
 
-```
+```bash
 types/file.sh upgrade to/targetfile from/sourcefile --permissions=700
 ```
 
@@ -83,7 +83,7 @@ The script should output any relevant messages and updates, and return 0 on succ
 
 ### `remove`
 
-```
+```bash
 types/file.sh remove to/targetfile from/sourcefile
 ```
 
@@ -95,7 +95,7 @@ The script should output any relevant messages, and return 0 on success.
 
 ### `compile`
 
-```
+```bash
 types/file.sh compile to/targetfile from/sourcefile
 ```
 
