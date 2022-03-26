@@ -17,7 +17,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: deb
-        path: bork-*.deb
+        path: bork_*.deb
         if-no-files-found: error
   rpm:
     runs-on: ubuntu-latest
