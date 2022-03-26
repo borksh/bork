@@ -15,5 +15,16 @@ title: Assertion types
 
 {% for type in site.types %}
 	<h2 id="type-{{ type.name }}">{{ type.name }}</h2>
+	<div class="type_meta">
+		{% if type.version %}
+			<span class="version">Available since <strong>{{ type.version }}</strong></span>
+		{% endif %}
+		{% if type.inspects %}
+			<span class="inspects" title="Use bork inspect to generate assertions matching your current system configuration">Inspectable</span>
+		{% endif %}
+		{% if type.removable %}
+			<span class="removable" title="Bork can uninstall or remove configuration of this type">Removable</span>
+		{% endif %}
+	</div>
 	{{ type.content }}
 {% endfor %}

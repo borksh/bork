@@ -1,0 +1,17 @@
+---
+---
+
+@import "{{ site.theme }}";
+
+.type_meta {
+	font-size: .8rem;
+	margin: .25rem 0;
+	span {
+		margin: 0 .25rem;
+		border: 1px solid #ccc;
+		border-radius: .2rem;
+		padding: .1rem .3rem;
+		background: #444;
+		color: #fff;
+	}
+}
