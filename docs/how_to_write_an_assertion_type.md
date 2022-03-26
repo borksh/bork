@@ -36,7 +36,7 @@ Outputs basic usage information. This is included in `bork types`. Only really u
 types/file.sh status path/to/targetfile path/from/sourcefile
 ```
 
-When called with `status`, the assertion script should determine if the assertion is met, and return a code to indicate the current status of the assertion. It _may_ echo messages to STDOUT indicating guidance to the user indicating any problems or warnings.
+When called with `status`, the assertion script should determine if the assertion is met, and return a code to indicate the current status of the assertion. It _may_ print messages to STDOUT (using `tell`, see below) indicating guidance to the user indicating any problems or warnings.
 
 Example: checks that targetfile exists, has the same md5 sum as sourcefile.
 
@@ -92,7 +92,7 @@ Example: base64-encodes `sourcefile` and assigns it to a variable that maps to i
 
 ## Helpers
 
-Bork makes a number of helpers available to ease common bash scripting pain points. They are in the `lib/helpers` directory, but there is one in particular you should be familiar with when writing assertion type scripts:
+Bork makes a number of helpers available to ease common bash scripting pain points. They are in the `lib/helpers` directory, but there are a few in particular you should be familiar with when writing assertion type scripts:
 
 ### `bake`
 
@@ -101,3 +101,17 @@ Bork has the notion of the "source system" and the "target system". They are cur
 Any command that queries the state of or modifies the target system should be run through bake. In normal operation, it will simply eval the command as passed. Querying the state of the "source system" or logic do not need to be passed through bake.
 
 This is a little bit of overhead, but I believe it will yield promising results. Controlling remote hosts is one possibility, providing "compile" with an option to just do a super-lightweight install script is another. It's used for mocking behavior in the tests.
+
+### `tell`
+
+This is a wrapper for `echo`. Right now, all this does is echo its arguments. However, if the `BORK_QUIET` environment variable is set — or you pass the `--quiet` argument to a `status` or `satisfy` run — it won't do anything.
+
+If you value Bork's ability to be silent unless there is a problem, you should use `tell` as a drop-in replacement for `echo` in your type.
+
+### `think`
+
+This is basically `echo -n`. We use this for the `checking:` output on the command line. Like, `tell`, `think` will do nothing at all if Bork is running in quiet mode. If not, it will output whatever arguments you give it, and not create a new line at the end.
+
+### `ohno`
+
+This is a quick helper for echo-ing to STDERR instead of STDOUT. By design, when Bork is running in quiet mode, it will still output everything printed via `ohno`, as these are usually errors that require human intervention. You should use this helper when you're printing an error message, or anything else you don't want to be silenced.
