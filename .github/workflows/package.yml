@@ -1,0 +1,51 @@
+name: Package
+on:
+  release: { types: [published] }
+  workflow_dispatch:
+
+jobs:
+  deb:
+    runs-on: ubuntu-latest
+    if: github.repository == 'borksh/bork'
+    steps:
+    - uses: actions/checkout@v3
+    - name: Install fpm
+      run: sudo gem install fpm
+    - name: Build package
+      run: fpm -t deb
+    - name: Upload compiled package
+      uses: actions/upload-artifact@v2
+      with:
+        name: deb
+        path: bork-*.deb
+        if-no-files-found: error
+  rpm:
+    runs-on: ubuntu-latest
+    if: github.repository == 'borksh/bork'
+    steps:
+    - uses: actions/checkout@v3
+    - name: Install fpm
+      run: sudo gem install fpm
+    - name: Build package
+      run: fpm -t rpm
+    - name: Upload compiled package
+      uses: actions/upload-artifact@v2
+      with:
+        name: rpm
+        path: bork-*.rpm
+        if-no-files-found: error
+  osxpkg:
+    runs-on: macos-latest
+    if: github.repository == 'borksh/bork'
+    steps:
+    - uses: actions/checkout@v3
+    - name: Install fpm
+      run: sudo gem install fpm
+    - name: Build package
+      run: fpm -t osxpkg
+    - name: Upload compiled package
+      uses: actions/upload-artifact@v2
+      with:
+        name: osxpkg
+        path: bork-*.pkg
+        if-no-files-found: error
