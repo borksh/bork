@@ -3,4 +3,4 @@ freebsd_instance:
 
 task:
   install_script: pkg install -y bash base64 bats-core
-  script: /usr/local/bin/bash -c "bats --tap test"
+  script: /usr/local/bin/bash -c "make ci"
