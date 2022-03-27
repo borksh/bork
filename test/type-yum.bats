@@ -1,5 +1,4 @@
 #!/usr/bin/env bats
-# TODO: how have CI run yum tests?
 
 . test/helpers.sh
 
