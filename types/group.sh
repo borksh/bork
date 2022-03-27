@@ -38,5 +38,22 @@ case $action in
       bake sudo dseditgroup -o delete $groupname
     fi ;;
 
+  inspect)
+    if baking_platform_is "Linux"; then
+      groups=$(bake cat /etc/group)
+      while IFS= read -r group; do
+          echo "ok group $group" | sed -E 's/:.*$//g'
+      done <<< "$groups"
+    elif baking_platform_is "Darwin"; then
+      needs_exec "dscl" || return $STATUS_FAILED_PRECONDITION
+      groups=$(bake dscl . -list /Groups)
+      while IFS= read -r group; do
+          echo "ok group $group"
+      done <<< "$groups"
+    else
+      # we don't know how to do this on other platforms
+      return $STATUS_UNSUPPORTED_PLATFORM
+    fi ;;
+
   *) return 1 ;;
 esac

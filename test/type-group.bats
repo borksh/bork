@@ -7,6 +7,7 @@ setup () {
   respond_to "cat /etc/group" "echo 'root:x:0'; echo 'admin:x:50'"
   respond_to "dseditgroup -o read admin" "cat $fixtures/group-darwin.txt"
   respond_to "dseditgroup -o read custom" "return 64"
+  respond_to "dscl . -list /Groups" "echo 'admin'; echo 'staff';"
 }
 
 @test "group status: returns FAILED_PRECONDITION when missing groupadd exec (Linux)" {
@@ -97,4 +98,25 @@ setup () {
   run baked_output
   [ "${#lines[*]}" -eq 2 ]
   [ "${lines[1]}" = "sudo dseditgroup -o delete custom" ]
+}
+
+@test "group inspect: returns FAILED_PRECONDITION without dscl exec (Darwin)" {
+  respond_to "uname -s" "echo Darwin"
+  respond_to "which dscl" "return 1"
+  run group inspect
+  [ "$status" -eq $STATUS_FAILED_PRECONDITION ]
+}
+
+@test "group inspect: returns OK if preconditions met (Darwin)" {
+  respond_to "uname -s" "echo Darwin"
+  run group inspect
+  [ "$status" -eq $STATUS_OK ]
+  [ "${lines[0]}" = "ok group admin" ]
+}
+
+@test "group inspect: returns list of groups (Linux)" {
+  respond_to "uname -s" "echo Linux"
+  run group inspect
+  [ "$status" -eq $STATUS_OK ]
+  [ "${lines[0]}" = "ok group root" ]
 }
