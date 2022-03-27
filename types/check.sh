@@ -1,5 +1,3 @@
-# TODO tests on check type
-
 action=$1
 shift 1
 case $action in
