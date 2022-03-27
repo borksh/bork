@@ -1,5 +1,4 @@
 SHELL=/bin/bash
-.SHELLFLAGS="-O extglob"
 .PHONY: all test ci deb rpm osxpkg pkgs todo docs site
 
 test:
