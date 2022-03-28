@@ -1,7 +1,5 @@
 # TODO check --shell argument for existence of shell, presence in /etc/shells
 # TODO need to check --groups to make sure they exist
-# TODO ability to check group memberships on Darwin?
-# TODO no useradd binary on Darwin
 
 action=$1
 handle=$2
