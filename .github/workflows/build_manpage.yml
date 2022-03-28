@@ -29,3 +29,24 @@ jobs:
         name: manpage
         path: docs/bork.1
         if-no-files-found: error
+    - name: Set up GPG commit signing
+      id: set-up-commit-signing
+      uses: borksh/actions/setup-commit-signing@main
+      with:
+        signing_key: ${{ secrets.GPG_SIGNING_KEY }}
+    - name: Push new man page
+      run: |
+        git config --global user.name 'BorkBot'
+        git config --global user.email '102378442+bork-bot@users.noreply.github.com'
+        git checkout -b docs/borkbot-update-man-page
+        git add docs/bork.1
+        git commit -m "Update man page"
+        git push -u origin docs/borkbot-update-man-page
+      env:
+        BORK_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+    - name: Open pull request
+      run: |
+        ref=$(echo "${{ github.sha }}" | cut -c 1-7)
+        gh pr create -B main -t "(docs) Update man page" -b "Update the built man page using changes in $ref."
+      env:
+          GITHUB_TOKEN: ${{ secrets.BORKBOT_PR_TOKEN }}
