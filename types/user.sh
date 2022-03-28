@@ -120,7 +120,8 @@ case $action in
         [ -n "$real_name" ] && bake sudo dscl . -create "/Users/$handle" RealName "$real_name" || bake sudo dscl . -create "/Users/$handle" RealName "$handle"
         bake sudo cp -R "/System/Library/User Template/English.lproj" "/Users/$handle"
         bake sudo chown -R "$handle":staff "/Users/$handle"
-        if [[ "$(bake sw_vers -productVersion)" != 10.[0-5].* ]]; then
+        release=$(get_baking_platform_release | cut -d. -f 1)
+        if [ "$release" -ge "10" ]; then
           # Set ACL on Drop Box in 10.6 and later
           bake sudo chmod +a "user:$handle allow list,add_file,search,delete,add_subdirectory,delete_child,readattr,writeattr,readextattr,writeextattr,readsecurity,writesecurity,chown,file_inherit,directory_inherit" "/Users/$handle/Public/Drop Box"
         fi
