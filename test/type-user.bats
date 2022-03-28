@@ -195,9 +195,9 @@ setup () {
   [ "$status" -eq 0 ]
   run baked_output
   [ "${#lines[*]}" -eq 5 ]
-  [[ ${lines[0]} == "$linux_users_query" ]]
-  [[ ${lines[1]} == "chsh -s /bin/zsh existant" ]]
-  [[ ${lines[4]} == $groups_query ]]
+  [ "${lines[1]}" == "$linux_users_query" ]
+  [ "${lines[3]}" == "chsh -s /bin/zsh existant" ]
+  [ "${lines[4]}" == "$groups_query" ]
 }
 
 @test "user upgrade: with shell, bakes 'chsh -s' (Darwin)" {
@@ -206,9 +206,9 @@ setup () {
   [ "$status" -eq 0 ]
   run baked_output
   [ "${#lines[*]}" -eq 6 ]
-  [[ ${lines[0]} == "$darwin_users_query" ]]
-  [[ ${lines[1]} == "chsh -s /bin/zsh existant" ]]
-  [[ ${lines[5]} == $groups_query ]]
+  [ "${lines[1]}" == "$darwin_users_query" ]
+  [ "${lines[4]}" == "chsh -s /bin/zsh existant" ]
+  [ "${lines[5]}" == "$groups_query" ]
 }
 
 # --- with group argument ------------------------------------
