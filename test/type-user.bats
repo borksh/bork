@@ -87,7 +87,7 @@ setup () {
   run user install nonexistant
   [ "$status" -eq 0 ]
   run baked_output
-  [ "${#lines[*]}" -eq 8 ]
+  [ "${#lines[*]}" -eq 4 ]
   [ "${lines[2]}" = "sudo sysadminctl -addUser nonexistant -password -" ]
 }
 
@@ -178,7 +178,7 @@ setup () {
   [ "$status" -eq 0 ]
   run baked_output
   [ "${#lines[*]}" -eq 14 ]
-  [ "${lines[9]}" = "sudo dscl . -create /Users/nonexistant UserShell /bin/bash" ]
+  [ "${lines[13]}" = "sudo dscl . -create /Users/nonexistant UserShell /bin/bash" ]
 }
 
 @test "user upgrade: with shell, bakes 'chsh -s' (Linux)" {
@@ -187,7 +187,7 @@ setup () {
   [ "$status" -eq 0 ]
   run baked_output
   [ "${#lines[*]}" -eq 5 ]
-  [[ ${lines[0]} == $linux_users_query ]]
+  [[ ${lines[0]} == "$linux_users_query" ]]
   [[ ${lines[1]} == "chsh -s /bin/zsh existant" ]]
   [[ ${lines[4]} == $groups_query ]]
 }
@@ -198,7 +198,7 @@ setup () {
   [ "$status" -eq 0 ]
   run baked_output
   [ "${#lines[*]}" -eq 6 ]
-  [[ ${lines[0]} == $darwin_users_query ]]
+  [[ ${lines[0]} == "$darwin_users_query" ]]
   [[ ${lines[1]} == "chsh -s /bin/zsh existant" ]]
   [[ ${lines[5]} == $groups_query ]]
 }
@@ -279,8 +279,8 @@ setup () {
   [ "$status" -eq 0 ]
   run baked_output
   [ "${#lines[*]}" -eq 16 ]
-  [ "${lines[10]}" = "sudo dseditgroup -o edit -a nonexistant -t user foo" ]
-  [ "${lines[11]}" = "sudo dseditgroup -o edit -a nonexistant -t user bar" ]
+  [ "${lines[14]}" = "sudo dseditgroup -o edit -a nonexistant -t user foo" ]
+  [ "${lines[15]}" = "sudo dseditgroup -o edit -a nonexistant -t user bar" ]
 }
 
 @test "user install: with group matching user handle, bakes 'useradd' with --groups and -g (Linux)" {

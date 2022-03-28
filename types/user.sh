@@ -114,6 +114,12 @@ case $action in
         bake sudo dscl . -create "/Users/$handle" NFSHomeDirectory "/Users/$handle"
         bake sudo dscl . -passwd "/Users/$handle"
         [ -n "$real_name" ] && bake sudo dscl . -create "/Users/$handle" RealName "$real_name" || bake sudo dscl . -create "/Users/$handle" RealName "$handle"
+        bake sudo cp -R "/System/Library/User Template/English.lproj" "/Users/$handle"
+        bake sudo chown -R "$handle":staff "/Users/$handle"
+        if [[ "$(bake sw_vers -productVersion)" != 10.[0-5].* ]]; then
+          # Set ACL on Drop Box in 10.6 and later
+          bake sudo chmod +a "user:$handle allow list,add_file,search,delete,add_subdirectory,delete_child,readattr,writeattr,readextattr,writeextattr,readsecurity,writesecurity,chown,file_inherit,directory_inherit" "/Users/$handle/Public/Drop Box"
+        fi
       fi
       [ -n "$shell" ] && bake sudo dscl . -create "/Users/$handle" UserShell "$shell" || bake sudo dscl . -create "/Users/$handle" UserShell /bin/zsh
       if [ -n "$groups" ]; then
@@ -121,12 +127,6 @@ case $action in
         for group in $expected_groups; do
           bake sudo dseditgroup -o edit -a $handle -t user $group
         done
-      fi
-      bake sudo cp -R "/System/Library/User Template/English.lproj" "/Users/$handle"
-      bake sudo chown -R "$handle":staff "/Users/$handle"
-      if [[ "$(bake sw_vers -productVersion)" != 10.[0-5].* ]]; then
-        # Set ACL on Drop Box in 10.6 and later
-        bake sudo chmod +a "user:$handle allow list,add_file,search,delete,add_subdirectory,delete_child,readattr,writeattr,readextattr,writeextattr,readsecurity,writesecurity,chown,file_inherit,directory_inherit" "/Users/$handle/Public/Drop Box"
       fi
     fi
     ;;
