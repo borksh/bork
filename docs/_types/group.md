@@ -1,8 +1,9 @@
 ---
 name: group
 removable: true
+inspects: true
 ---
-asserts presence of a unix group (linux only, for now)
+asserts presence of a user group
 
 
 ### Usage
