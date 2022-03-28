@@ -22,6 +22,7 @@ jobs:
         sed -i 's/<em><code>/\\fI/g' docs/bork.1
         sed -i 's/<code>/\\fB/g' docs/bork.1
         sed -Ei 's/<\/code(><\/em)?>/\\fR/g' docs/bork.1
+        sed -i 's/^\\fBbork\\fR \\fI\\fBoperation\\fR\\fR \[\\fI\\fBconfig\\-file\\fR\\fR\] \[\\fI\\fBoptions\\fR\\fR\]$/\\fBbork\\fR \\fIoperation\\fR \[\\fIconfig\\-file\\fR\] \[\\fIoptions\\fR\]/' docs/bork.1
     - name: Upload compiled man page
       uses: actions/upload-artifact@v2
       with:
