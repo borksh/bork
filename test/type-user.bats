@@ -9,8 +9,10 @@ groups_query="groups existant"
 setup () {
   respond_to "$linux_users_query" "cat $fixtures/user-list-linux.txt"
   respond_to "$darwin_users_query" "cat $fixtures/user-list-darwin.txt"
+  respond_to "$darwin_users_query UniqueID" "cat $fixtures/user-list-darwin-uniqueid.txt"
   respond_to "$groups_query" "echo 'bee existant '"
   respond_to "dscl . -read /Users/existant UserShell" "echo 'UserShell: /bin/bash'"
+  respond_to "uname -r" "echo 13"
 }
 
 # --- without arguments ----------------------------------------
@@ -67,6 +69,35 @@ setup () {
   run baked_output
   [ "${#lines[*]}" -eq 2 ]
   [ "${lines[1]}" = "useradd -m nonexistant" ]
+}
+
+@test "user install: bakes 'dscl' (Darwin)" {
+  respond_to "uname -s" "echo Darwin"
+  run user install nonexistant
+  [ "$status" -eq 0 ]
+  run baked_output
+  [ "${#lines[*]}" -eq 14 ]
+  [ "${lines[2]}" = "sudo dscl . -create /Users/nonexistant" ]
+}
+
+@test "user install: bakes 'sysadminctl' if available (Darwin)" {
+  respond_to "uname -s" "echo Darwin"
+  respond_to "uname -r" "echo 21.3.0"
+
+  run user install nonexistant
+  [ "$status" -eq 0 ]
+  run baked_output
+  [ "${#lines[*]}" -eq 8 ]
+  [ "${lines[2]}" = "sudo sysadminctl -addUser nonexistant -password -" ]
+}
+
+@test "user install: bakes 'dscl' with real name (Darwin)" {
+  respond_to "uname -s" "echo Darwin"
+  run user install nonexistant --real-name=NewUser
+  [ "$status" -eq 0 ]
+  run baked_output
+  [ "${#lines[*]}" -eq 14 ]
+  [ "${lines[8]}" = "sudo dscl . -create /Users/nonexistant RealName NewUser" ]
 }
 
 @test "user remove: bakes 'userdel' with -r (Linux)" {
@@ -139,6 +170,15 @@ setup () {
   run baked_output
   [ "${#lines[*]}" -eq 2 ]
   [ "${lines[1]}" = "useradd -m --shell /bin/zsh nonexistant" ]
+}
+
+@test "user install: with shell, bakes 'dscl' with given shell (Darwin)" {
+  respond_to "uname -s" "echo Darwin"
+  run user install nonexistant --shell=/bin/bash
+  [ "$status" -eq 0 ]
+  run baked_output
+  [ "${#lines[*]}" -eq 14 ]
+  [ "${lines[9]}" = "sudo dscl . -create /Users/nonexistant UserShell /bin/bash" ]
 }
 
 @test "user upgrade: with shell, bakes 'chsh -s' (Linux)" {
@@ -231,6 +271,16 @@ setup () {
   run baked_output
   [ "${#lines[*]}" -eq 2 ]
   [ "${lines[1]}" = "useradd -m --groups foo,bar nonexistant" ]
+}
+
+@test "user install: with group, bakes 'dseditgroup' with groups (Darwin)" {
+  respond_to "uname -s" "echo Darwin"
+  run user install nonexistant --groups=foo,bar
+  [ "$status" -eq 0 ]
+  run baked_output
+  [ "${#lines[*]}" -eq 16 ]
+  [ "${lines[10]}" = "sudo dseditgroup -o edit -a nonexistant -t user foo" ]
+  [ "${lines[11]}" = "sudo dseditgroup -o edit -a nonexistant -t user bar" ]
 }
 
 @test "user install: with group matching user handle, bakes 'useradd' with --groups and -g (Linux)" {

@@ -10,6 +10,7 @@ shift 2
 shell=$(arguments get shell $*)
 groups=$(arguments get groups $*)
 preserve_home=$(arguments get preserve-home $*)
+real_name=$(arguments get real-name $*)
 
 user_get () {
   if baking_platform_is "Linux"; then
@@ -98,8 +99,35 @@ case $action in
       [[ -n "$groups_list" && "${groups_list[0]}" == "$handle" ]] && args="$args -g $handle"
       bake useradd $args $handle
     elif baking_platform_is "Darwin"; then
-      # TODO add user on Darwin
-      echo "not yet implemented"
+      release=$(get_baking_platform_release | cut -d. -f 1)
+      if [ "$release" -ge "14" ]; then
+        # we can use sysadminctl
+        args="$handle -password -"
+        [ -n "$real_name" ] && args="$args -fullName $real_name"
+        bake sudo sysadminctl -addUser $args
+      else
+        bake sudo dscl . -create "/Users/$handle"
+        maxid=$(bake dscl . -list /Users UniqueID | awk 'BEGIN { max = 500; } { if ($2 > max) max = $2; } END { print max + 1; }')
+        newid=$((maxid+1))
+        bake sudo dscl . -create "/Users/$handle" UniqueID "$newid"
+        bake sudo dscl . -create "/Users/$handle" PrimaryGroupID 20
+        bake sudo dscl . -create "/Users/$handle" NFSHomeDirectory "/Users/$handle"
+        bake sudo dscl . -passwd "/Users/$handle"
+        [ -n "$real_name" ] && bake sudo dscl . -create "/Users/$handle" RealName "$real_name" || bake sudo dscl . -create "/Users/$handle" RealName "$handle"
+      fi
+      [ -n "$shell" ] && bake sudo dscl . -create "/Users/$handle" UserShell "$shell" || bake sudo dscl . -create "/Users/$handle" UserShell /bin/zsh
+      if [ -n "$groups" ]; then
+        expected_groups=$(IFS=','; echo $groups)
+        for group in $expected_groups; do
+          bake sudo dseditgroup -o edit -a $handle -t user $group
+        done
+      fi
+      bake sudo cp -R "/System/Library/User Template/English.lproj" "/Users/$handle"
+      bake sudo chown -R "$handle":staff "/Users/$handle"
+      if [[ "$(bake sw_vers -productVersion)" != 10.[0-5].* ]]; then
+        # Set ACL on Drop Box in 10.6 and later
+        bake sudo chmod +a "user:$handle allow list,add_file,search,delete,add_subdirectory,delete_child,readattr,writeattr,readextattr,writeextattr,readsecurity,writesecurity,chown,file_inherit,directory_inherit" "/Users/$handle/Public/Drop Box"
+      fi
     fi
     ;;
 
