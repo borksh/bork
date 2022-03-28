@@ -14,7 +14,7 @@ Changes here will be in the next release. You can use them now by checking out t
   - A new `did_remove` function has been added, which you can use after an assertion to determine whether Bork has removed something.
 - New `dnf` type for the successor to `yum`. (#35, thanks [@jbrubake][])
 - Tab completions are now available for bash and zsh. (#19)
-- The `user` type now works on macOS. (#44)
+- The `user` and `group` types now work on macOS. (#44)
 - You can now pass the `--real-name` argument to the `user` type to set a user's real name. (#44)
 
 ## [0.13.0] - 2021-08-02
