@@ -65,6 +65,10 @@ case $action in
       needs_exec "userdel" || return $STATUS_FAILED_PRECONDITION
     elif baking_platform_is "Darwin"; then
       needs_exec "dscl" || return $STATUS_FAILED_PRECONDITION
+      release=$(get_baking_platform_release | cut -d. -f 1)
+      if [ "$release" -ge "14" ]; then
+        needs_exec "sysadminctl" || return $STATUS_FAILED_PRECONDITION
+      fi
     else
       return $STATUS_UNSUPPORTED_PLATFORM
     fi

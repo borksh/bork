@@ -38,6 +38,14 @@ setup () {
   [ "$status" -eq $STATUS_FAILED_PRECONDITION ]
 }
 
+@test "user status: returns FAILED_PRECONDITION when sysadminctl isn't found on >14 (Darwin)" {
+  respond_to "uname -s" "echo Darwin"
+  respond_to "uname -r" "echo 21.3.0"
+  respond_to "which sysadminctl" "return 1"
+  run user status foo
+  [ "$status" -eq $STATUS_FAILED_PRECONDITION ]
+}
+
 @test "user status: returns MISSING when user doesn't exist (Linux)" {
   respond_to "uname -s" "echo Linux"
   run user status nonexistant
