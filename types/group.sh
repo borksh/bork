@@ -42,7 +42,7 @@ case $action in
     if baking_platform_is "Linux"; then
       groups=$(bake cat /etc/group)
       while IFS= read -r group; do
-          echo "ok group $group" | sed -E 's/:.*$//g'
+          echo "ok group $group" | cut -d: -f 1
       done <<< "$groups"
     elif baking_platform_is "Darwin"; then
       needs_exec "dscl" || return $STATUS_FAILED_PRECONDITION
