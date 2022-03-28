@@ -108,6 +108,15 @@ setup () {
   [ "${lines[8]}" = "sudo dscl . -create /Users/nonexistant RealName NewUser" ]
 }
 
+@test "user install: bakes 'useradd' with real name (Linux)" {
+  respond_to "uname -s" "echo Linux"
+  run user install nonexistant --real-name=NewUser
+  [ "$status" -eq 0 ]
+  run baked_output
+  [ "${#lines[*]}" -eq 2 ]
+  [ "${lines[1]}" = "useradd -m -c NewUser nonexistant" ]
+}
+
 @test "user remove: bakes 'userdel' with -r (Linux)" {
   respond_to "uname -s" "echo Linux"
   run user remove unwanted

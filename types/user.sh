@@ -56,6 +56,7 @@ case $action in
     echo "> user admin"
     echo "--shell=/bin/fish"
     echo "--groups=admin,deploy"
+    echo "--real-name=Admin"
     ;;
   status)
     if baking_platform_is "Linux"; then
@@ -97,6 +98,7 @@ case $action in
     if baking_platform_is "Linux"; then
       args="-m"
       [ -n "$shell" ] && args="$args --shell $shell"
+      [ -n "$real_name" ] && args="$args -c $real_name"
       [ -n "$groups" ] && groups_list=(${groups//,/ }) && args="$args --groups $groups"
       [[ -n "$groups_list" && "${groups_list[0]}" == "$handle" ]] && args="$args -g $handle"
       bake useradd $args $handle

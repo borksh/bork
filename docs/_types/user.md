@@ -12,4 +12,5 @@ assert presence of a user on the system
 > user admin
 --shell=/bin/fish
 --groups=admin,deploy
+--real-name=Admin
 ```
