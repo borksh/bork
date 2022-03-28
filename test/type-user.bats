@@ -344,3 +344,25 @@ setup () {
   [ "${#lines[*]}" -eq 2 ]
   [ "${lines[1]}" = "sudo dscl . -delete /Users/unwanted" ]
 }
+
+# --- inspector ----------------------------------------------
+
+@test "user inspect: lists users (Linux)" {
+  respond_to "uname -s" "echo Linux"
+  run user inspect
+  [ "$status" -eq 0 ]
+  [ "${lines[0]}" == "ok user nobody" ]
+  run baked_output
+  [ "${#lines[*]}" -eq 2 ]
+  [ "${lines[1]}" == "$linux_users_query" ]
+}
+
+@test "user inspect: lists users (Darwin)" {
+  respond_to "uname -s" "echo Darwin"
+  run user inspect
+  [ "$status" -eq 0 ]
+  [ "${lines[0]}" == "ok user nobody" ]
+  run baked_output
+  [ "${#lines[*]}" -eq 3 ]
+  [ "${lines[2]}" == "$darwin_users_query" ]
+}

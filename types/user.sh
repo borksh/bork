@@ -171,5 +171,24 @@ case $action in
     fi
     ;;
 
+  inspect)
+    if baking_platform_is "Linux"; then
+      users=$(bake cat /etc/passwd)
+      while IFS= read -r user; do
+        echo "ok user $user" | cut -d: -f 1
+      done <<< "$users"
+    elif baking_platform_is "Darwin"; then
+      needs_exec "dscl" || return $STATUS_FAILED_PRECONDITION
+      users=$(bake dscl . -list /Users)
+      while IFS= read -r user; do
+        # remove system users
+        echo $user | grep -E '^_' >/dev/null
+        [ $? -gt 0 ] && echo "ok user $user"
+      done <<< "$users"
+    else
+      # we don't know how to do this on other platforms
+      return $STATUS_UNSUPPORTED_PLATFORM
+    fi ;;
+
   *) return 1 ;;
 esac
