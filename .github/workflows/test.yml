@@ -10,14 +10,11 @@ jobs:
       matrix:
         os: [ubuntu-latest, macos-latest]
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Install bats
       run: |
         brew unlink bats || true
         brew install --force bats-core
-    - name: Check bash version
-      run: bash --version
-      shell: bash
     - name: Run bats test
-      run: bats --tap test
+      run: make ci
       shell: bash

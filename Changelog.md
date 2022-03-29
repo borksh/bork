@@ -5,11 +5,17 @@ All notable changes to this project will be documented in this file, from 2016-0
 
 Changes here will be in the next release. You can use them now by checking out the HEAD of the `main` branch, or specifying the `--HEAD` option with `brew install bork`.
 
+### Fixed
+- Pinning a Homebrew tap [is deprecated and has been removed from Homebrew](https://github.com/Homebrew/brew/pull/5925). The `--pin` option has been removed from the `brew-tap` type accordingly. (#41)
+
 ### Added
 - Bork now supports before hooks. You can define functions named `bork_will_change`, `bork_will_install`, `bork_will_upgrade` or `bork_will_remove`, and Bork will run them just before making any changes. (#16)
 - You can now use the `no` command in place of `ok` to check for the absence, rather than the presence, of an assertion. This will delete files, uninstall packages, etc. when satisfying to ensure an assertion is absent from the system. (#9)
   - A new `did_remove` function has been added, which you can use after an assertion to determine whether Bork has removed something.
+- New `dnf` type for the successor to `yum`. (#35, thanks [@jbrubake][])
 - Tab completions are now available for bash and zsh. (#19)
+- The `user` and `group` types now work on macOS. (#44)
+- You can now pass the `--real-name` argument to the `user` type to set a user's real name. (#44)
 
 ## [0.13.0] - 2021-08-02
 
@@ -147,3 +153,4 @@ Initial tagged release, prompted by getting bork into homebrew. Conversely, abou
 [@rgieseke]: https://github.com/rgieseke
 [@rmhsilva]: https://github.com/rmhsilva
 [@lucymhdavies]: https://github.com/lucymhdavies
+[@jbrubake]: https://github.com/jbrubake

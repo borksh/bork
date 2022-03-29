@@ -48,3 +48,8 @@ baking_platform_is () {
 get_baking_platform () {
   bake uname -s
 }
+
+
+get_baking_platform_release() {
+  bake uname -r
+}

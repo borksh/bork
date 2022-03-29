@@ -1,0 +1,4 @@
+daemon                   1
+nobody                   -2
+root                     0
+existant                 501

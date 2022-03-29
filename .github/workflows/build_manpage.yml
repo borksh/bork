@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     if: github.repository == 'borksh/bork'
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Install ronn
       run: sudo gem install ronn
     - name: Generate man page
@@ -22,9 +22,31 @@ jobs:
         sed -i 's/<em><code>/\\fI/g' docs/bork.1
         sed -i 's/<code>/\\fB/g' docs/bork.1
         sed -Ei 's/<\/code(><\/em)?>/\\fR/g' docs/bork.1
+        sed -i 's/^\\fBbork\\fR \\fI\\fBoperation\\fR\\fR \[\\fI\\fBconfig\\-file\\fR\\fR\] \[\\fI\\fBoptions\\fR\\fR\]$/\\fBbork\\fR \\fIoperation\\fR \[\\fIconfig\\-file\\fR\] \[\\fIoptions\\fR\]/' docs/bork.1
     - name: Upload compiled man page
       uses: actions/upload-artifact@v2
       with:
         name: manpage
         path: docs/bork.1
         if-no-files-found: error
+    - name: Set up GPG commit signing
+      id: set-up-commit-signing
+      uses: borksh/actions/setup-commit-signing@main
+      with:
+        signing_key: ${{ secrets.GPG_SIGNING_KEY }}
+    - name: Push new man page
+      run: |
+        git config --global user.name 'BorkBot'
+        git config --global user.email '102378442+bork-bot@users.noreply.github.com'
+        git checkout -b docs/borkbot-update-man-page-${{ github.run_id }}
+        git add docs/bork.1
+        git commit -m "Update man page"
+        git push -u origin docs/borkbot-update-man-page-${{ github.run_id }}
+      env:
+        BORK_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+    - name: Open pull request
+      run: |
+        ref=$(echo "${{ github.sha }}" | cut -c 1-7)
+        gh pr create -B main -t "(docs) Update man page" -b "Update the built man page using changes in $ref." -l bot,documentation
+      env:
+          GITHUB_TOKEN: ${{ secrets.BORKBOT_PR_TOKEN }}

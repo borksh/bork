@@ -1,0 +1,69 @@
+name: Package
+on:
+  release: { types: [published] }
+  workflow_dispatch:
+
+jobs:
+  deb:
+    runs-on: ubuntu-latest
+    if: github.repository == 'borksh/bork'
+    steps:
+    - uses: actions/checkout@v3
+    - name: Install fpm
+      run: sudo gem install fpm
+    - name: Build package
+      run: make deb
+    - name: Upload compiled package
+      uses: actions/upload-artifact@v2
+      with:
+        name: deb
+        path: |
+          bork_*.deb
+          deb.shasum
+        if-no-files-found: error
+    - name: Attach to release
+      run: gh release upload ${{ github.ref_name }} bork_*.deb --repo borksh/bork
+      env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  rpm:
+    runs-on: ubuntu-latest
+    if: github.repository == 'borksh/bork'
+    steps:
+    - uses: actions/checkout@v3
+    - name: Install fpm
+      run: sudo gem install fpm
+    - name: Build package
+      run: make rpm
+    - name: Upload compiled package
+      uses: actions/upload-artifact@v2
+      with:
+        name: rpm
+        path: |
+          bork-*.rpm
+          rpm.shasum
+        if-no-files-found: error
+    - name: Attach to release
+      run: gh release upload ${{ github.ref_name }} bork-*.rpm --repo borksh/bork
+      env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  osxpkg:
+    runs-on: macos-latest
+    if: github.repository == 'borksh/bork'
+    steps:
+    - uses: actions/checkout@v3
+    - name: Install fpm
+      run: sudo gem install fpm
+    - name: Build package
+      run: make osxpkg
+    - name: Upload compiled package
+      uses: actions/upload-artifact@v2
+      with:
+        name: osxpkg
+        path: |
+          bork-*.pkg
+          osxpkg.shasum
+        if-no-files-found: error
+    - name: Attach to release
+      run: gh release upload ${{ github.ref_name }} bork-*.pkg --repo borksh/bork
+      env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -18,8 +18,16 @@ setup () {
 
 @test "mas status: returns FAILED_PRECONDITION when logged out" {
     respond_to "mas account" "return 1"
+    respond_to "uname -r" "echo 20.0.0"
     run mas status 497799835 Xcode
     [ "$status" -eq $STATUS_FAILED_PRECONDITION ]
+}
+
+@test "mas status: does not return FAILED_PRECONDITION when mas account fails on macOS >= 12" {
+    respond_to "mas account" "return 1"
+    respond_to "uname -r" "echo 21.4.0"
+    run mas status 497799835 Xcode
+    [ "$status" -eq $STATUS_OK ]
 }
 
 @test "mas status: returns MISSING when app not installed" {

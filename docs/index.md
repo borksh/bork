@@ -418,7 +418,7 @@ if did_install; then
   chsh -s $(brew --prefix)/bin/fish
 fi
 ```
-There are four functions to help you take further actions after a change:
+There are five functions to help you take further actions after a change:
 
 - `did_install`: did the previous assertion result in the item being installed
   from scratch?
@@ -506,4 +506,4 @@ Discuss on [GitHub Discussions](https://github.com/borksh/bork/discussions)
 
 ## License
 
-[Apache License 2.0](LICENSE)
+[Apache License 2.0](https://github.com/borksh/bork/blob/main/LICENSE)

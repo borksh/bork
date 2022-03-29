@@ -16,6 +16,10 @@ labels_to_add << 'documentation' if github.pr_title.include? '(docs)'
 labels_to_add << 'packages' if github.pr_title.include? '(pkg)'
 github.api.add_labels_to_an_issue github.pr_json[:base][:repo][:full_name], github.pr_json[:number], labels_to_add
 
+if github.pr_labels.include? 'bot'
+  message 'This PR is from a bot, and should be reviewed by a human as well!', sticky: true
+end
+
 # Note when PRs don't reference a milestone, which goes away when it does
 has_milestone = github.pr_json['milestone'] != nil
 warn 'This PR does not refer to an existing milestone', sticky: false unless has_milestone

@@ -1,8 +1,0 @@
-language: bash
-os: freebsd
-addons: 
-  pkg: 
-  - bash
-  - base64
-  - bats-core
-script: /usr/local/bin/bash -c "bats --tap test"

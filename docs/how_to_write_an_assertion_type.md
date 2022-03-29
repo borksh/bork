@@ -1,22 +1,37 @@
 # How to write a Bork assertion type
 
-So, you have something you'd like to be able to track with bork's `ok` declaration. Perhaps it's the presence of packages from yet another programming language's packaging system, perhaps something you interact with through the shell. If you can programmatically determine if it's present, and programmatically make it present, you can probably make a Bork assertion type out of it.
+So, you have something you'd like to be able to track with bork's `ok` or `no` declarations. Perhaps it's the presence of packages from yet another programming language's packaging system, perhaps something you interact with through the shell. If you can programmatically determine if it's present, and programmatically make it present, you can probably make a Bork assertion type out of it.
 
 ## Action calls
 
-Bork assertions are scripts that are called by the runner. Ideally they could be run independently of the runner, provided the bork helpers are loaded via `bork load`, if they even call on the helpers. The runner calls with an `action` and the arguments provided to `ok`. For example, this call to `ok`:
+Bork assertions are scripts that are called by the runner. Ideally they could be run independently of the runner, provided the bork helpers are loaded via `bork load`, if they even call on the helpers. The runner calls with an `action` and the arguments provided to `ok`/`no`. For example, this call to `ok`:
 
-```
+```bash
 ok brew bats
 ```
 
 is transformed into one or more of calls to the `brew` assertion:
 
-```
+```bash
 types/brew.sh status bats
 types/brew.sh install bats
 types/brew.sh upgrade bats
 ```
+
+The `no` call does broadly the same thing, except in reverse. Because Bork is status-aware, there isn't a need for your type to know whether it was invoked by `ok` or `no`; after querying the state of the system, Bork will take the most sensible action based on what it finds. So if you had bats installed and you made the following call to `no`:
+
+```bash
+no brew bats
+```
+
+the `brew` type would receive the following:
+
+```bash
+types/brew.sh status bats
+types/brew.sh remove bats
+```
+
+All of that happens transparently thanks to the runner. If you report the status codes Bork is expecting, the runner will take the hard work out of figuring out what it needs to do.
 
 Most of the bork "core" assertions use a case statement to switch on the provided "action".
 
@@ -24,7 +39,7 @@ The runner decides what calls to perform based on its current operation and the 
 
 ### `desc`
 
-```
+```bash
 types/file.sh desc
 ```
 
@@ -32,7 +47,7 @@ Outputs basic usage information. This is included in `bork types`. Only really u
 
 ### `status`
 
-```
+```bash
 types/file.sh status path/to/targetfile path/from/sourcefile
 ```
 
@@ -44,7 +59,7 @@ See the [Status codes reference](./assertion_status_codes) for the complete list
 
 ### `install`
 
-```
+```bash
 types/file.sh install path/to/targetfile path/from/sourcefile
 ```
 
@@ -56,7 +71,7 @@ The script should output any relevant messages, and return 0 on success.
 
 ### `upgrade`
 
-```
+```bash
 types/file.sh upgrade to/targetfile from/sourcefile --permissions=700
 ```
 
@@ -68,7 +83,7 @@ The script should output any relevant messages and updates, and return 0 on succ
 
 ### `remove`
 
-```
+```bash
 types/file.sh remove to/targetfile from/sourcefile
 ```
 
@@ -80,7 +95,7 @@ The script should output any relevant messages, and return 0 on success.
 
 ### `compile`
 
-```
+```bash
 types/file.sh compile to/targetfile from/sourcefile
 ```
 

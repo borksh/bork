@@ -48,3 +48,15 @@ setup () {
   run baked_output
   [ "${lines[0]}" = "npm -g uninstall foo" ]
 }
+
+@test "npm inspect: returns FAILED_PRECONDITION without npm exec" {
+  respond_to "which npm" "return 1"
+  run npm inspect nodemon
+}
+
+@test "npm inspect: returns OK if preconditions met" {
+    run npm inspect
+    [ "$status" -eq $STATUS_OK ]
+    run baked_output
+    [ "${lines[1]}" = 'npm ls -g --depth 0' ]
+}

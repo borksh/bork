@@ -1,0 +1,14 @@
+dsAttrTypeStandard:GeneratedUID -
+		ABCDEFAB-CDEF-ABCD-EFAB-CDEF000000EF
+dsAttrTypeStandard:RecordName -
+		admin
+dsAttrTypeStandard:AppleMetaNodeLocation -
+		/Local/Default
+dsAttrTypeStandard:RealName -
+		admin
+dsAttrTypeStandard:PrimaryGroupID -
+		123
+dsAttrTypeStandard:RecordType -
+		dsRecTypeStandard:Groups
+dsAttrTypeStandard:Password -
+		*

@@ -4,7 +4,7 @@ I still use [Bork](https://github.com/mattly/bork) in the year 2021, so I forked
 
 ![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/borksh/bork)
 ![Test status](https://github.com/borksh/bork/workflows/Test/badge.svg)
-![FreeBSD test status](https://img.shields.io/travis/com/borksh/bork?label=FreeBSD&logo=freebsd)
+![FreeBSD test status](https://img.shields.io/cirrus/github/borksh/bork?label=FreeBSD&logo=freebsd)
 
 Bork puts the 'sh' back into IT. [Bork Bork Bork](https://www.youtube.com/results?search_query=swedish+chef).
 
@@ -420,7 +420,7 @@ if did_install; then
   chsh -s $(brew --prefix)/bin/fish
 fi
 ```
-There are four functions to help you take further actions after a change:
+There are five functions to help you take further actions after a change:
 
 - `did_install`: did the previous assertion result in the item being installed
   from scratch?
