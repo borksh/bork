@@ -38,10 +38,10 @@ jobs:
       run: |
         git config --global user.name 'BorkBot'
         git config --global user.email '102378442+bork-bot@users.noreply.github.com'
-        git checkout -b docs/borkbot-update-man-page
+        git checkout -b docs/borkbot-update-man-page-${{ github.run_id }}
         git add docs/bork.1
         git commit -m "Update man page"
-        git push -u origin docs/borkbot-update-man-page
+        git push -u origin docs/borkbot-update-man-page-${{ github.run_id }}
       env:
         BORK_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
     - name: Open pull request
