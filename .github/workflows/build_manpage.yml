@@ -47,6 +47,6 @@ jobs:
     - name: Open pull request
       run: |
         ref=$(echo "${{ github.sha }}" | cut -c 1-7)
-        gh pr create -B main -t "(docs) Update man page" -b "Update the built man page using changes in $ref."
+        gh pr create -B main -t "(docs) Update man page" -b "Update the built man page using changes in $ref." -l bot,documentation
       env:
           GITHUB_TOKEN: ${{ secrets.BORKBOT_PR_TOKEN }}
