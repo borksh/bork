@@ -19,7 +19,9 @@ case $action in
         # https://github.com/borksh/bork/issues/42
         if [ "$?" -gt 0 ]; then
           release=$(get_baking_platform_release)
-          str_matches "$release" "^21\." || return $STATUS_FAILED_PRECONDITION
+          str_matches "$release" "^21\." || \
+            str_matches "$release" "^22\." || \
+            return $STATUS_FAILED_PRECONDITION
         fi
         bake mas list | grep -E "^$appid" > /dev/null
         [ "$?" -gt 0 ] && return $STATUS_MISSING
