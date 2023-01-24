@@ -17,5 +17,7 @@ jobs:
         brew unlink bats || true
         brew install --force bats-core
     - name: Run bats test
-      run: make ci
       shell: bash
+      run: |
+        if [ -d /home/linuxbrew ]; then; eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"; fi
+        make ci
