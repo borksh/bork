@@ -5,6 +5,8 @@ All notable changes to this project will be documented in this file, from 2016-0
 
 Changes here will be in the next release. You can use them now by checking out the HEAD of the `main` branch, or specifying the `--HEAD` option with `brew install bork`.
 
+## [0.14.0] - 2024-02-01
+
 ### Fixed
 - Pinning a Homebrew tap [is deprecated and has been removed from Homebrew](https://github.com/Homebrew/brew/pull/5925). The `--pin` option has been removed from the `brew-tap` type accordingly. (#41)
 - The `mas account` check no longer works on recent macOS, so we skip this on Darwin >= 21. (#43, #49, thanks [@lucymhdavies][])

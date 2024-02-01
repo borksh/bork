@@ -92,7 +92,7 @@ case "$operation" in
     done
     ;;
   version | --version)
-    echo "bork 0.13.0"
+    echo "bork 0.14.0"
     if [ -d "$BORK_SOURCE_DIR/.git" ]; then
       echo "Installed via git"
       branch=$(git --git-dir="$BORK_SOURCE_DIR/.git" symbolic-ref --short HEAD 2>/dev/null)

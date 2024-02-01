@@ -22,14 +22,14 @@ The last one is how many commits have been made to `main` since the latest relea
 ### Homebrew
 
 Formula: bork  
-Version: 0.13.0  
+Version: 0.14.0  
 Link to formula: <https://formulae.brew.sh/formula/bork>  
 Formula code: <https://github.com/Homebrew/homebrew-core/blob/HEAD/Formula/bork.rb>  
 
 ### npm
 
 Package: @borksh/bork  
-Version: 0.13.0  
+Version: 0.14.0  
 Link to registry: <https://www.npmjs.com/package/@borksh/bork>
 
 ## Pre-built system packages

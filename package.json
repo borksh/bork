@@ -1,6 +1,6 @@
 {
   "name": "@borksh/bork",
-  "version": "0.13.0-1",
+  "version": "0.14.0",
   "description": "Bash-Operated Reconciling Kludge",
   "homepage": "https://bork.sh",
   "license": "Apache-2.0",
