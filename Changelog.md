@@ -7,6 +7,7 @@ Changes here will be in the next release. You can use them now by checking out t
 
 ### Fixed
 - Pinning a Homebrew tap [is deprecated and has been removed from Homebrew](https://github.com/Homebrew/brew/pull/5925). The `--pin` option has been removed from the `brew-tap` type accordingly. (#41)
+- The `mas account` check no longer works on recent macOS, so we skip this on Darwin >= 21. (#43, #49, thanks [@lucymhdavies][])
 
 ### Added
 - Bork now supports before hooks. You can define functions named `bork_will_change`, `bork_will_install`, `bork_will_upgrade` or `bork_will_remove`, and Bork will run them just before making any changes. (#16)
