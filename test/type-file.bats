@@ -119,7 +119,7 @@ setup () {
 @test "file compile: echoes base64 representation to screen" {
   run file compile path/to/target Readme.md
   [ "$status" -eq 0 ]
-  expected="borkfiles__UmVhZG1lLm1kCg=\"$(base64 Readme.md)\""
+  expected="borkfiles__UmVhZG1lLm1kCg=\"$(cat Readme.md | base64)\""
   accum="${lines[2]}"
   line=2
   while [ "$line" -lt ${#lines[*]} ]; do
@@ -139,7 +139,7 @@ is_compiled () { [ -n "$is_compiled" ]; }
 
 @test "file status: if compiled, uses stored variable" {
   is_compiled=1
-  borkfiles__cGF0aC9mcm9tL3NvdXJjZQo="$(base64 Readme.md)"
+  borkfiles__cGF0aC9mcm9tL3NvdXJjZQo="$(cat Readme.md | base64)"
   respond_to "$(md5cmd $platform path/to/target)" "echo $readsum"
   run file status path/to/target path/from/source
   [ "$status" -eq $STATUS_OK ]
@@ -147,7 +147,7 @@ is_compiled () { [ -n "$is_compiled" ]; }
 
 @test "file install: if compiled, uses stored variable" {
   is_compiled=1
-  borkfiles__cGF0aC9mcm9tL3NvdXJjZQo="$(base64 Readme.md)"
+  borkfiles__cGF0aC9mcm9tL3NvdXJjZQo="$(cat Readme.md | base64)"
   run file install path/to/target path/from/source
   [ "$status" -eq $STATUS_OK ]
   run baked_output
