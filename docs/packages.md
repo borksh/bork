@@ -24,7 +24,7 @@ The last one is how many commits have been made to `main` since the latest relea
 Formula: bork  
 Version: 0.14.0  
 Link to formula: <https://formulae.brew.sh/formula/bork>  
-Formula code: <https://github.com/Homebrew/homebrew-core/blob/HEAD/Formula/bork.rb>  
+Formula code: <https://github.com/Homebrew/homebrew-core/blob/HEAD/Formula/b/bork.rb>  
 
 ### npm
 
