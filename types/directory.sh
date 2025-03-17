@@ -20,8 +20,8 @@ case "$action" in
     ;;
 
   status)
-    bake [ -e "${dir}" ] || return $STATUS_MISSING
-    bake [ -d "${dir}" ] || {
+    bake "[ -e \"${dir}\" ]" || return $STATUS_MISSING
+    bake "[ -d \"${dir}\" ]" || {
       echo "target exists as non-directory"
       return $STATUS_CONFLICT_CLOBBER
     }
@@ -73,7 +73,7 @@ case "$action" in
     ;;
 
   remove)
-    bake "rm -r ${dir}"
+    bake "rm -r \"${dir}\""
     ;;
 
   *) return 1 ;;

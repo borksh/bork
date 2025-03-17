@@ -1,10 +1,10 @@
 #!/usr/bin/env bats
 
 . test/helpers.sh
-directory () { . $BORK_SOURCE_DIR/types/directory.sh $*; }
+directory () { . $BORK_SOURCE_DIR/types/directory.sh "$@"; }
 
 # these tests use live directories in a tempdir
-baking_responder () { eval "$*"; }
+baking_responder () { eval "$@"; }
 
 setup () {
   tmpdir=$(mktemp -d -t bork-dirXXXXXX)
@@ -57,5 +57,15 @@ mkdirs () {
   run directory remove foo
   [ "$status" -eq 0 ]
   run baked_output
-  [ "${lines[0]}" = "rm -r foo" ]
+  [ "${lines[0]}" = "rm -r \"foo\"" ]
+}
+
+@test "directory: handles directories with a space in the path" {
+  mkdir "foo bar"
+  run directory status "foo bar"
+  [ "$status" -eq $STATUS_OK ]
+
+  run directory remove "foo bar"
+  run directory status "foo bar"
+  [ "$status" -eq $STATUS_MISSING ]
 }
