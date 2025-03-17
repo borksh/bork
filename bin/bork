@@ -52,7 +52,7 @@ case "$operation" in
     fn=$1
     shift
     operation=status
-    $fn $* ;;
+    $fn "$@" ;;
   do)
     fn=$1
     shift

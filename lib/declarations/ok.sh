@@ -157,9 +157,9 @@ assert () {
 }
 
 ok () {
-  assert 'ok' $*
+  assert 'ok' "$@"
 }
 
 no () {
-  assert 'no' $*
+  assert 'no' "$@"
 }
